@@ -3,13 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.mavenproject1.Jeu;
+package com.mycompany.mavenproject1.Jeu.Plateau;
 
 /**
  *
  * @author Arthur
  */
-public class Tuiles {
-    private String type;
-    private int nbTravailleurs;
+public class Parcelle {
+    private int x;
+    private int y;
+    
 }
