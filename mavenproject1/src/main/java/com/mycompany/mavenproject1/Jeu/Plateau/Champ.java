@@ -11,7 +11,9 @@ import com.mycompany.mavenproject1.Jeu.Tuiles;
  *
  * @author Arthur
  */
-public class Parcelle {
-    private Champ [] ensTuiles= new Champ[4];
-    
+class Champ {
+    private int x;
+    private int t;
+    private boolean estDesert;
+    private Tuiles tuile;
 }

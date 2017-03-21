@@ -14,6 +14,8 @@ public class Source {
     private int y;
     
     private Source() {
+        this.x=0 + (int)(Math.random() * ((5 - 0) + 1));
+        this.y=0 + (int)(Math.random() * ((4 - 0) + 1));
     }
     
     public static Source getInstance() {
@@ -24,4 +26,18 @@ public class Source {
 
         private static final Source INSTANCE = new Source();
     }
+
+    @Override
+    public String toString() {
+        return "Source{" + "x=" + x + ", y=" + y + '}';
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+    
 }

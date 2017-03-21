@@ -1,5 +1,6 @@
 package com.mycompany.mavenproject1;
 
+import com.mycompany.mavenproject1.Jeu.Plateau.Source;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
@@ -32,6 +33,8 @@ public class MainApp extends Application {
      */
     public static void main(String[] args) {
         launch(args);
+        Source source = Source.getInstance();
+        source.toString();
     }
 
 }
