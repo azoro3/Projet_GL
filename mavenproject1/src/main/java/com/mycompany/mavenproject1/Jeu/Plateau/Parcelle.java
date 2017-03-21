@@ -5,12 +5,13 @@
  */
 package com.mycompany.mavenproject1.Jeu.Plateau;
 
+import com.mycompany.mavenproject1.Jeu.Tuiles;
+
 /**
  *
  * @author Arthur
  */
 public class Parcelle {
-    private int x;
-    private int y;
+    private Tuiles [] ensTuiles= new Tuiles[4];
     
 }
