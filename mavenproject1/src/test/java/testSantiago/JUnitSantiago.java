@@ -18,6 +18,7 @@ import org.junit.runner.RunWith;
 @RunWith(JUnitPlatform.class)
 
 public class JUnitSantiago {
+    //test sur la génération de la source
     @Test
     public void testAlea(){
         Source s=Source.getInstance();
