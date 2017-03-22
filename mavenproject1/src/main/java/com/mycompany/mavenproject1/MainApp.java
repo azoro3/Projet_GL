@@ -15,9 +15,10 @@ public class MainApp extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/Plateau.fxml"));
         
         Scene scene = new Scene(root);
-        scene.getStylesheets().add("/styles/Styles.css");
+        //scene.getStylesheets().add("/styles/Styles.css");
         
         stage.setTitle("Santiago");
+        stage.setResizable(false); // empêcher le redimmensionnement de la fenêtre
         stage.setScene(scene);
         stage.show();
     }
