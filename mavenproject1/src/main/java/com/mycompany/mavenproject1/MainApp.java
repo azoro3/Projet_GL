@@ -7,16 +7,15 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-
 public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/Plateau.fxml"));
-        
+
         Scene scene = new Scene(root);
         //scene.getStylesheets().add("/styles/Styles.css");
-        
+
         stage.setTitle("Santiago");
         stage.setResizable(false); // empêcher le redimmensionnement de la fenêtre
         stage.setScene(scene);
