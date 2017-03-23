@@ -65,5 +65,13 @@ public class Joueur {
     public void setEstConstructeur(boolean estConstructeur) {
         this.estConstructeur = estConstructeur;
     }
+
+    public Joueur(String nom, String couleur, int solde, int travailleurs) {
+        this.nom = nom;
+        this.couleur = couleur;
+        this.solde = solde;
+        this.travailleurs = travailleurs;
+    }
+    
     
 }
