@@ -4,15 +4,15 @@ import com.mycompany.mavenproject1.Jeu.Plateau.Source;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/Plateau.fxml"));
+        AnchorPane root = FXMLLoader.load(getClass().getResource("/fxml/Plateau.fxml"));
 
         Scene scene = new Scene(root);
         //scene.getStylesheets().add("/styles/Styles.css");
