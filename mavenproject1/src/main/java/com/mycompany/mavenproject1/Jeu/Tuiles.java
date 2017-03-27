@@ -5,6 +5,8 @@
  */
 package com.mycompany.mavenproject1.Jeu;
 
+import java.util.Random;
+
 /**
  *
  * @author Arthur
@@ -12,6 +14,10 @@ package com.mycompany.mavenproject1.Jeu;
 public class Tuiles {
     private String type;
     private int nbTravailleurs;
+
+    public Tuiles(String type) {
+        this.type=type; //To change body of generated methods, choose Tools | Templates.
+    }
 
     public String getType() {
         return type;
@@ -25,8 +31,9 @@ public class Tuiles {
         return nbTravailleurs;
     }
 
-    public void setNbTravailleurs(int nbTravailleurs) {
-        this.nbTravailleurs = nbTravailleurs;
+    public void setNbTravailleurs() {
+        Random r=new Random();
+        this.nbTravailleurs = 1 + r.nextInt(3 - 1) ;
     }
     
     

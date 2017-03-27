@@ -25,7 +25,7 @@ public class MainInit {
         listeJoueurs = new ArrayList<Joueur>();
         for(int i=0;i<=3;){
             String nomJ = JOptionPane.showInputDialog("Nom du joueur :");
-    //modifier l'attribut couleur
+//      modifier l'attribut couleur
             String couleurJ=JOptionPane.showInputDialog("Choisissez votre couleur :");
             Joueur J=new Joueur(nomJ,couleurJ,10,22);
             CanalJ c=new CanalJ(couleurJ);
@@ -38,12 +38,13 @@ public class MainInit {
         ArrayList pile3 =new ArrayList<Tuiles>();
         ArrayList pile4 =new ArrayList<Tuiles>();
         ArrayList pile5 =new ArrayList<Tuiles>();
+        ArrayList listeCanal =new ArrayList<Canal>();
         CanalFactory factory=new CanalFactory();
         for(int i=0;i<=15;){
             Canal c=factory.genererCanal();
-            
+            listeCanal.add(c);
         }
-        Canal c=factory.genererCanal();
+        
         
     }
     
