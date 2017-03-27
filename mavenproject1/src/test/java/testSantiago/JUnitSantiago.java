@@ -8,8 +8,8 @@ package testSantiago;
 import com.mycompany.mavenproject1.Jeu.Factory.CanalFactory;
 import com.mycompany.mavenproject1.Jeu.*;
 import com.mycompany.mavenproject1.Jeu.Plateau.Source;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+
+import static org.junit.Assert.*;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.platform.runner.JUnitPlatform;
@@ -20,7 +20,6 @@ import org.junit.runner.RunWith;
  * @author Arthur
  */
 @RunWith(JUnitPlatform.class)
-
 public class JUnitSantiago {
     //test sur la génération de la source
     @DisplayName ("testAlea")
@@ -38,6 +37,14 @@ public class JUnitSantiago {
         CanalFactory factory=new CanalFactory();
         Canal c=factory.genererCanal();
         assertNotNull("Ne doit pas être nul",c);
+        
+    }
+     //test sur la création des canaux par la factory
+    @DisplayName ("testNbTravailleurs")
+    @Test
+    public void testNbTravailleurs(){
+        Tuiles t=new Tuiles("piment");
+        assertTrue(t.getNbTravailleurs()<3 && t.getNbTravailleurs()>0);
         
     }
 }
