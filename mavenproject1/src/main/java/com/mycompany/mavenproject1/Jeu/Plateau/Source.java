@@ -10,18 +10,29 @@ package com.mycompany.mavenproject1.Jeu.Plateau;
  * @author Arthur
  */
 public class Source {
+
     private int x;
     private int y;
-    
+
     private Source() {
-        this.x=0 + (int)(Math.random() * ((5 - 0) + 1));
-        this.y=0 + (int)(Math.random() * ((4 - 0) + 1));
+        this.x = rand3(0,13);
+        this.y = rand3(0,10);
     }
-    
+
+    /**
+     * Génère un entier multiple de 3 compris entre min (inclus) et max (exclus).
+     * @param min
+     * @param max
+     * @return 
+     */
+    private int rand3(int min, int max) {
+        return (int) ((Math.random() * (max - min) + min) / 3) * 3;
+    }
+
     public static Source getInstance() {
         return SourceHolder.INSTANCE;
     }
-    
+
     private static class SourceHolder {
 
         private static final Source INSTANCE = new Source();
@@ -39,5 +50,5 @@ public class Source {
     public int getY() {
         return y;
     }
-    
+
 }

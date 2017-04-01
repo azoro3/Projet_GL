@@ -18,12 +18,16 @@ import org.junit.runner.RunWith;
 @RunWith(JUnitPlatform.class)
 
 public class JUnitSantiago {
+
     //test sur la génération de la source
     @Test
-    public void testAlea(){
-        Source s=Source.getInstance();
-        int sx=s.getX();
-        int sy=s.getY();
-        assertTrue(sx<6 && sy<5);
+    public void testAlea() {
+        Source s = Source.getInstance();
+        int sx = s.getX();
+        int sy = s.getY();
+        assertTrue(sx % 3 == 0);
+        assertTrue(sy % 3 == 0);
+        assertTrue(sx >= 0 && sx < 13);
+        assertTrue(sy >= 0 && sy < 10);
     }
 }
