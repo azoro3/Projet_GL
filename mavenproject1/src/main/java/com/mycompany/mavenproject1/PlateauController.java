@@ -1,6 +1,6 @@
 package com.mycompany.mavenproject1;
 
-import java.io.File;
+import com.mycompany.mavenproject1.Jeu.Plateau.Source;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -21,9 +21,8 @@ public class PlateauController implements Initializable {
         final Image sourceImg = new Image(getClass().getResourceAsStream("/images/source.png"));
         img.setImage(sourceImg);
         
-        // TODO Récupérer la position de la source
+        // Placement aléatoire de la source
+        plateau.add(img, Source.getInstance().getX(), Source.getInstance().getY());
         
-        // Placement de la source
-        plateau.add(img, 0, 0);
     }
 }

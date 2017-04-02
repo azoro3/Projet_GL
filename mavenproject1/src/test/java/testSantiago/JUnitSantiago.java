@@ -21,30 +21,36 @@ import org.junit.runner.RunWith;
  */
 @RunWith(JUnitPlatform.class)
 public class JUnitSantiago {
+
     //test sur la génération de la source
-    @DisplayName ("testAlea")
+    @DisplayName("testAlea")
     @Test
-    public void testAlea(){
-        Source s=Source.getInstance();
-        int sx=s.getX();
-        int sy=s.getY();
-        assertTrue(sx<6 && sy<5);
+    public void testAlea() {
+        Source s = Source.getInstance();
+        int sx = s.getX();
+        int sy = s.getY();
+        assertTrue(sx % 3 == 0);
+        assertTrue(sy % 3 == 0);
+        assertTrue(sx >= 0 && sx < 13);
+        assertTrue(sy >= 0 && sy < 10);
+    }
+
+    //test sur la création des canaux par la factory
+    @DisplayName("testFactory")
+    @Test
+    public void testFactory() {
+        CanalFactory factory = new CanalFactory();
+        Canal c = factory.genererCanal();
+        assertNotNull("Ne doit pas être nul", c);
+
     }
     //test sur la création des canaux par la factory
-    @DisplayName ("testFactory")
+
+    @DisplayName("testNbTravailleurs")
     @Test
-    public void testFactory(){
-        CanalFactory factory=new CanalFactory();
-        Canal c=factory.genererCanal();
-        assertNotNull("Ne doit pas être nul",c);
-        
-    }
-     //test sur la création des canaux par la factory
-    @DisplayName ("testNbTravailleurs")
-    @Test
-    public void testNbTravailleurs(){
-        Tuiles t=new Tuiles("piment");
-        assertTrue(t.getNbTravailleurs()<3 && t.getNbTravailleurs()>0);
-        
+    public void testNbTravailleurs() {
+        Tuiles t = new Tuiles("piment");
+        assertTrue(t.getNbTravailleurs() < 3 && t.getNbTravailleurs() > 0);
+
     }
 }
