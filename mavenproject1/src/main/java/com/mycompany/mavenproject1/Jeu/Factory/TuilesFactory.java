@@ -13,7 +13,7 @@ import com.mycompany.mavenproject1.Jeu.Tuiles;
  */
 public class TuilesFactory {
     private SimpleTuileFactory sTF;
-    private TuilesFactory(){
+    public TuilesFactory(){
         this.sTF=new SimpleTuileFactory();
     }
     
