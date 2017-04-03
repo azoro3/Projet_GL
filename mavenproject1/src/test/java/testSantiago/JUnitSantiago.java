@@ -7,7 +7,11 @@ package testSantiago;
 
 import com.mycompany.mavenproject1.Jeu.Factory.CanalFactory;
 import com.mycompany.mavenproject1.Jeu.*;
+import com.mycompany.mavenproject1.Jeu.Factory.TuilesFactory;
 import com.mycompany.mavenproject1.Jeu.Plateau.Source;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
 
 import static org.junit.Assert.*;
 import org.junit.jupiter.api.Test;
@@ -54,5 +58,64 @@ public class JUnitSantiago {
         System.out.println(t.getNbTravailleurs());
         assertTrue(t.getNbTravailleurs() < 3 && t.getNbTravailleurs() > 0);
 
+    }
+    //test pour la création des piles
+    
+    @DisplayName("createPileCartes")
+    @Test
+    public void testPileCartes(){
+        List<Tuiles> touteLesTuiles = new LinkedList();
+        List<Tuiles> pile1 =new LinkedList();
+        List<Tuiles> pile2 =new LinkedList();
+        List<Tuiles> pile3 =new LinkedList();
+        List<Tuiles> pile4 =new LinkedList();
+        List<Tuiles> pile5 =new LinkedList();
+        TuilesFactory tFactory;
+        tFactory = new TuilesFactory();
+        for (int i=1;i<=9;i++){
+            touteLesTuiles.add(tFactory.genererTuiles("piment"));
+            touteLesTuiles.add(tFactory.genererTuiles("haricot"));
+            touteLesTuiles.add(tFactory.genererTuiles("banane"));
+            touteLesTuiles.add(tFactory.genererTuiles("patate"));
+            touteLesTuiles.add(tFactory.genererTuiles("sucre"));
+        }
+       while(touteLesTuiles.size()>0){
+            int val;
+            val = (int) (Math.random() * ( touteLesTuiles.size()));
+            int val2;
+            val2 = (int) (Math.random() * (5));
+            switch (val2){
+                case 0:
+                    if(pile1.size()<9){
+                    pile1.add(touteLesTuiles.remove(val));
+                    }
+                    break;
+                case 1:
+                    if(pile2.size()<9){
+                        pile2.add(touteLesTuiles.remove(val));
+                    }
+                    break;
+                case 2:
+                    if(pile3.size()<9){
+                        pile3.add(touteLesTuiles.remove(val));
+                    }
+                    break;
+                case 3:
+                    if(pile4.size()<9){
+                        pile4.add(touteLesTuiles.remove(val));
+                    }
+                    break;
+                case 4:
+                    if(pile5.size()<9){
+                        pile5.add(touteLesTuiles.remove(val));
+                    }
+                    break;
+            }
+        }
+       assertEquals(9,pile2.size());
+       assertEquals(9,pile1.size());
+       assertEquals(9,pile3.size());
+       assertEquals(9,pile4.size());
+       assertEquals(9,pile5.size());
     }
 }
