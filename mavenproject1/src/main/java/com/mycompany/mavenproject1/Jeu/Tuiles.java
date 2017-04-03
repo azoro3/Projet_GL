@@ -16,7 +16,9 @@ public class Tuiles {
     private int nbTravailleurs;
 
     public Tuiles(String type) {
-        this.type=type; //To change body of generated methods, choose Tools | Templates.
+        this.type=type;
+        Random r=new Random();
+        this.nbTravailleurs = 1 + r.nextInt(3 - 1);
     }
 
     public String getType() {
@@ -29,11 +31,6 @@ public class Tuiles {
 
     public int getNbTravailleurs() {
         return nbTravailleurs;
-    }
-
-    public void setNbTravailleurs() {
-        Random r=new Random();
-        this.nbTravailleurs = 1 + r.nextInt(3 - 1) ;
     }
     
     

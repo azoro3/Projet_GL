@@ -10,7 +10,8 @@ import com.mycompany.mavenproject1.Jeu.*;
 import com.mycompany.mavenproject1.Jeu.Plateau.Source;
 
 import static org.junit.Assert.*;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
@@ -50,6 +51,7 @@ public class JUnitSantiago {
     @Test
     public void testNbTravailleurs() {
         Tuiles t = new Tuiles("piment");
+        System.out.println(t.getNbTravailleurs());
         assertTrue(t.getNbTravailleurs() < 3 && t.getNbTravailleurs() > 0);
 
     }
