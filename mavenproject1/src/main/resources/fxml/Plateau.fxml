@@ -19,7 +19,7 @@
                             <menus>
                                 <Menu mnemonicParsing="false" text="Jeu">
                                     <items>
-                                        <MenuItem fx:id="newGame" mnemonicParsing="false" onAction="#initPartie" text="Nouvelle partie" />
+                                        <MenuItem fx:id="newGame" mnemonicParsing="false" onAction="#phase1" text="Nouvelle partie" />
                                         <MenuItem mnemonicParsing="false" text="Sauvegarder partie" />
                                     </items>
                                 </Menu>
@@ -31,35 +31,32 @@
                <items>
                   <TilePane alignment="CENTER" minWidth="142.0" prefHeight="642.0" prefTileHeight="60.0" prefTileWidth="140.0" prefWidth="142.0">
                      <children>
-                        <ImageView id="tuile1" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/vide.jpg" />
-                           </image>
-                        </ImageView>
+                        <Label fx:id="label" text="Nb travailleurs" />
+                        <ImageView fx:id="tuile1" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
                         <Separator prefWidth="10.0" visible="false">
                            <TilePane.margin>
                               <Insets />
                            </TilePane.margin>
                         </Separator>
-                        <ImageView id="tuile2" fitHeight="100.0" fitWidth="100.0" layoutX="31.0" layoutY="281.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="tuile2" fitHeight="100.0" fitWidth="100.0" layoutX="31.0" layoutY="281.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/vide.jpg" />
                            </image>
                         </ImageView>
                         <Separator prefWidth="10.0" visible="false" />
-                        <ImageView id="tuile3" fitHeight="100.0" fitWidth="100.0" layoutX="31.0" layoutY="331.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="tuile3" fitHeight="100.0" fitWidth="100.0" layoutX="31.0" layoutY="331.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/vide.jpg" />
                            </image>
                         </ImageView>
                         <Separator prefWidth="10.0" visible="false" />
-                        <ImageView id="tuile4" fitHeight="100.0" fitWidth="100.0" layoutX="31.0" layoutY="381.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="tuile4" fitHeight="100.0" fitWidth="100.0" layoutX="31.0" layoutY="381.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/vide.jpg" />
                            </image>
                         </ImageView>
                         <Separator prefWidth="10.0" visible="false" />
-                        <ImageView id="tuile5" fitHeight="100.0" fitWidth="100.0" layoutX="31.0" layoutY="431.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="tuile5" fitHeight="100.0" fitWidth="100.0" layoutX="31.0" layoutY="431.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/vide.jpg" />
                            </image>

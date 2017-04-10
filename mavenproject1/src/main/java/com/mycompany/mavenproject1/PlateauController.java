@@ -6,6 +6,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -17,6 +18,9 @@ public class PlateauController implements Initializable {
 
     @FXML
     private ImageView tuile1;
+    
+    @FXML
+    private Label label;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -29,7 +33,7 @@ public class PlateauController implements Initializable {
         plateau.add(img, Source.getInstance().getX(), Source.getInstance().getY());
     }
 
-    public void initPartie() {
+    public void phase1() {
         // Initialisation d'une nouvelle partie
         Partie partie = new Partie();
         partie.initPartie();
@@ -40,8 +44,10 @@ public class PlateauController implements Initializable {
         Tuiles[] tuiles = partie.getFirstCarte();
 
         // Test avec la première tuile
-        String type = tuiles[0].getType();
-        int nbTravailleurs = tuiles[0].getNbTravailleurs();
+        String type = tuiles[1].getType(); // BUG : NullPointerException
+        int nbTravailleurs = tuiles[1].getNbTravailleurs();
+        
+        label.setText(type + " " + nbTravailleurs);
 
         switch (type) {
             case ("piment"):
@@ -54,33 +60,33 @@ public class PlateauController implements Initializable {
                 break;
             case ("haricot"):
                 if (nbTravailleurs == 1) {
-                    image = new Image(getClass().getResourceAsStream("/images/haricot1.jpg"));
+                    image = new Image(getClass().getResourceAsStream("/images/haricot1.png"));
                 } else {
-                    image = new Image(getClass().getResourceAsStream("/images/haricot2.jpg"));
+                    image = new Image(getClass().getResourceAsStream("/images/haricot2.png"));
                 }
                 tuile1.setImage(image);
                 break;
             case ("banane"):
                 if (nbTravailleurs == 1) {
-                    image = new Image(getClass().getResourceAsStream("/images/banane1.jpg"));
+                    image = new Image(getClass().getResourceAsStream("/images/banane1.png"));
                 } else {
-                    image = new Image(getClass().getResourceAsStream("/images/banane2.jpg"));
+                    image = new Image(getClass().getResourceAsStream("/images/banane2.png"));
                 }
                 tuile1.setImage(image);
                 break;
             case ("patate"):
                 if (nbTravailleurs == 1) {
-                    image = new Image(getClass().getResourceAsStream("/images/patate1.jpg"));
+                    image = new Image(getClass().getResourceAsStream("/images/patate1.png"));
                 } else {
-                    image = new Image(getClass().getResourceAsStream("/images/patate2.jpg"));
+                    image = new Image(getClass().getResourceAsStream("/images/patate2.png"));
                 }
                 tuile1.setImage(image);
                 break;
             case ("sucre"):
                 if (nbTravailleurs == 1) {
-                    image = new Image(getClass().getResourceAsStream("/images/sucre1.jpg"));
+                    image = new Image(getClass().getResourceAsStream("/images/sucre1.png"));
                 } else {
-                    image = new Image(getClass().getResourceAsStream("/images/sucre2.jpg"));
+                    image = new Image(getClass().getResourceAsStream("/images/sucre2.png"));
                 }
                 tuile1.setImage(image);
                 break;
