@@ -13,6 +13,9 @@ public class PlateauController implements Initializable {
 
     @FXML
     private GridPane plateau;
+    
+    @FXML
+    private ImageView tuile1;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -23,6 +26,7 @@ public class PlateauController implements Initializable {
         
         // Placement aléatoire de la source
         plateau.add(img, Source.getInstance().getX(), Source.getInstance().getY());
+        
         
     }
 }
