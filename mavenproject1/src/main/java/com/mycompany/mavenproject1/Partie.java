@@ -43,6 +43,7 @@ public class Partie {
             CanalJ c=new CanalJ(couleurJ);
             this.listeJoueurs.add(J);
         }
+        this.listeJoueurs.get(0).setEstConstructeur(true);
         
 //      création des Tuiles
         List<Tuiles> touteLesTuiles = new LinkedList();
@@ -118,6 +119,19 @@ public class Partie {
      */
     public Map<Joueur,String> faireUneEnchere(){
         Map<Joueur,String> enchere = new HashMap<>();
+//      fonction pour trier les joueurs dans le sens des enchères.
+        boolean tri = false; int i=0;
+        ArrayList<Joueur> lTemp=null;
+        while(!tri){
+          if(this.listeJoueurs.get(i).isEstConstructeur())  {
+              for(int j=0;j<=i;j++){
+                  lTemp.add(this.listeJoueurs.remove(j));
+              }
+          }
+          i++;
+        }
+        this.listeJoueurs.addAll(lTemp);
+//      enchères des joueurs
         for(final Joueur joueur : this.listeJoueurs){
             String valeurEnchere = JOptionPane.showInputDialog("Faites votre enchères ! :");
             while(enchere.values().contains(valeurEnchere)){
@@ -132,6 +146,11 @@ public class Partie {
         }
         return enchere;
     }
+    
+    /**
+     * 
+     * @return getters
+     */
 
     public ArrayList<Joueur> getListeJoueurs() {
         return listeJoueurs;
