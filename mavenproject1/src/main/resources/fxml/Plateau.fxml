@@ -19,7 +19,7 @@
                             <menus>
                                 <Menu mnemonicParsing="false" text="Jeu">
                                     <items>
-                                        <MenuItem mnemonicParsing="false" text="Nouvelle partie" />
+                                        <MenuItem fx:id="newGame" mnemonicParsing="false" onAction="#initPartie" text="Nouvelle partie" />
                                         <MenuItem mnemonicParsing="false" text="Sauvegarder partie" />
                                     </items>
                                 </Menu>
