@@ -14,7 +14,7 @@ public class Source {
     private int x;
     private int y;
 
-    private Source() {
+    public Source() {
         this.x = rand3(0,13);
         this.y = rand3(0,10);
     }

@@ -9,9 +9,8 @@ import com.mycompany.mavenproject1.Jeu.Factory.CanalFactory;
 import com.mycompany.mavenproject1.Jeu.*;
 import com.mycompany.mavenproject1.Jeu.Factory.TuilesFactory;
 import com.mycompany.mavenproject1.Jeu.Plateau.Source;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
+
+import java.util.*;
 
 import static org.junit.Assert.*;
 import org.junit.jupiter.api.Test;
@@ -117,5 +116,28 @@ public class JUnitSantiago {
        assertEquals(9,pile3.size());
        assertEquals(9,pile4.size());
        assertEquals(9,pile5.size());
+    }
+    @DisplayName("testPoserCanal")
+    @Test
+    public void testPoserCanal() {
+        Boolean reponse;
+        Canal c = new Canal();
+        Canal c2 = new Canal();
+        Source s = new Source();
+        List<Canal> listCanalPose=new LinkedList();
+        c.setxDeb(0);
+        c.setxFin(1);
+        c.setyDeb(0);
+        c.setyFin(0);
+        listCanalPose.add(c);
+
+        c2.setxDeb(0);
+        c2.setxFin(1);
+        c2.setyDeb(0);
+        c2.setyFin(0);
+
+        reponse =c2.poserCanal(s,listCanalPose);
+        assertFalse(reponse);
+
     }
 }
