@@ -31,8 +31,10 @@
                <items>
                   <TilePane alignment="CENTER" minWidth="142.0" prefHeight="642.0" prefTileHeight="60.0" prefTileWidth="140.0" prefWidth="142.0">
                      <children>
-                        <Label fx:id="label" text="Nb travailleurs" />
-                        <ImageView fx:id="tuile1" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="tuile1" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/vide.jpg" />
+                           </image></ImageView>
                         <Separator prefWidth="10.0" visible="false">
                            <TilePane.margin>
                               <Insets />

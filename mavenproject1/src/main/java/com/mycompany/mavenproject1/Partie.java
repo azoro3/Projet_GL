@@ -97,24 +97,23 @@ public class Partie {
                     break;
             }
         }
-//      
-       
-//      
-    } 
+     
+    }
+    
     /**
      * 
      * @return tableau avec la première tuile de chaque pile
      */
-    public Tuiles[] getFirstCarte(){
+    public Tuiles[] getFirstCarte() {
         Tuiles[] t = new Tuiles[5];
-        t[0]=this.pile1.get(1);
-        t[1]=this.pile2.get(1);
-        t[2]=this.pile3.get(1);
-        t[3]=this.pile4.get(1);
-        t[4]=this.pile5.get(1);
-        return null;
-            
-        }
+        t[0] = this.pile1.get(1);
+        t[1] = this.pile2.get(1);
+        t[2] = this.pile3.get(1);
+        t[3] = this.pile4.get(1);
+        t[4] = this.pile5.get(1);
+        return t;
+    }
+    
     /**
      * 
      * @return un hasmap avec les différentes mises des joueurs

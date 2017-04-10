@@ -6,7 +6,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -17,10 +16,7 @@ public class PlateauController implements Initializable {
     private GridPane plateau;
 
     @FXML
-    private ImageView tuile1;
-    
-    @FXML
-    private Label label;
+    private ImageView tuile1, tuile2, tuile3, tuile4, tuile5;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -38,16 +34,19 @@ public class PlateauController implements Initializable {
         Partie partie = new Partie();
         partie.initPartie();
 
-        Image image;
-
-        // Première tuile de chaque pile
+        // On récupère la première tuile de chaque pile
         Tuiles[] tuiles = partie.getFirstCarte();
 
-        // Test avec la première tuile
-        String type = tuiles[1].getType(); // BUG : NullPointerException
-        int nbTravailleurs = tuiles[1].getNbTravailleurs();
-        
-        label.setText(type + " " + nbTravailleurs);
+        // On affiche la première tuile
+        mettreImage(tuile1, tuiles[0].getType(), tuiles[0].getNbTravailleurs());
+        mettreImage(tuile2, tuiles[1].getType(), tuiles[1].getNbTravailleurs());
+        mettreImage(tuile3, tuiles[2].getType(), tuiles[2].getNbTravailleurs());
+        mettreImage(tuile4, tuiles[3].getType(), tuiles[3].getNbTravailleurs());
+        mettreImage(tuile5, tuiles[4].getType(), tuiles[4].getNbTravailleurs());
+    }
+
+    private void mettreImage(ImageView tuile, String type, int nbTravailleurs) {
+        Image image;
 
         switch (type) {
             case ("piment"):
@@ -56,7 +55,7 @@ public class PlateauController implements Initializable {
                 } else {
                     image = new Image(getClass().getResourceAsStream("/images/piment2.jpg"));
                 }
-                tuile1.setImage(image);
+                tuile.setImage(image);
                 break;
             case ("haricot"):
                 if (nbTravailleurs == 1) {
@@ -64,7 +63,7 @@ public class PlateauController implements Initializable {
                 } else {
                     image = new Image(getClass().getResourceAsStream("/images/haricot2.png"));
                 }
-                tuile1.setImage(image);
+                tuile.setImage(image);
                 break;
             case ("banane"):
                 if (nbTravailleurs == 1) {
@@ -72,7 +71,7 @@ public class PlateauController implements Initializable {
                 } else {
                     image = new Image(getClass().getResourceAsStream("/images/banane2.png"));
                 }
-                tuile1.setImage(image);
+                tuile.setImage(image);
                 break;
             case ("patate"):
                 if (nbTravailleurs == 1) {
@@ -80,7 +79,7 @@ public class PlateauController implements Initializable {
                 } else {
                     image = new Image(getClass().getResourceAsStream("/images/patate2.png"));
                 }
-                tuile1.setImage(image);
+                tuile.setImage(image);
                 break;
             case ("sucre"):
                 if (nbTravailleurs == 1) {
@@ -88,9 +87,8 @@ public class PlateauController implements Initializable {
                 } else {
                     image = new Image(getClass().getResourceAsStream("/images/sucre2.png"));
                 }
-                tuile1.setImage(image);
+                tuile.setImage(image);
                 break;
         }
-
     }
 }
