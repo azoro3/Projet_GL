@@ -33,8 +33,8 @@ public class MainApp extends Application {
      */
     public static void main(String[] args) {
         launch(args);
-        Source source = Source.getInstance();
-        source.toString();
+        //Source source = Source.getInstance();
+        //source.toString();
         Partie partie = new Partie();
     }
 
