@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.image.*?>
 <?import java.lang.*?>
@@ -8,7 +9,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="675.0" prefWidth="860.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.mavenproject1.PlateauController">
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="675.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.mavenproject1.PlateauController">
     <children>
         <SplitPane dividerPositions="0.1" orientation="VERTICAL" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <items>
@@ -26,691 +27,732 @@
                         </MenuBar>
                     </children>
                 </AnchorPane>
-                <AnchorPane>
-                    <children>
-                        <GridPane fx:id="plateau" alignment="TOP_CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="850.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                            <columnConstraints>
-                                <ColumnConstraints halignment="CENTER" minWidth="10.0" prefWidth="10.0" />
-                                <ColumnConstraints halignment="CENTER" minWidth="10.0" prefWidth="100.0" />
-                                <ColumnConstraints halignment="CENTER" minWidth="10.0" prefWidth="100.0" />
-                                <ColumnConstraints halignment="CENTER" minWidth="10.0" prefWidth="10.0" />
-                                <ColumnConstraints halignment="CENTER" minWidth="10.0" prefWidth="100.0" />
-                                <ColumnConstraints halignment="CENTER" minWidth="10.0" prefWidth="100.0" />
-                                <ColumnConstraints halignment="CENTER" minWidth="10.0" prefWidth="10.0" />
-                                <ColumnConstraints halignment="CENTER" minWidth="10.0" prefWidth="100.0" />
-                                <ColumnConstraints halignment="CENTER" minWidth="10.0" prefWidth="100.0" />
-                                <ColumnConstraints halignment="CENTER" minWidth="10.0" prefWidth="10.0" />
-                                <ColumnConstraints halignment="CENTER" minWidth="10.0" prefWidth="100.0" />
-                                <ColumnConstraints halignment="CENTER" minWidth="10.0" prefWidth="100.0" />
-                                <ColumnConstraints halignment="CENTER" minWidth="10.0" prefWidth="10.0" />
-                            </columnConstraints>
-                            <rowConstraints>
-                                <RowConstraints minHeight="10.0" prefHeight="10.0" valignment="CENTER" />
-                                <RowConstraints minHeight="10.0" prefHeight="100.0" valignment="CENTER" />
-                                <RowConstraints minHeight="10.0" prefHeight="100.0" valignment="CENTER" />
-                                <RowConstraints minHeight="10.0" prefHeight="10.0" valignment="CENTER" />
-                                <RowConstraints minHeight="10.0" prefHeight="100.0" valignment="CENTER" />
-                                <RowConstraints minHeight="10.0" prefHeight="100.0" valignment="CENTER" />
-                                <RowConstraints minHeight="10.0" prefHeight="10.0" valignment="CENTER" />
-                                <RowConstraints minHeight="10.0" prefHeight="100.0" valignment="CENTER" />
-                                <RowConstraints minHeight="10.0" prefHeight="100.0" valignment="CENTER" />
-                                <RowConstraints minHeight="10.0" prefHeight="10.0" valignment="CENTER" />
-                            </rowConstraints>
-                            <children>
-                                <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                                    <image>
-                                        <Image url="@../images/parcelle.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
-                                    <image>
-                                        <Image url="@../images/parcelle.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="270.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                                    <image>
-                                        <Image url="@../images/parcelle.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="180.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
-                                    <image>
-                                        <Image url="@../images/parcelle.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="1">
-                                    <image>
-                                        <Image url="@../images/parcelle.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="1">
-                                    <image>
-                                        <Image url="@../images/parcelle.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="10" GridPane.rowIndex="1">
-                                    <image>
-                                        <Image url="@../images/parcelle.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="4">
-                                    <image>
-                                        <Image url="@../images/parcelle.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="7">
-                                    <image>
-                                        <Image url="@../images/parcelle.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="4">
-                                    <image>
-                                        <Image url="@../images/parcelle.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="7">
-                                    <image>
-                                        <Image url="@../images/parcelle.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="4">
-                                    <image>
-                                        <Image url="@../images/parcelle.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="10" GridPane.rowIndex="4">
-                                    <image>
-                                        <Image url="@../images/parcelle.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="7">
-                                    <image>
-                                        <Image url="@../images/parcelle.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="10" GridPane.rowIndex="7">
-                                    <image>
-                                        <Image url="@../images/parcelle.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" GridPane.columnIndex="5" GridPane.rowIndex="1">
-                                    <image>
-                                        <Image url="@../images/parcelle.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="180.0" GridPane.columnIndex="5" GridPane.rowIndex="2">
-                                    <image>
-                                        <Image url="@../images/parcelle.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="270.0" GridPane.columnIndex="4" GridPane.rowIndex="2">
-                                    <image>
-                                        <Image url="@../images/parcelle.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="270.0" GridPane.columnIndex="7" GridPane.rowIndex="2">
-                                    <image>
-                                        <Image url="@../images/parcelle.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="180.0" GridPane.columnIndex="8" GridPane.rowIndex="2">
-                                    <image>
-                                        <Image url="@../images/parcelle.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" GridPane.columnIndex="8" GridPane.rowIndex="1">
-                                    <image>
-                                        <Image url="@../images/parcelle.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="270.0" GridPane.columnIndex="10" GridPane.rowIndex="2">
-                                    <image>
-                                        <Image url="@../images/parcelle.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" GridPane.columnIndex="11" GridPane.rowIndex="1">
-                                    <image>
-                                        <Image url="@../images/parcelle.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="180.0" GridPane.columnIndex="11" GridPane.rowIndex="2">
-                                    <image>
-                                        <Image url="@../images/parcelle.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
-                                    <image>
-                                        <Image url="@../images/parcelle.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" GridPane.columnIndex="5" GridPane.rowIndex="4">
-                                    <image>
-                                        <Image url="@../images/parcelle.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" GridPane.columnIndex="8" GridPane.rowIndex="4">
-                                    <image>
-                                        <Image url="@../images/parcelle.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" GridPane.columnIndex="11" GridPane.rowIndex="4">
-                                    <image>
-                                        <Image url="@../images/parcelle.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" GridPane.columnIndex="2" GridPane.rowIndex="7">
-                                    <image>
-                                        <Image url="@../images/parcelle.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" GridPane.columnIndex="5" GridPane.rowIndex="7">
-                                    <image>
-                                        <Image url="@../images/parcelle.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" GridPane.columnIndex="8" GridPane.rowIndex="7">
-                                    <image>
-                                        <Image url="@../images/parcelle.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" GridPane.columnIndex="11" GridPane.rowIndex="7">
-                                    <image>
-                                        <Image url="@../images/parcelle.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="270.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
-                                    <image>
-                                        <Image url="@../images/parcelle.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="270.0" GridPane.columnIndex="1" GridPane.rowIndex="8">
-                                    <image>
-                                        <Image url="@../images/parcelle.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="270.0" GridPane.columnIndex="4" GridPane.rowIndex="5">
-                                    <image>
-                                        <Image url="@../images/parcelle.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="270.0" GridPane.columnIndex="4" GridPane.rowIndex="8">
-                                    <image>
-                                        <Image url="@../images/parcelle.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="270.0" GridPane.columnIndex="7" GridPane.rowIndex="5">
-                                    <image>
-                                        <Image url="@../images/parcelle.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="270.0" GridPane.columnIndex="10" GridPane.rowIndex="5">
-                                    <image>
-                                        <Image url="@../images/parcelle.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="270.0" GridPane.columnIndex="7" GridPane.rowIndex="8">
-                                    <image>
-                                        <Image url="@../images/parcelle.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="270.0" GridPane.columnIndex="10" GridPane.rowIndex="8">
-                                    <image>
-                                        <Image url="@../images/parcelle.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="180.0" GridPane.columnIndex="2" GridPane.rowIndex="5">
-                                    <image>
-                                        <Image url="@../images/parcelle.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="180.0" GridPane.columnIndex="5" GridPane.rowIndex="5">
-                                    <image>
-                                        <Image url="@../images/parcelle.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="180.0" GridPane.columnIndex="8" GridPane.rowIndex="5">
-                                    <image>
-                                        <Image url="@../images/parcelle.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="180.0" GridPane.columnIndex="11" GridPane.rowIndex="5">
-                                    <image>
-                                        <Image url="@../images/parcelle.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="180.0" GridPane.columnIndex="2" GridPane.rowIndex="8">
-                                    <image>
-                                        <Image url="@../images/parcelle.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="180.0" GridPane.columnIndex="5" GridPane.rowIndex="8">
-                                    <image>
-                                        <Image url="@../images/parcelle.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="180.0" GridPane.columnIndex="8" GridPane.rowIndex="8">
-                                    <image>
-                                        <Image url="@../images/parcelle.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="180.0" GridPane.columnIndex="11" GridPane.rowIndex="8">
-                                    <image>
-                                        <Image url="@../images/parcelle.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2">
-                                    <image>
-                                        <Image url="@../images/canal_horiz.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
-                                    <image>
-                                        <Image url="@../images/canal_horiz.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4">
-                                    <image>
-                                        <Image url="@../images/canal_horiz.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5">
-                                    <image>
-                                        <Image url="@../images/canal_horiz.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="10">
-                                    <image>
-                                        <Image url="@../images/canal_horiz.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7">
-                                    <image>
-                                        <Image url="@../images/canal_horiz.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8">
-                                    <image>
-                                        <Image url="@../images/canal_horiz.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="11">
-                                    <image>
-                                        <Image url="@../images/canal_horiz.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                                    <image>
-                                        <Image url="@../images/canal_horiz.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="3">
-                                    <image>
-                                        <Image url="@../images/canal_horiz.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="3">
-                                    <image>
-                                        <Image url="@../images/canal_horiz.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="3">
-                                    <image>
-                                        <Image url="@../images/canal_horiz.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="3">
-                                    <image>
-                                        <Image url="@../images/canal_horiz.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="3">
-                                    <image>
-                                        <Image url="@../images/canal_horiz.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="10" GridPane.rowIndex="3">
-                                    <image>
-                                        <Image url="@../images/canal_horiz.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="11" GridPane.rowIndex="3">
-                                    <image>
-                                        <Image url="@../images/canal_horiz.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="6">
-                                    <image>
-                                        <Image url="@../images/canal_horiz.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="6">
-                                    <image>
-                                        <Image url="@../images/canal_horiz.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="6">
-                                    <image>
-                                        <Image url="@../images/canal_horiz.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="6">
-                                    <image>
-                                        <Image url="@../images/canal_horiz.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="6">
-                                    <image>
-                                        <Image url="@../images/canal_horiz.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="6">
-                                    <image>
-                                        <Image url="@../images/canal_horiz.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="10" GridPane.rowIndex="6">
-                                    <image>
-                                        <Image url="@../images/canal_horiz.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="11" GridPane.rowIndex="6">
-                                    <image>
-                                        <Image url="@../images/canal_horiz.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="9">
-                                    <image>
-                                        <Image url="@../images/canal_horiz.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="9">
-                                    <image>
-                                        <Image url="@../images/canal_horiz.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="9">
-                                    <image>
-                                        <Image url="@../images/canal_horiz.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="9">
-                                    <image>
-                                        <Image url="@../images/canal_horiz.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="9">
-                                    <image>
-                                        <Image url="@../images/canal_horiz.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="9">
-                                    <image>
-                                        <Image url="@../images/canal_horiz.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="10" GridPane.rowIndex="9">
-                                    <image>
-                                        <Image url="@../images/canal_horiz.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="11" GridPane.rowIndex="9">
-                                    <image>
-                                        <Image url="@../images/canal_horiz.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
-                                    <image>
-                                        <Image url="@../images/canal_verti.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2">
-                                    <image>
-                                        <Image url="@../images/canal_verti.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1">
-                                    <image>
-                                        <Image url="@../images/canal_verti.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="2">
-                                    <image>
-                                        <Image url="@../images/canal_verti.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="1">
-                                    <image>
-                                        <Image url="@../images/canal_verti.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="2">
-                                    <image>
-                                        <Image url="@../images/canal_verti.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="9" GridPane.rowIndex="1">
-                                    <image>
-                                        <Image url="@../images/canal_verti.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="9" GridPane.rowIndex="2">
-                                    <image>
-                                        <Image url="@../images/canal_verti.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="12" GridPane.rowIndex="1">
-                                    <image>
-                                        <Image url="@../images/canal_verti.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="12" GridPane.rowIndex="2">
-                                    <image>
-                                        <Image url="@../images/canal_verti.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="4">
-                                    <image>
-                                        <Image url="@../images/canal_verti.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="5">
-                                    <image>
-                                        <Image url="@../images/canal_verti.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="4">
-                                    <image>
-                                        <Image url="@../images/canal_verti.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="5">
-                                    <image>
-                                        <Image url="@../images/canal_verti.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="4">
-                                    <image>
-                                        <Image url="@../images/canal_verti.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="5">
-                                    <image>
-                                        <Image url="@../images/canal_verti.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="9" GridPane.rowIndex="4">
-                                    <image>
-                                        <Image url="@../images/canal_verti.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="9" GridPane.rowIndex="5">
-                                    <image>
-                                        <Image url="@../images/canal_verti.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="12" GridPane.rowIndex="4">
-                                    <image>
-                                        <Image url="@../images/canal_verti.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="12" GridPane.rowIndex="5">
-                                    <image>
-                                        <Image url="@../images/canal_verti.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="7">
-                                    <image>
-                                        <Image url="@../images/canal_verti.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="8">
-                                    <image>
-                                        <Image url="@../images/canal_verti.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="7">
-                                    <image>
-                                        <Image url="@../images/canal_verti.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="8">
-                                    <image>
-                                        <Image url="@../images/canal_verti.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="7">
-                                    <image>
-                                        <Image url="@../images/canal_verti.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="8">
-                                    <image>
-                                        <Image url="@../images/canal_verti.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="9" GridPane.rowIndex="7">
-                                    <image>
-                                        <Image url="@../images/canal_verti.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="9" GridPane.rowIndex="8">
-                                    <image>
-                                        <Image url="@../images/canal_verti.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="12" GridPane.rowIndex="7">
-                                    <image>
-                                        <Image url="@../images/canal_verti.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="100.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="12" GridPane.rowIndex="8">
-                                    <image>
-                                        <Image url="@../images/canal_verti.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true">
-                                    <image>
-                                        <Image url="@../images/intersection.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3">
-                                    <image>
-                                        <Image url="@../images/intersection.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6">
-                                    <image>
-                                        <Image url="@../images/intersection.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="9">
-                                    <image>
-                                        <Image url="@../images/intersection.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="12">
-                                    <image>
-                                        <Image url="@../images/intersection.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="3">
-                                    <image>
-                                        <Image url="@../images/intersection.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="3">
-                                    <image>
-                                        <Image url="@../images/intersection.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="3">
-                                    <image>
-                                        <Image url="@../images/intersection.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="9" GridPane.rowIndex="3">
-                                    <image>
-                                        <Image url="@../images/intersection.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="12" GridPane.rowIndex="3">
-                                    <image>
-                                        <Image url="@../images/intersection.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="6">
-                                    <image>
-                                        <Image url="@../images/intersection.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="6">
-                                    <image>
-                                        <Image url="@../images/intersection.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="6">
-                                    <image>
-                                        <Image url="@../images/intersection.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="9" GridPane.rowIndex="6">
-                                    <image>
-                                        <Image url="@../images/intersection.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="12" GridPane.rowIndex="6">
-                                    <image>
-                                        <Image url="@../images/intersection.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="9">
-                                    <image>
-                                        <Image url="@../images/intersection.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="9">
-                                    <image>
-                                        <Image url="@../images/intersection.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="9">
-                                    <image>
-                                        <Image url="@../images/intersection.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="9" GridPane.rowIndex="9">
-                                    <image>
-                                        <Image url="@../images/intersection.png" />
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="12" GridPane.rowIndex="9">
-                                    <image>
-                                        <Image url="@../images/intersection.png" />
-                                    </image>
-                                </ImageView>
-                            </children>
-                        </GridPane>
-                    </children>
-                </AnchorPane>
+            <SplitPane dividerPositions="0.14529058116232466" prefHeight="160.0" prefWidth="200.0" SplitPane.resizableWithParent="false">
+               <items>
+                  <TilePane alignment="CENTER" minWidth="142.0" prefHeight="642.0" prefTileHeight="60.0" prefTileWidth="140.0" prefWidth="142.0">
+                     <children>
+                        <ImageView id="tuile1" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/vide.jpg" />
+                           </image>
+                        </ImageView>
+                        <Separator prefWidth="10.0" visible="false">
+                           <TilePane.margin>
+                              <Insets />
+                           </TilePane.margin>
+                        </Separator>
+                        <ImageView id="tuile1" fitHeight="100.0" fitWidth="100.0" layoutX="31.0" layoutY="281.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/vide.jpg" />
+                           </image>
+                        </ImageView>
+                        <Separator prefWidth="10.0" visible="false" />
+                        <ImageView id="tuile1" fitHeight="100.0" fitWidth="100.0" layoutX="31.0" layoutY="331.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/vide.jpg" />
+                           </image>
+                        </ImageView>
+                        <Separator prefWidth="10.0" visible="false" />
+                        <ImageView id="tuile1" fitHeight="100.0" fitWidth="100.0" layoutX="31.0" layoutY="381.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/vide.jpg" />
+                           </image>
+                        </ImageView>
+                        <Separator prefWidth="10.0" visible="false" />
+                        <ImageView id="tuile1" fitHeight="100.0" fitWidth="100.0" layoutX="31.0" layoutY="431.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/vide.jpg" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </TilePane>
+                      <AnchorPane prefHeight="640.0" prefWidth="850.0">
+                          <children>
+                              <GridPane fx:id="plateau" alignment="TOP_CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="850.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                  <columnConstraints>
+                                      <ColumnConstraints halignment="CENTER" minWidth="10.0" prefWidth="10.0" />
+                                      <ColumnConstraints halignment="CENTER" minWidth="10.0" prefWidth="100.0" />
+                                      <ColumnConstraints halignment="CENTER" minWidth="10.0" prefWidth="100.0" />
+                                      <ColumnConstraints halignment="CENTER" minWidth="10.0" prefWidth="10.0" />
+                                      <ColumnConstraints halignment="CENTER" minWidth="10.0" prefWidth="100.0" />
+                                      <ColumnConstraints halignment="CENTER" minWidth="10.0" prefWidth="100.0" />
+                                      <ColumnConstraints halignment="CENTER" minWidth="10.0" prefWidth="10.0" />
+                                      <ColumnConstraints halignment="CENTER" minWidth="10.0" prefWidth="100.0" />
+                                      <ColumnConstraints halignment="CENTER" minWidth="10.0" prefWidth="100.0" />
+                                      <ColumnConstraints halignment="CENTER" minWidth="10.0" prefWidth="10.0" />
+                                      <ColumnConstraints halignment="CENTER" minWidth="10.0" prefWidth="100.0" />
+                                      <ColumnConstraints halignment="CENTER" minWidth="10.0" prefWidth="100.0" />
+                                      <ColumnConstraints halignment="CENTER" minWidth="10.0" prefWidth="10.0" />
+                                  </columnConstraints>
+                                  <rowConstraints>
+                                      <RowConstraints minHeight="10.0" prefHeight="10.0" valignment="CENTER" />
+                                      <RowConstraints minHeight="10.0" prefHeight="100.0" valignment="CENTER" />
+                                      <RowConstraints minHeight="10.0" prefHeight="100.0" valignment="CENTER" />
+                                      <RowConstraints minHeight="10.0" prefHeight="10.0" valignment="CENTER" />
+                                      <RowConstraints minHeight="10.0" prefHeight="100.0" valignment="CENTER" />
+                                      <RowConstraints minHeight="10.0" prefHeight="100.0" valignment="CENTER" />
+                                      <RowConstraints minHeight="10.0" prefHeight="10.0" valignment="CENTER" />
+                                      <RowConstraints minHeight="10.0" prefHeight="100.0" valignment="CENTER" />
+                                      <RowConstraints minHeight="10.0" prefHeight="100.0" valignment="CENTER" />
+                                      <RowConstraints minHeight="10.0" prefHeight="10.0" valignment="CENTER" />
+                                  </rowConstraints>
+                                  <children>
+                                      <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                          <image>
+                                              <Image url="@../images/parcelle.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                          <image>
+                                              <Image url="@../images/parcelle.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="270.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                          <image>
+                                              <Image url="@../images/parcelle.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="180.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                                          <image>
+                                              <Image url="@../images/parcelle.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="1">
+                                          <image>
+                                              <Image url="@../images/parcelle.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="1">
+                                          <image>
+                                              <Image url="@../images/parcelle.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="10" GridPane.rowIndex="1">
+                                          <image>
+                                              <Image url="@../images/parcelle.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                                          <image>
+                                              <Image url="@../images/parcelle.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="7">
+                                          <image>
+                                              <Image url="@../images/parcelle.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="4">
+                                          <image>
+                                              <Image url="@../images/parcelle.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="7">
+                                          <image>
+                                              <Image url="@../images/parcelle.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="4">
+                                          <image>
+                                              <Image url="@../images/parcelle.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="10" GridPane.rowIndex="4">
+                                          <image>
+                                              <Image url="@../images/parcelle.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="7">
+                                          <image>
+                                              <Image url="@../images/parcelle.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="10" GridPane.rowIndex="7">
+                                          <image>
+                                              <Image url="@../images/parcelle.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" GridPane.columnIndex="5" GridPane.rowIndex="1">
+                                          <image>
+                                              <Image url="@../images/parcelle.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="180.0" GridPane.columnIndex="5" GridPane.rowIndex="2">
+                                          <image>
+                                              <Image url="@../images/parcelle.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="270.0" GridPane.columnIndex="4" GridPane.rowIndex="2">
+                                          <image>
+                                              <Image url="@../images/parcelle.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="270.0" GridPane.columnIndex="7" GridPane.rowIndex="2">
+                                          <image>
+                                              <Image url="@../images/parcelle.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="180.0" GridPane.columnIndex="8" GridPane.rowIndex="2">
+                                          <image>
+                                              <Image url="@../images/parcelle.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" GridPane.columnIndex="8" GridPane.rowIndex="1">
+                                          <image>
+                                              <Image url="@../images/parcelle.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="270.0" GridPane.columnIndex="10" GridPane.rowIndex="2">
+                                          <image>
+                                              <Image url="@../images/parcelle.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" GridPane.columnIndex="11" GridPane.rowIndex="1">
+                                          <image>
+                                              <Image url="@../images/parcelle.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="180.0" GridPane.columnIndex="11" GridPane.rowIndex="2">
+                                          <image>
+                                              <Image url="@../images/parcelle.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                                          <image>
+                                              <Image url="@../images/parcelle.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" GridPane.columnIndex="5" GridPane.rowIndex="4">
+                                          <image>
+                                              <Image url="@../images/parcelle.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" GridPane.columnIndex="8" GridPane.rowIndex="4">
+                                          <image>
+                                              <Image url="@../images/parcelle.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" GridPane.columnIndex="11" GridPane.rowIndex="4">
+                                          <image>
+                                              <Image url="@../images/parcelle.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" GridPane.columnIndex="2" GridPane.rowIndex="7">
+                                          <image>
+                                              <Image url="@../images/parcelle.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" GridPane.columnIndex="5" GridPane.rowIndex="7">
+                                          <image>
+                                              <Image url="@../images/parcelle.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" GridPane.columnIndex="8" GridPane.rowIndex="7">
+                                          <image>
+                                              <Image url="@../images/parcelle.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" GridPane.columnIndex="11" GridPane.rowIndex="7">
+                                          <image>
+                                              <Image url="@../images/parcelle.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="270.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                                          <image>
+                                              <Image url="@../images/parcelle.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="270.0" GridPane.columnIndex="1" GridPane.rowIndex="8">
+                                          <image>
+                                              <Image url="@../images/parcelle.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="270.0" GridPane.columnIndex="4" GridPane.rowIndex="5">
+                                          <image>
+                                              <Image url="@../images/parcelle.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="270.0" GridPane.columnIndex="4" GridPane.rowIndex="8">
+                                          <image>
+                                              <Image url="@../images/parcelle.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="270.0" GridPane.columnIndex="7" GridPane.rowIndex="5">
+                                          <image>
+                                              <Image url="@../images/parcelle.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="270.0" GridPane.columnIndex="10" GridPane.rowIndex="5">
+                                          <image>
+                                              <Image url="@../images/parcelle.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="270.0" GridPane.columnIndex="7" GridPane.rowIndex="8">
+                                          <image>
+                                              <Image url="@../images/parcelle.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="270.0" GridPane.columnIndex="10" GridPane.rowIndex="8">
+                                          <image>
+                                              <Image url="@../images/parcelle.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="180.0" GridPane.columnIndex="2" GridPane.rowIndex="5">
+                                          <image>
+                                              <Image url="@../images/parcelle.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="180.0" GridPane.columnIndex="5" GridPane.rowIndex="5">
+                                          <image>
+                                              <Image url="@../images/parcelle.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="180.0" GridPane.columnIndex="8" GridPane.rowIndex="5">
+                                          <image>
+                                              <Image url="@../images/parcelle.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="180.0" GridPane.columnIndex="11" GridPane.rowIndex="5">
+                                          <image>
+                                              <Image url="@../images/parcelle.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="180.0" GridPane.columnIndex="2" GridPane.rowIndex="8">
+                                          <image>
+                                              <Image url="@../images/parcelle.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="180.0" GridPane.columnIndex="5" GridPane.rowIndex="8">
+                                          <image>
+                                              <Image url="@../images/parcelle.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="180.0" GridPane.columnIndex="8" GridPane.rowIndex="8">
+                                          <image>
+                                              <Image url="@../images/parcelle.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="180.0" GridPane.columnIndex="11" GridPane.rowIndex="8">
+                                          <image>
+                                              <Image url="@../images/parcelle.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2">
+                                          <image>
+                                              <Image url="@../images/canal_horiz.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
+                                          <image>
+                                              <Image url="@../images/canal_horiz.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4">
+                                          <image>
+                                              <Image url="@../images/canal_horiz.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5">
+                                          <image>
+                                              <Image url="@../images/canal_horiz.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="10">
+                                          <image>
+                                              <Image url="@../images/canal_horiz.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7">
+                                          <image>
+                                              <Image url="@../images/canal_horiz.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8">
+                                          <image>
+                                              <Image url="@../images/canal_horiz.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="11">
+                                          <image>
+                                              <Image url="@../images/canal_horiz.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                          <image>
+                                              <Image url="@../images/canal_horiz.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                                          <image>
+                                              <Image url="@../images/canal_horiz.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="3">
+                                          <image>
+                                              <Image url="@../images/canal_horiz.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="3">
+                                          <image>
+                                              <Image url="@../images/canal_horiz.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="3">
+                                          <image>
+                                              <Image url="@../images/canal_horiz.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="3">
+                                          <image>
+                                              <Image url="@../images/canal_horiz.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="10" GridPane.rowIndex="3">
+                                          <image>
+                                              <Image url="@../images/canal_horiz.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="11" GridPane.rowIndex="3">
+                                          <image>
+                                              <Image url="@../images/canal_horiz.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                                          <image>
+                                              <Image url="@../images/canal_horiz.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="6">
+                                          <image>
+                                              <Image url="@../images/canal_horiz.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="6">
+                                          <image>
+                                              <Image url="@../images/canal_horiz.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="6">
+                                          <image>
+                                              <Image url="@../images/canal_horiz.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="6">
+                                          <image>
+                                              <Image url="@../images/canal_horiz.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="6">
+                                          <image>
+                                              <Image url="@../images/canal_horiz.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="10" GridPane.rowIndex="6">
+                                          <image>
+                                              <Image url="@../images/canal_horiz.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="11" GridPane.rowIndex="6">
+                                          <image>
+                                              <Image url="@../images/canal_horiz.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="9">
+                                          <image>
+                                              <Image url="@../images/canal_horiz.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="9">
+                                          <image>
+                                              <Image url="@../images/canal_horiz.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="9">
+                                          <image>
+                                              <Image url="@../images/canal_horiz.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="9">
+                                          <image>
+                                              <Image url="@../images/canal_horiz.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="9">
+                                          <image>
+                                              <Image url="@../images/canal_horiz.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="9">
+                                          <image>
+                                              <Image url="@../images/canal_horiz.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="10" GridPane.rowIndex="9">
+                                          <image>
+                                              <Image url="@../images/canal_horiz.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="10.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="11" GridPane.rowIndex="9">
+                                          <image>
+                                              <Image url="@../images/canal_horiz.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
+                                          <image>
+                                              <Image url="@../images/canal_verti.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2">
+                                          <image>
+                                              <Image url="@../images/canal_verti.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                                          <image>
+                                              <Image url="@../images/canal_verti.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                                          <image>
+                                              <Image url="@../images/canal_verti.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="1">
+                                          <image>
+                                              <Image url="@../images/canal_verti.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="2">
+                                          <image>
+                                              <Image url="@../images/canal_verti.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="9" GridPane.rowIndex="1">
+                                          <image>
+                                              <Image url="@../images/canal_verti.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="9" GridPane.rowIndex="2">
+                                          <image>
+                                              <Image url="@../images/canal_verti.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="12" GridPane.rowIndex="1">
+                                          <image>
+                                              <Image url="@../images/canal_verti.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="12" GridPane.rowIndex="2">
+                                          <image>
+                                              <Image url="@../images/canal_verti.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="4">
+                                          <image>
+                                              <Image url="@../images/canal_verti.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="5">
+                                          <image>
+                                              <Image url="@../images/canal_verti.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="4">
+                                          <image>
+                                              <Image url="@../images/canal_verti.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="5">
+                                          <image>
+                                              <Image url="@../images/canal_verti.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="4">
+                                          <image>
+                                              <Image url="@../images/canal_verti.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="5">
+                                          <image>
+                                              <Image url="@../images/canal_verti.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="9" GridPane.rowIndex="4">
+                                          <image>
+                                              <Image url="@../images/canal_verti.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="9" GridPane.rowIndex="5">
+                                          <image>
+                                              <Image url="@../images/canal_verti.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="12" GridPane.rowIndex="4">
+                                          <image>
+                                              <Image url="@../images/canal_verti.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="12" GridPane.rowIndex="5">
+                                          <image>
+                                              <Image url="@../images/canal_verti.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="7">
+                                          <image>
+                                              <Image url="@../images/canal_verti.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="8">
+                                          <image>
+                                              <Image url="@../images/canal_verti.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="7">
+                                          <image>
+                                              <Image url="@../images/canal_verti.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="8">
+                                          <image>
+                                              <Image url="@../images/canal_verti.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="7">
+                                          <image>
+                                              <Image url="@../images/canal_verti.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="8">
+                                          <image>
+                                              <Image url="@../images/canal_verti.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="9" GridPane.rowIndex="7">
+                                          <image>
+                                              <Image url="@../images/canal_verti.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="9" GridPane.rowIndex="8">
+                                          <image>
+                                              <Image url="@../images/canal_verti.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="12" GridPane.rowIndex="7">
+                                          <image>
+                                              <Image url="@../images/canal_verti.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="100.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="12" GridPane.rowIndex="8">
+                                          <image>
+                                              <Image url="@../images/canal_verti.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true">
+                                          <image>
+                                              <Image url="@../images/intersection.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3">
+                                          <image>
+                                              <Image url="@../images/intersection.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6">
+                                          <image>
+                                              <Image url="@../images/intersection.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="9">
+                                          <image>
+                                              <Image url="@../images/intersection.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="12">
+                                          <image>
+                                              <Image url="@../images/intersection.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="3">
+                                          <image>
+                                              <Image url="@../images/intersection.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="3">
+                                          <image>
+                                              <Image url="@../images/intersection.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="3">
+                                          <image>
+                                              <Image url="@../images/intersection.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="9" GridPane.rowIndex="3">
+                                          <image>
+                                              <Image url="@../images/intersection.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="12" GridPane.rowIndex="3">
+                                          <image>
+                                              <Image url="@../images/intersection.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="6">
+                                          <image>
+                                              <Image url="@../images/intersection.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="6">
+                                          <image>
+                                              <Image url="@../images/intersection.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="6">
+                                          <image>
+                                              <Image url="@../images/intersection.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="9" GridPane.rowIndex="6">
+                                          <image>
+                                              <Image url="@../images/intersection.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="12" GridPane.rowIndex="6">
+                                          <image>
+                                              <Image url="@../images/intersection.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="9">
+                                          <image>
+                                              <Image url="@../images/intersection.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="9">
+                                          <image>
+                                              <Image url="@../images/intersection.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="9">
+                                          <image>
+                                              <Image url="@../images/intersection.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="9" GridPane.rowIndex="9">
+                                          <image>
+                                              <Image url="@../images/intersection.png" />
+                                          </image>
+                                      </ImageView>
+                                      <ImageView fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="12" GridPane.rowIndex="9">
+                                          <image>
+                                              <Image url="@../images/intersection.png" />
+                                          </image>
+                                      </ImageView>
+                                  </children>
+                              </GridPane>
+                          </children>
+                      </AnchorPane>
+               </items>
+            </SplitPane>
             </items>
         </SplitPane>
     </children>
