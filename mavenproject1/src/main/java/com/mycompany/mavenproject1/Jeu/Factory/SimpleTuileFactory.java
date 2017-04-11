@@ -15,11 +15,11 @@ public class SimpleTuileFactory {
     public Tuiles creerTuile(String type){
         Tuiles t=null;
         switch(type){
-            case("piment"):t=new Tuiles("piment");
-            case("haricot"):t=new Tuiles("haricot");
-            case("banane"):t=new Tuiles("banane");
-            case("patate"):t=new Tuiles("patate");
-            case("sucre"):t=new Tuiles("sucre");
+            case("piment"):t=new Tuiles("piment");break;
+            case("haricot"):t=new Tuiles("haricot");break;
+            case("banane"):t=new Tuiles("banane");break;
+            case("patate"):t=new Tuiles("patate");break;
+            case("sucre"):t=new Tuiles("sucre");break;
         }
         return t;
     }

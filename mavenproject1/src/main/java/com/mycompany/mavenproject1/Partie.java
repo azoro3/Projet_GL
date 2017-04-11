@@ -146,6 +146,15 @@ public class Partie {
         }
         return enchere;
     }
+    /**
+     * 
+     * @param enchere map avec les enchère de chaque joueurs
+     */
+    public void placerTuiles(Map<Joueur,String> enchere){
+        for (Map.Entry<Integer, Integer> pair : map.entrySet()) {
+            i += pair.getKey() + pair.getValue();
+        }
+    }
     
     /**
      * 
