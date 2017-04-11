@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.image.*?>
@@ -9,7 +10,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="675.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.mavenproject1.PlateauController">
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="675.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.mavenproject1.PlateauController">
     <children>
         <SplitPane dividerPositions="0.1" orientation="VERTICAL" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <items>
@@ -27,14 +28,15 @@
                         </MenuBar>
                     </children>
                 </AnchorPane>
-            <SplitPane dividerPositions="0.14529058116232466" prefHeight="160.0" prefWidth="200.0" SplitPane.resizableWithParent="false">
-               <items>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
                   <TilePane alignment="CENTER" minWidth="142.0" prefHeight="642.0" prefTileHeight="60.0" prefTileWidth="140.0" prefWidth="142.0">
                      <children>
                         <ImageView fx:id="tuile1" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/vide.jpg" />
-                           </image></ImageView>
+                           </image>
+                        </ImageView>
                         <Separator prefWidth="10.0" visible="false">
                            <TilePane.margin>
                               <Insets />
@@ -750,8 +752,33 @@
                               </GridPane>
                           </children>
                       </AnchorPane>
-               </items>
-            </SplitPane>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <Label layoutX="71.0" layoutY="18.0" text="Joueurs">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="19.0" layoutY="48.0" text="Nom">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font></Label>
+                        <Label layoutX="102.0" layoutY="48.0" text="Couleur">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font></Label>
+                        <Label fx:id="j1Nom" layoutX="19.0" layoutY="68.0" />
+                        <Label fx:id="j1Couleur" layoutX="102.0" layoutY="68.0" />
+                        <Label fx:id="j2Nom" layoutX="19.0" layoutY="88.0" />
+                        <Label fx:id="j2Couleur" layoutX="102.0" layoutY="88.0" />
+                        <Label fx:id="j3Nom" layoutX="19.0" layoutY="108.0" />
+                        <Label fx:id="j3Couleur" layoutX="102.0" layoutY="108.0" />
+                        <Label fx:id="j4Nom" layoutX="19.0" layoutY="128.0" />
+                        <Label fx:id="j4Couleur" layoutX="102.0" layoutY="128.0" />
+                     </children>
+                  </AnchorPane>
+               </children>
+            </HBox>
             </items>
         </SplitPane>
     </children>

@@ -35,7 +35,7 @@ public class MainApp extends Application {
         launch(args);
         //Source source = Source.getInstance();
         //source.toString();
-        Partie partie = new Partie();
+        //Partie partie = new Partie();
     }
 
 }

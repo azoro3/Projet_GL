@@ -1,11 +1,14 @@
 package com.mycompany.mavenproject1;
 
+import com.mycompany.mavenproject1.Jeu.Joueur;
 import com.mycompany.mavenproject1.Jeu.Plateau.Source;
 import com.mycompany.mavenproject1.Jeu.Tuiles;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -17,6 +20,16 @@ public class PlateauController implements Initializable {
 
     @FXML
     private ImageView tuile1, tuile2, tuile3, tuile4, tuile5;
+
+    @FXML
+    private Label j1Nom, j1Couleur;
+    @FXML
+    private Label j2Nom, j2Couleur;
+    @FXML
+    private Label j3Nom, j3Couleur;
+    @FXML
+    private Label j4Nom, j4Couleur;
+    private ArrayList<Joueur> listeJoueurs;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -43,6 +56,17 @@ public class PlateauController implements Initializable {
         mettreImage(tuile3, tuiles[2].getType(), tuiles[2].getNbTravailleurs());
         mettreImage(tuile4, tuiles[3].getType(), tuiles[3].getNbTravailleurs());
         mettreImage(tuile5, tuiles[4].getType(), tuiles[4].getNbTravailleurs());
+
+        // Affichage des informations sur les joueurs
+        listeJoueurs = partie.getListeJoueurs();
+        j1Nom.setText(listeJoueurs.get(0).getNom());
+        j1Couleur.setText(listeJoueurs.get(0).getCouleur());
+        j2Nom.setText(listeJoueurs.get(1).getNom());
+        j2Couleur.setText(listeJoueurs.get(1).getCouleur());
+        j3Nom.setText(listeJoueurs.get(2).getNom());
+        j3Couleur.setText(listeJoueurs.get(2).getCouleur());
+        j4Nom.setText(listeJoueurs.get(3).getNom());
+        j4Couleur.setText(listeJoueurs.get(3).getCouleur());
     }
 
     private void mettreImage(ImageView tuile, String type, int nbTravailleurs) {
