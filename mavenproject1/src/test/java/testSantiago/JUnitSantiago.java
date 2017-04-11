@@ -54,7 +54,7 @@ public class JUnitSantiago {
     @Test
     public void testNbTravailleurs() {
         Tuiles t = new Tuiles("piment");
-        System.out.println(t.getNbTravailleurs());
+        System.out.println("nombre travailleures : " + t.getNbTravailleurs());
         assertTrue(t.getNbTravailleurs() < 3 && t.getNbTravailleurs() > 0);
 
     }
