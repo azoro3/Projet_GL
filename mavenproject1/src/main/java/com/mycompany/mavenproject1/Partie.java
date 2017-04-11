@@ -8,6 +8,7 @@ package com.mycompany.mavenproject1;
 import com.mycompany.mavenproject1.Jeu.Factory.CanalFactory;
 import com.mycompany.mavenproject1.Jeu.*;
 import com.mycompany.mavenproject1.Jeu.Factory.TuilesFactory;
+import com.mycompany.mavenproject1.Jeu.Plateau.Parcelle;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -106,14 +107,14 @@ public class Partie {
      */
     public Tuiles[] getFirstCarte() {
         Tuiles[] t = new Tuiles[5];
-        t[0] = this.pile1.get(1);
-        t[1] = this.pile2.get(1);
-        t[2] = this.pile3.get(1);
-        t[3] = this.pile4.get(1);
-        t[4] = this.pile5.get(1);
-        return t;
-    }
-    
+        t[0]=this.pile1.get(0);
+        t[1]=this.pile2.get(0);
+        t[2]=this.pile3.get(0);
+        t[3]=this.pile4.get(0);
+        t[4]=this.pile5.get(0);
+        return null;
+            
+        }
     /**
      * 
      * @return un hasmap avec les différentes mises des joueurs
@@ -146,6 +147,17 @@ public class Partie {
             enchere.put(joueur, valeurEnchere);
         }
         return enchere;
+    }
+    /**
+     * 
+     * @param enchere map avec les enchère de chaque joueurs
+     */
+    public void changerConstructeur(Map<Joueur,String> enchere){
+        for (Map.Entry<Joueur, String> pair : enchere.entrySet()) {
+            if(pair.getValue().equals("Passe")){
+                pair.getKey().setEstConstructeur(true);break;
+            }
+        }
     }
     
     /**

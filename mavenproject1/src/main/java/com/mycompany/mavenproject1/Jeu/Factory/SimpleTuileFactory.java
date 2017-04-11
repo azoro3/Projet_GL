@@ -13,24 +13,14 @@ import com.mycompany.mavenproject1.Jeu.Tuiles;
  */
 public class SimpleTuileFactory {
 
-    public Tuiles creerTuile(String type) {
-        Tuiles t = null;
-        switch (type) {
-            case ("piment"):
-                t = new Tuiles("piment");
-                break;
-            case ("haricot"):
-                t = new Tuiles("haricot");
-                break;
-            case ("banane"):
-                t = new Tuiles("banane");
-                break;
-            case ("patate"):
-                t = new Tuiles("patate");
-                break;
-            case ("sucre"):
-                t = new Tuiles("sucre");
-                break;
+    public Tuiles creerTuile(String type){
+        Tuiles t=null;
+        switch(type){
+            case("piment"):t=new Tuiles("piment");break;
+            case("haricot"):t=new Tuiles("haricot");break;
+            case("banane"):t=new Tuiles("banane");break;
+            case("patate"):t=new Tuiles("patate");break;
+            case("sucre"):t=new Tuiles("sucre");break;
         }
         return t;
     }
