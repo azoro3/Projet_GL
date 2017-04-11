@@ -9,11 +9,8 @@ import com.mycompany.mavenproject1.Jeu.Factory.CanalFactory;
 import com.mycompany.mavenproject1.Jeu.*;
 import com.mycompany.mavenproject1.Jeu.Factory.TuilesFactory;
 import com.mycompany.mavenproject1.Jeu.Plateau.Parcelle;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+
+import java.util.*;
 import javax.swing.JOptionPane;
 
 /**
@@ -123,7 +120,7 @@ public class Partie {
         Map<Joueur,String> enchere = new HashMap<>();
 //      fonction pour trier les joueurs dans le sens des enchères.
         boolean tri = false; int i=0;
-        ArrayList<Joueur> lTemp=null;
+        ArrayList<Joueur> lTemp=new ArrayList<>();
         while(!tri){
           if(this.listeJoueurs.get(i).isEstConstructeur())  {
               for(int j=0;j<=i;j++){
@@ -160,9 +157,45 @@ public class Partie {
             }
         }
     }
-    
+
+    public Map<Joueur,int[]> soudoyerConstructeur(){
+        Map<Joueur,int[]> joueurEncher = new HashMap<>();
+        ArrayList<Joueur> ltemp = listeJoueurs;
+
+//      enlever le constructeur
+        for(int i=0; i==ltemp.size()-1;i++) {
+            if (ltemp.get(i).isEstConstructeur()) {
+                    ltemp.remove(i);
+            }
+        }
+//      enchères des joueurs
+        for(final Joueur joueur : ltemp) {
+            int valeurEnchere = Integer.parseInt(JOptionPane.showInputDialog("Faites votre enchères ! :"));
+
+            Iterator it = joueurEncher.values().iterator();
+            int[] o = {-1};
+            while (it.hasNext()) {
+                o = (int[]) it.next();
+            }
+            while (true){
+                if (o[0] != valeurEnchere) {
+                    int xdeb = Integer.parseInt(JOptionPane.showInputDialog("définir la coordonées x de depart du canal ! :"));
+                    int ydeb = Integer.parseInt(JOptionPane.showInputDialog("définir la coordonées y de depart du canal ! :"));
+                    int xfin = Integer.parseInt(JOptionPane.showInputDialog("définir la coordonées x de fin du canal ! :"));
+                    int yfin = Integer.parseInt(JOptionPane.showInputDialog("définir la coordonées y de fin du canal ! :"));
+                    int[] encher = {valeurEnchere, xdeb, ydeb, xfin, yfin};
+                    joueurEncher.put(joueur, encher);break;
+                } else {
+                    valeurEnchere = Integer.parseInt(JOptionPane.showInputDialog("Quelqu'un à déjà miser cette somme, faites une autre enchères ! :"));
+                }
+            }
+        }
+
+        // afficher en FX les joueurs pour le constructeur AFINIR
+        return joueurEncher;
+    }
     /**
-     * 
+     *
      * @return getters
      */
 
@@ -194,7 +227,7 @@ public class Partie {
         return listeCanal;
     }
 
-    
-    
-    
+
+
+
 }
