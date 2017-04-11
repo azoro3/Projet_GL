@@ -147,6 +147,10 @@ public class Partie {
         return enchere;
     }
     
+    public void placerTuiles(){
+        
+    }
+    
     /**
      * 
      * @return getters
