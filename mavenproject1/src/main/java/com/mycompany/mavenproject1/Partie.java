@@ -129,6 +129,7 @@ public class Partie {
               for(int j=0;j<=i;j++){
                   lTemp.add(this.listeJoueurs.remove(j));
               }
+            tri=true;
           }
           i++;
         }
