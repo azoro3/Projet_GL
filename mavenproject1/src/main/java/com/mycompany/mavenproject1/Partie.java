@@ -35,27 +35,29 @@ public class Partie {
 //      création des joueurs
         
         this.listeJoueurs = new ArrayList();
-        for(int i=0;i<=3;){
+        
+        for (int i = 0; i <= 3; i++) {
             String nomJ = JOptionPane.showInputDialog("Nom du joueur :");
 //      modifier l'attribut couleur
-            String couleurJ=JOptionPane.showInputDialog("Choisissez votre couleur :");
-            Joueur J=new Joueur(nomJ,couleurJ,10,22);
-            CanalJ c=new CanalJ(couleurJ);
+            String couleurJ = JOptionPane.showInputDialog("Choisissez votre couleur :");
+            Joueur J = new Joueur(nomJ, couleurJ, 10, 22);
+            CanalJ c = new CanalJ(couleurJ);
             this.listeJoueurs.add(J);
         }
+
         this.listeJoueurs.get(0).setEstConstructeur(true);
         
 //      création des Tuiles
         List<Tuiles> touteLesTuiles = new LinkedList();
         CanalFactory factory=new CanalFactory();
-        for(int i=0;i<=15;){
+        for(int i=0;i<=15;i++){
             Canal c=factory.genererCanal();
             this.listeCanal.add(c);
         }
 //      Mettre les tuiles dans les liste
         TuilesFactory tFactory;
         tFactory = new TuilesFactory();
-        for (int i=1;i<=9;){
+        for (int i=1;i<=9;i++){
             touteLesTuiles.add(tFactory.genererTuiles("piment"));
             touteLesTuiles.add(tFactory.genererTuiles("haricot"));
             touteLesTuiles.add(tFactory.genererTuiles("banane"));
@@ -95,24 +97,23 @@ public class Partie {
                     break;
             }
         }
-//      
-       
-//      
-    } 
+     
+    }
+    
     /**
      * 
      * @return tableau avec la première tuile de chaque pile
      */
-    public Tuiles[] getFirstCarte(){
+    public Tuiles[] getFirstCarte() {
         Tuiles[] t = new Tuiles[5];
-        t[0]=this.pile1.get(1);
-        t[1]=this.pile2.get(1);
-        t[2]=this.pile3.get(1);
-        t[3]=this.pile4.get(1);
-        t[4]=this.pile5.get(1);
-        return null;
-            
-        }
+        t[0] = this.pile1.get(1);
+        t[1] = this.pile2.get(1);
+        t[2] = this.pile3.get(1);
+        t[3] = this.pile4.get(1);
+        t[4] = this.pile5.get(1);
+        return t;
+    }
+    
     /**
      * 
      * @return un hasmap avec les différentes mises des joueurs

@@ -18,7 +18,7 @@ public class MainApp extends Application {
         //scene.getStylesheets().add("/styles/Styles.css");
 
         stage.setTitle("Santiago");
-        //stage.setResizable(false); // empêcher le redimmensionnement de la fenêtre
+        stage.setResizable(false); // empêcher le redimmensionnement de la fenêtre
         stage.setScene(scene);
         stage.show();
     }
@@ -33,9 +33,9 @@ public class MainApp extends Application {
      */
     public static void main(String[] args) {
         launch(args);
-        Source source = Source.getInstance();
-        source.toString();
-        Partie partie = new Partie();
+        //Source source = Source.getInstance();
+        //source.toString();
+        //Partie partie = new Partie();
     }
 
 }
