@@ -19,14 +19,6 @@ public class Source {
         this.y = rand3(0,10);
     }
 
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
     /**
      * Génère un entier multiple de 3 compris entre min (inclus) et max (exclus).
      * @param min

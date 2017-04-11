@@ -123,9 +123,7 @@ public class JUnitSantiago {
         Boolean reponse;
         Canal c = new Canal();
         Canal c2 = new Canal();
-        Source s = new Source();
-        s.setX(2);
-        s.setY(2);
+        Source s = Source.getInstance();
         List<Canal> listCanalPose=new LinkedList();
         c.setxDeb(0);
         c.setxFin(1);
@@ -142,10 +140,10 @@ public class JUnitSantiago {
         //canal c2 = canal c
         assertFalse(reponse);
 
-        c2.setxDeb(2);
-        c2.setxFin(3);
-        c2.setyDeb(2);
-        c2.setyFin(2);
+        c2.setxDeb(s.getX());
+        c2.setxFin(s.getX());
+        c2.setyDeb(s.getY());
+        c2.setyFin(s.getY()+1);
         reponse=c2.poserCanal(s,listCanalPose);
         // xdeb et ydeb de c2 = x et y de la source
         assertTrue(reponse);
