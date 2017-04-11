@@ -124,6 +124,8 @@ public class JUnitSantiago {
         Canal c = new Canal();
         Canal c2 = new Canal();
         Source s = new Source();
+        s.setX(2);
+        s.setY(2);
         List<Canal> listCanalPose=new LinkedList();
         c.setxDeb(0);
         c.setxFin(1);
@@ -136,8 +138,41 @@ public class JUnitSantiago {
         c2.setyDeb(0);
         c2.setyFin(0);
 
-        reponse =c2.poserCanal(s,listCanalPose);
+        reponse=c2.poserCanal(s,listCanalPose);
+        //canal c2 = canal c
         assertFalse(reponse);
 
+        c2.setxDeb(2);
+        c2.setxFin(3);
+        c2.setyDeb(2);
+        c2.setyFin(2);
+        reponse=c2.poserCanal(s,listCanalPose);
+        // xdeb et ydeb de c2 = x et y de la source
+        assertTrue(reponse);
+
+        c2.setxDeb(1);
+        c2.setyDeb(0);
+        c2.setxFin(2);
+        c2.setyFin(0);
+        reponse=c2.poserCanal(s,listCanalPose);
+        //xdeb et ydeb c2 = xfin et yfin de c
+        assertTrue(reponse);
+
+        c2.setxDeb(0);
+        c2.setyDeb(0);
+        c2.setxFin(0);
+        c2.setyFin(1);
+        reponse=c2.poserCanal(s,listCanalPose);
+        // xdeb et ydeb c2 = xdeb et ydeb c
+        assertTrue(reponse);
+
+
+        c2.setxDeb(1);
+        c2.setyDeb(0);
+        c2.setxFin(3);
+        c2.setyFin(5);
+        reponse=c2.poserCanal(s,listCanalPose);
+        // canal c2 non conforme
+        assertFalse(reponse);
     }
 }
