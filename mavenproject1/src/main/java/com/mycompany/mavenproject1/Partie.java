@@ -146,6 +146,7 @@ public class Partie {
                 }
             }
             enchere.put(joueur, valeurEnchere);
+            joueur.setSolde(joueur.getSolde()-Integer.parseInt(valeurEnchere));
         }
         return enchere;
     }
