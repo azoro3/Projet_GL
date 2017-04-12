@@ -53,9 +53,10 @@ public class PlateauController implements Initializable {
         plateau.add(img, Source.getInstance().getX(), Source.getInstance().getY());
     }
     
-
     public void phase1() {
+        /* PHASE 1 */
         // Initialisation d'une nouvelle partie
+        partie = new Partie();
         partie.initPartie();
         // On récupère la première tuile de chaque pile
         Tuiles[] tuiles = partie.getFirstCarte();
@@ -80,15 +81,14 @@ public class PlateauController implements Initializable {
         
         Map<Joueur, String> enchere = partie.faireUneEnchere();
         
-        // Phase 2
+        /* PHASE 2 */
         partie.changerConstructeur(enchere);
-
+        
         dragAndDrop(tuile1);
         dragAndDrop(tuile2);
         dragAndDrop(tuile3);
         dragAndDrop(tuile4);
         dragAndDrop(tuile5);
-        
         
         /*
         for (int i = 0; i <= 3; i++) {

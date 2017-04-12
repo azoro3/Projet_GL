@@ -137,7 +137,7 @@ public class Partie {
         this.listeJoueurs.addAll(lTemp);
 //      enchères des joueurs
         for (final Joueur joueur : this.listeJoueurs) {
-            String valeurEnchere = JOptionPane.showInputDialog("Faites votre enchères ! :");
+            String valeurEnchere = JOptionPane.showInputDialog(joueur.getNom() + ", faites votre enchère !");
             while (enchere.values().contains(valeurEnchere)) {
                 if ("Passe".equals(valeurEnchere)) {
                     enchere.put(joueur, valeurEnchere);
