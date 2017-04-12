@@ -160,6 +160,10 @@ public class Partie {
         }
     }
     
+    public void placerTuile(List<Tuiles> lTuile){
+        
+    }
+    
     /**
      * 
      * @return getters
