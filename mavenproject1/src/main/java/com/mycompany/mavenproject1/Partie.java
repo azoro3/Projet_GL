@@ -107,41 +107,43 @@ public class Partie {
      */
     public Tuiles[] getFirstCarte() {
         Tuiles[] t = new Tuiles[5];
-        t[0]=this.pile1.get(0);
-        t[1]=this.pile2.get(0);
-        t[2]=this.pile3.get(0);
-        t[3]=this.pile4.get(0);
-        t[4]=this.pile5.get(0);
-        return null;
-            
-        }
+        t[0] = this.pile1.get(0);
+        t[1] = this.pile2.get(0);
+        t[2] = this.pile3.get(0);
+        t[3] = this.pile4.get(0);
+        t[4] = this.pile5.get(0);
+        return t;
+    }
+    
     /**
      * 
      * @return un hasmap avec les différentes mises des joueurs
      */
-    public Map<Joueur,String> faireUneEnchere(){
-        Map<Joueur,String> enchere = new HashMap<>();
+    public Map<Joueur, String> faireUneEnchere() {
+        Map<Joueur, String> enchere = new HashMap<>();
 //      fonction pour trier les joueurs dans le sens des enchères.
-        boolean tri = false; int i=0;
-        ArrayList<Joueur> lTemp=null;
-        while(!tri){
-          if(this.listeJoueurs.get(i).isEstConstructeur())  {
-              for(int j=0;j<=i;j++){
-                  lTemp.add(this.listeJoueurs.remove(j));
-              }
-          }
-          i++;
+        boolean tri = false;
+        int i = 0;
+        ArrayList<Joueur> lTemp = new ArrayList<>();
+        while (!tri) {
+            if (this.listeJoueurs.get(i).isEstConstructeur()) {
+                for (int j = 0; j <= i; j++) {
+                    lTemp.add(this.listeJoueurs.remove(j));
+                }
+                tri = true;
+            }
+            i++;
         }
         this.listeJoueurs.addAll(lTemp);
 //      enchères des joueurs
-        for(final Joueur joueur : this.listeJoueurs){
+        for (final Joueur joueur : this.listeJoueurs) {
             String valeurEnchere = JOptionPane.showInputDialog("Faites votre enchères ! :");
-            while(enchere.values().contains(valeurEnchere)){
-                if("Passe".equals(valeurEnchere)){
-                    enchere.put(joueur, valeurEnchere);break;
-                }
-                else{
-                     valeurEnchere = JOptionPane.showInputDialog("Quelqu'un à déjà miser cette somme, faites une autre enchères ! :");                
+            while (enchere.values().contains(valeurEnchere)) {
+                if ("Passe".equals(valeurEnchere)) {
+                    enchere.put(joueur, valeurEnchere);
+                    break;
+                } else {
+                    valeurEnchere = JOptionPane.showInputDialog("Quelqu'un à déjà miser cette somme, faites une autre enchères ! :");
                 }
             }
             enchere.put(joueur, valeurEnchere);
