@@ -73,20 +73,11 @@ public class PlateauController implements Initializable {
         
             //phase 2
             Map<Joueur, String> enchere = partie.faireUneEnchere();
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> b7e40534d323620accb29a46337b1751db58028e
             partie.changerConstructeur(enchere);
             int choixCarte=Integer.parseInt(JOptionPane.showInputDialog("choisissez votre carte ! :"));
             Tuiles tuile = tuiles[choixCarte];
             int choixX=Integer.parseInt(JOptionPane.showInputDialog("choisissez la colonne ou pacer votre carte ! :"));
             int choixY=Integer.parseInt(JOptionPane.showInputDialog("choisissez la ligne ou placez votre carte ! :"));
-<<<<<<< HEAD
-=======
-=======
->>>>>>> f6aeed3474dc9f24e68e63dca4d7eb25cd6e1585
->>>>>>> b7e40534d323620accb29a46337b1751db58028e
         }
     }
 
