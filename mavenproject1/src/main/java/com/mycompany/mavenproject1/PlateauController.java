@@ -5,6 +5,7 @@ import com.mycompany.mavenproject1.Jeu.Plateau.Source;
 import com.mycompany.mavenproject1.Jeu.Tuiles;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -41,33 +42,39 @@ public class PlateauController implements Initializable {
         // Placement aléatoire de la source
         plateau.add(img, Source.getInstance().getX(), Source.getInstance().getY());
     }
+    static Partie partie = new Partie();
 
     public void phase1() {
         // Initialisation d'une nouvelle partie
-        Partie partie = new Partie();
+        
         partie.initPartie();
-
+        for (int i=0;i<=3;i++){
         // On récupère la première tuile de chaque pile
-        Tuiles[] tuiles = partie.getFirstCarte();
+            Tuiles[] tuiles = partie.getFirstCarte();
 
-        // On affiche la première tuile
-        mettreImage(tuile1, tuiles[0].getType(), tuiles[0].getNbTravailleurs());
-        mettreImage(tuile2, tuiles[1].getType(), tuiles[1].getNbTravailleurs());
-        mettreImage(tuile3, tuiles[2].getType(), tuiles[2].getNbTravailleurs());
-        mettreImage(tuile4, tuiles[3].getType(), tuiles[3].getNbTravailleurs());
-        mettreImage(tuile5, tuiles[4].getType(), tuiles[4].getNbTravailleurs());
+            // On affiche la première tuile
+            mettreImage(tuile1, tuiles[0].getType(), tuiles[0].getNbTravailleurs());
+            mettreImage(tuile2, tuiles[1].getType(), tuiles[1].getNbTravailleurs());
+            mettreImage(tuile3, tuiles[2].getType(), tuiles[2].getNbTravailleurs());
+            mettreImage(tuile4, tuiles[3].getType(), tuiles[3].getNbTravailleurs());
+            mettreImage(tuile5, tuiles[4].getType(), tuiles[4].getNbTravailleurs());
 
-        // Affichage des informations sur les joueurs
-        listeJoueurs = partie.getListeJoueurs();
-        j1Nom.setText(listeJoueurs.get(0).getNom());
-        j1Couleur.setText(listeJoueurs.get(0).getCouleur());
-        j2Nom.setText(listeJoueurs.get(1).getNom());
-        j2Couleur.setText(listeJoueurs.get(1).getCouleur());
-        j3Nom.setText(listeJoueurs.get(2).getNom());
-        j3Couleur.setText(listeJoueurs.get(2).getCouleur());
-        j4Nom.setText(listeJoueurs.get(3).getNom());
-        j4Couleur.setText(listeJoueurs.get(3).getCouleur());
+            // Affichage des informations sur les joueurs
+            listeJoueurs = partie.getListeJoueurs();
+            j1Nom.setText(listeJoueurs.get(0).getNom());
+            j1Couleur.setText(listeJoueurs.get(0).getCouleur());
+            j2Nom.setText(listeJoueurs.get(1).getNom());
+            j2Couleur.setText(listeJoueurs.get(1).getCouleur());
+            j3Nom.setText(listeJoueurs.get(2).getNom());
+            j3Couleur.setText(listeJoueurs.get(2).getCouleur());
+            j4Nom.setText(listeJoueurs.get(3).getNom());
+            j4Couleur.setText(listeJoueurs.get(3).getCouleur());
+        
+            //phase 2
+            Map<Joueur, String> enchere = partie.faireUneEnchere();
+        }
     }
+
 
     private void mettreImage(ImageView tuile, String type, int nbTravailleurs) {
         Image image;
