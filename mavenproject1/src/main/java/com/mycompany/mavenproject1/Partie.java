@@ -180,7 +180,6 @@ public class Partie {
 //      enchères des joueurs
         for(final Joueur joueur : ltemp) {
             int valeurEnchere = Integer.parseInt(JOptionPane.showInputDialog("Faites votre enchères ! :"));
-
             while (true) {
                 //verifie que la personne ne passe pas son tour
                 if(valeurEnchere>0) {
@@ -188,7 +187,6 @@ public class Partie {
                     if(joueur.getSolde()>=valeurEnchere) {
                         //verifie que personne n'ai misé cela avant
                         if (!joueurEncher.values().contains(valeurEnchere)) {
-
                             int xdeb = Integer.parseInt(JOptionPane.showInputDialog("définir la coordonées x de depart du canal ! :"));
                             int ydeb = Integer.parseInt(JOptionPane.showInputDialog("définir la coordonées y de depart du canal ! :"));
                             int xfin = Integer.parseInt(JOptionPane.showInputDialog("définir la coordonées x de fin du canal ! :"));
@@ -232,9 +230,7 @@ public class Partie {
                     break;
                 }
             }
-
         }
-
         //afficher la valeur du meilleur joueur pour que le creuseur prenne sa decision (suivre la meilleur proposition on creuser lui meme) en FX AFAIRE /!\
         String reponse;
         //verifie si les joueurs n'ont pas tous passés
