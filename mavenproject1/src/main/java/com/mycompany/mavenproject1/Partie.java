@@ -5,12 +5,10 @@
  */
 package com.mycompany.mavenproject1;
 
-import com.mycompany.mavenproject1.Jeu.Factory.CanalFactory;
 import com.mycompany.mavenproject1.Jeu.*;
+import com.mycompany.mavenproject1.Jeu.Factory.CanalFactory;
 import com.mycompany.mavenproject1.Jeu.Factory.TuilesFactory;
-import com.mycompany.mavenproject1.Jeu.Plateau.Parcelle;
 import com.mycompany.mavenproject1.Jeu.Plateau.Source;
-
 import java.util.*;
 import javax.swing.JOptionPane;
 
@@ -28,6 +26,7 @@ public class Partie {
     private List<Canal> listeCanal =new LinkedList();
     private List<Canal> listeCanalPose = new LinkedList<>();
     private Source s;
+    
    /**
     * fonction de création d'une partie
     */
@@ -138,7 +137,7 @@ public class Partie {
 //      enchères des joueurs
         for (final Joueur joueur : this.listeJoueurs) {
             String valeurEnchere = JOptionPane.showInputDialog(joueur.getNom() + ", faites votre enchère !");
-            while (enchere.values().contains(valeurEnchere) || Integer.parseInt(valeurEnchere)>=joueur.getSolde()) {
+            while (enchere.values().contains(valeurEnchere) /*|| Integer.parseInt(valeurEnchere)>=joueur.getSolde()*/) {
                 if ("Passe".equals(valeurEnchere)) {
                     enchere.put(joueur, valeurEnchere);
                     break;
@@ -147,155 +146,25 @@ public class Partie {
                 }
             }
             enchere.put(joueur, valeurEnchere);
-            joueur.setSolde(joueur.getSolde()-Integer.parseInt(valeurEnchere));
+            if(!valeurEnchere.equals("Passe")){
+                joueur.setSolde(joueur.getSolde()-Integer.parseInt(valeurEnchere));
+            }
         }
         return enchere;
     }
+    
     /**
      * 
      * @param enchere map avec les enchère de chaque joueurs
      */
-    public void changerConstructeur(Map<Joueur,String> enchere){
+    public void changerConstructeur(Map<Joueur, String> enchere) {
         for (Map.Entry<Joueur, String> pair : enchere.entrySet()) {
-            if(pair.getValue().equals("Passe")){
-                pair.getKey().setEstConstructeur(true);break;
+            if (pair.getValue().equals("Passe")) {
+                pair.getKey().setEstConstructeur(true);
+                break;
             }
         }
     }
-
-    public void soudoyerConstructeur(){
-
-        Map<Joueur,Integer> joueurEncher = new HashMap<>();
-        Map<Integer,Joueur> encherJoueur = new HashMap<>();
-        Map<Joueur,Canal> joueurCanal = new HashMap<>();
-        Joueur meilleurJoueur=null;
-        Joueur creuseur= null;
-        ArrayList<Joueur> ltemp = this.listeJoueurs;
-//      enlever le constructeur
-        for(int i=0; i<=ltemp.size()-1;i++) {
-            if (ltemp.get(i).isEstConstructeur()) {
-                creuseur=ltemp.get(i);
-                    ltemp.remove(i);
-            }
-        }
-//      enchères des joueurs
-        for(final Joueur joueur : ltemp) {
-            int valeurEnchere = Integer.parseInt(JOptionPane.showInputDialog("Faites votre enchères ! :"));
-            while (true) {
-                //verifie que la personne ne passe pas son tour
-                if(valeurEnchere>0) {
-                    //verifie que la personne ait bien l'argent pour la mise
-                    if(joueur.getSolde()>=valeurEnchere) {
-                        //verifie que personne n'ai misé cela avant
-                        if (!joueurEncher.values().contains(valeurEnchere)) {
-                            int xdeb = Integer.parseInt(JOptionPane.showInputDialog("définir la coordonées x de depart du canal ! :"));
-                            int ydeb = Integer.parseInt(JOptionPane.showInputDialog("définir la coordonées y de depart du canal ! :"));
-                            int xfin = Integer.parseInt(JOptionPane.showInputDialog("définir la coordonées x de fin du canal ! :"));
-                            int yfin = Integer.parseInt(JOptionPane.showInputDialog("définir la coordonées y de fin du canal ! :"));
-                            Canal c = new Canal(xdeb, ydeb, xfin, yfin);
-                            while (!c.poserCanal(s, listeCanalPose)) {
-                                xdeb = Integer.parseInt(JOptionPane.showInputDialog("mauvaise coordonées x de depart du canal ! :"));
-                                ydeb = Integer.parseInt(JOptionPane.showInputDialog("mauvaise coordonées y de depart du canal ! :"));
-                                xfin = Integer.parseInt(JOptionPane.showInputDialog("mauvaise coordonées x de fin du canal ! :"));
-                                yfin = Integer.parseInt(JOptionPane.showInputDialog("mauvaise coordonées y de fin du canal ! :"));
-                                c = new Canal(xdeb, ydeb, xfin, yfin);
-                            }
-
-                            encherJoueur.put(valeurEnchere, joueur);
-                            joueurEncher.put(joueur, valeurEnchere);
-
-                            //AFAIRE afficher chaque canal (que la personne souhaite creuser) de chaque joueur de la couleur de celui ci EN FX
-                            joueurCanal.put(joueur, c);
-
-                            Iterator it = joueurEncher.values().iterator();
-                            int sup = -1;
-                            // prendre le meilleur joueur par rapport a toutes les encheres
-                            while (it.hasNext()) {
-                                int val = (int) it.next();
-                                if (val > sup) {
-                                    sup = val;
-                                }
-                            }
-
-                            if (sup == -1 || joueur == encherJoueur.get(sup)) {
-                                meilleurJoueur = joueur;
-                            }
-                            break;
-                        } else {
-                            valeurEnchere = Integer.parseInt(JOptionPane.showInputDialog("Quelqu'un à déjà miser cette somme, faites une autre enchères ! :"));
-                        }
-                    }else{
-                        valeurEnchere = Integer.parseInt(JOptionPane.showInputDialog("Vous n'avez pas assez d'argent pour une telle enchere ! :"));
-                    }
-                }else{
-                    break;
-                }
-            }
-        }
-        //afficher la valeur du meilleur joueur pour que le creuseur prenne sa decision (suivre la meilleur proposition on creuser lui meme) en FX AFAIRE /!\
-        String reponse;
-        //verifie si les joueurs n'ont pas tous passés
-        if (meilleurJoueur!=null) {
-            //afficher la valeur du meilleur joueur pour que le creuseur prenne sa decision
-            // (suivre la meilleur proposition on creuser lui meme) en FX AFAIRE a la place du sysout/!\
-            System.out.println("meilleur joueur :" + meilleurJoueur.getNom() + "enchere de :" + joueurEncher.get(meilleurJoueur) +
-                    "position canal xdeb: " + joueurCanal.get(meilleurJoueur).getxDeb() + " ydeb : " + joueurCanal.get(meilleurJoueur).getyDeb() + " xfin : " + joueurCanal.get(meilleurJoueur).getxFin() +
-                    " yfin : " + joueurCanal.get(meilleurJoueur).getyFin());
-
-            reponse = JOptionPane.showInputDialog("Voulez-vous prendre la meilleur enchere ? oui/non");
-            while (!reponse.equals("OUI") && !reponse.equals("NON") && !reponse.equals("non") && !reponse.equals("oui") && !reponse.equals("o") && !reponse.equals("n")) {
-                reponse = JOptionPane.showInputDialog("Voulez-vous prendre la meilleur enchere ? oui/non");
-            }
-
-            if (reponse.equals("oui") || reponse.equals("OUI") || reponse.equals("o")) {
-                // si le creuseur choisit de suivre le meilleur joueur il gagne la mise et creuse dans le sens de ce joueur
-                listeCanalPose.add(joueurCanal.get(meilleurJoueur));
-                creuseur.setSolde(creuseur.getSolde() + joueurEncher.get(meilleurJoueur));
-                meilleurJoueur.setSolde(meilleurJoueur.getSolde() - joueurEncher.get(meilleurJoueur));
-            } else {
-                //sinon il creuse ou il veut mais paye un de plus que le meilleur joueur
-                if (creuseur.getSolde() >= joueurEncher.get(meilleurJoueur) + 1) {
-                    int xdeb = Integer.parseInt(JOptionPane.showInputDialog("définir la coordonées x de depart du canal ! :"));
-                    int ydeb = Integer.parseInt(JOptionPane.showInputDialog("définir la coordonées y de depart du canal ! :"));
-                    int xfin = Integer.parseInt(JOptionPane.showInputDialog("définir la coordonées x de fin du canal ! :"));
-                    int yfin = Integer.parseInt(JOptionPane.showInputDialog("définir la coordonées y de fin du canal ! :"));
-                    Canal c = new Canal(xdeb, ydeb, xfin, yfin);
-                    while (!c.poserCanal(s, listeCanalPose)) {
-                        xdeb = Integer.parseInt(JOptionPane.showInputDialog("mauvaise coordonées x de depart du canal ! :"));
-                        ydeb = Integer.parseInt(JOptionPane.showInputDialog("mauvaise coordonées y de depart du canal ! :"));
-                        xfin = Integer.parseInt(JOptionPane.showInputDialog("mauvaise coordonées x de fin du canal ! :"));
-                        yfin = Integer.parseInt(JOptionPane.showInputDialog("mauvaise coordonées y de fin du canal ! :"));
-                        c = new Canal(xdeb, ydeb, xfin, yfin);
-                    }
-                    listeCanalPose.add(c);
-                    creuseur.setSolde(creuseur.getSolde() - (joueurEncher.get(meilleurJoueur) + 1));
-                } else {
-                    listeCanalPose.add(joueurCanal.get(meilleurJoueur));
-                    creuseur.setSolde(creuseur.getSolde() + joueurEncher.get(meilleurJoueur));
-                    meilleurJoueur.setSolde(meilleurJoueur.getSolde() - joueurEncher.get(meilleurJoueur));
-                }
-            }
-            //si les joueurs ont tous passés alors le creuseur decide lui meme
-        }else{
-            int xdeb = Integer.parseInt(JOptionPane.showInputDialog("définir la coordonées x de depart du canal ! :"));
-            int ydeb = Integer.parseInt(JOptionPane.showInputDialog("définir la coordonées y de depart du canal ! :"));
-            int xfin = Integer.parseInt(JOptionPane.showInputDialog("définir la coordonées x de fin du canal ! :"));
-            int yfin = Integer.parseInt(JOptionPane.showInputDialog("définir la coordonées y de fin du canal ! :"));
-            Canal c = new Canal(xdeb, ydeb, xfin, yfin);
-            while (!c.poserCanal(s, listeCanalPose)) {
-                xdeb = Integer.parseInt(JOptionPane.showInputDialog("mauvaise coordonées x de depart du canal ! :"));
-                ydeb = Integer.parseInt(JOptionPane.showInputDialog("mauvaise coordonées y de depart du canal ! :"));
-                xfin = Integer.parseInt(JOptionPane.showInputDialog("mauvaise coordonées x de fin du canal ! :"));
-                yfin = Integer.parseInt(JOptionPane.showInputDialog("mauvaise coordonées y de fin du canal ! :"));
-                c = new Canal(xdeb, ydeb, xfin, yfin);
-            }
-            listeCanalPose.add(c);
-        }
-    }
-    /**
-     *
-     * @return getters
-     */
 
     public ArrayList<Joueur> getListeJoueurs() {
         return listeJoueurs;
@@ -325,7 +194,8 @@ public class Partie {
         return listeCanal;
     }
 
-
-
+    public List<Canal> getListeCanalPose() {
+        return listeCanalPose;
+    }
 
 }

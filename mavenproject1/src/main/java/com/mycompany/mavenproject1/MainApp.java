@@ -32,10 +32,10 @@ public class MainApp extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        //launch(args);
-       Partie p = new Partie();
-       p.initPartie();;
-       p.soudoyerConstructeur();
+       launch(args);
+       //Partie p = new Partie();
+       //p.initPartie();;
+       //p.soudoyerConstructeur();
     }
 
 }
