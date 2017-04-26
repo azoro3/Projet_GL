@@ -37,6 +37,9 @@ public class PlateauController implements Initializable {
 
     @FXML
     private ImageView tuile1, tuile2, tuile3, tuile4, tuile5;
+    
+    @FXML
+    private Label posSource;
 
     @FXML
     private Label j1Nom, j1Couleur;
@@ -64,6 +67,10 @@ public class PlateauController implements Initializable {
         // Initialisation d'une nouvelle partie
         partie = new Partie();
         partie.initPartie();
+        
+        // Affichage de la position de la source
+        posSource.setText("x : " + Source.getInstance().getX() + " y : " + Source.getInstance().getY());
+        
         // On récupère la première tuile de chaque pile
         Tuiles[] tuiles = partie.getFirstCarte();
 
@@ -184,13 +191,6 @@ public class PlateauController implements Initializable {
                     + " xfin : " + joueurCanal.get(meilleurJoueur).getxFin() + " yfin : " + joueurCanal.get(meilleurJoueur).getyFin());
             offreDialog.showAndWait();
 
-            // TODO FX : à la place du sysout / afficher la valeur du meilleur joueur pour que le creuseur prenne sa decision
-            // (suivre la meilleur proposition on creuser lui meme)
-            /*
-            System.out.println("meilleur joueur :" + meilleurJoueur.getNom() + "enchere de :" + joueurEncher.get(meilleurJoueur)
-                    + "position canal xdeb: " + joueurCanal.get(meilleurJoueur).getxDeb() + " ydeb : " + joueurCanal.get(meilleurJoueur).getyDeb() + " xfin : " + joueurCanal.get(meilleurJoueur).getxFin()
-                    + " yfin : " + joueurCanal.get(meilleurJoueur).getyFin());
-             */
             reponse = JOptionPane.showInputDialog("Voulez-vous prendre la meilleur enchere ? oui/non");
             while (!reponse.equals("OUI") && !reponse.equals("NON") && !reponse.equals("non") && !reponse.equals("oui") && !reponse.equals("o") && !reponse.equals("n")) {
                 reponse = JOptionPane.showInputDialog("Voulez-vous prendre la meilleur enchere ? oui/non");
@@ -256,12 +256,12 @@ public class PlateauController implements Initializable {
 
         // Le canal est horizontal
         if (yDeb == yFin) {
-            plateau.add(new ImageView(canalHoriz), xDeb, yDeb);
+            plateau.add(new ImageView(canalHoriz), xDeb + 1, yDeb + 1);
         }
 
         // Le canal est vertical
         if (xDeb == xFin) {
-            plateau.add(new ImageView(canalVerti), xDeb, xFin);
+            plateau.add(new ImageView(canalVerti), xDeb + 1, yDeb + 1);
         }
     }
 

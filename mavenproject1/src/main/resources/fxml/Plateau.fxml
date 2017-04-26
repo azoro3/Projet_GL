@@ -754,27 +754,33 @@
                       </AnchorPane>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <Label layoutX="71.0" layoutY="18.0" text="Joueurs">
+                        <Label layoutX="75.0" layoutY="-5.0" text="Source" AnchorPane.topAnchor="0.0">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <Label layoutX="19.0" layoutY="48.0" text="Nom">
+                        <Label fx:id="posSource" layoutX="14.0" layoutY="27.0" />
+                        <Label layoutX="72.0" layoutY="56.0" text="Joueurs">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="14.0" layoutY="83.0" text="Nom">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font></Label>
-                        <Label layoutX="102.0" layoutY="48.0" text="Couleur">
+                        <Label layoutX="97.0" layoutY="83.0" text="Couleur">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font></Label>
-                        <Label fx:id="j1Nom" layoutX="19.0" layoutY="68.0" />
-                        <Label fx:id="j1Couleur" layoutX="102.0" layoutY="68.0" />
-                        <Label fx:id="j2Nom" layoutX="19.0" layoutY="88.0" />
-                        <Label fx:id="j2Couleur" layoutX="102.0" layoutY="88.0" />
-                        <Label fx:id="j3Nom" layoutX="19.0" layoutY="108.0" />
-                        <Label fx:id="j3Couleur" layoutX="102.0" layoutY="108.0" />
-                        <Label fx:id="j4Nom" layoutX="19.0" layoutY="128.0" />
-                        <Label fx:id="j4Couleur" layoutX="102.0" layoutY="128.0" />
+                        <Label fx:id="j1Nom" layoutX="14.0" layoutY="103.0" />
+                        <Label fx:id="j1Couleur" layoutX="97.0" layoutY="103.0" />
+                        <Label fx:id="j2Nom" layoutX="14.0" layoutY="123.0" />
+                        <Label fx:id="j2Couleur" layoutX="97.0" layoutY="123.0" />
+                        <Label fx:id="j3Nom" layoutX="14.0" layoutY="143.0" />
+                        <Label fx:id="j3Couleur" layoutX="97.0" layoutY="143.0" />
+                        <Label fx:id="j4Nom" layoutX="14.0" layoutY="163.0" />
+                        <Label fx:id="j4Couleur" layoutX="97.0" layoutY="163.0" />
                      </children>
                   </AnchorPane>
                </children>
