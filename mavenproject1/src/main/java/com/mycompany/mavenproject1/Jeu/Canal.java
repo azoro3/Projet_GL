@@ -62,36 +62,38 @@ public class Canal {
     }
 
     public Boolean poserCanal(Source s, List<Canal> listeCanalPose){
-        Boolean poser=false;
-        if(this.getxFin()-this.getxDeb() < -1 || this.getxFin()-this.getxDeb() > 1 || this.getyFin()-this.getyDeb() > 1 || this.getyFin()-this.getyDeb() < -1
+        Boolean poser=true;
+        if(this.getxFin()-this.getxDeb() < -3 || this.getxFin()-this.getxDeb() > 3 || this.getyFin()-this.getyDeb() > 3 || this.getyFin()-this.getyDeb() < -3
                 || (this.getxFin()-this.getxDeb()==0 && this.getyFin()-this.getyDeb()==0)){
             // mauvais canal d'une distance de plus de 1
             poser=false;
         }else {
-             if(this.xDeb  == s.getX() && this.yDeb ==s.getY() || this.xFin  == s.getX() && this.yFin ==s.getY())
-             {
-               // afficher le canal
-               poser=true;
-            }
-            for(int i=0; i==listeCanalPose.size()-1 ; i++){
+				 if(this.xDeb  == s.getX() && this.yDeb ==s.getY() || this.xFin  == s.getX() && this.yFin ==s.getY())
+				 {
+				   // afficher le canal
+				   poser=true;
+				}
+				for(int i=0; i==listeCanalPose.size()-1 ; i++){
 
-                if (this.xDeb == listeCanalPose.get(i).getxDeb() && this.yDeb == listeCanalPose.get(i).getyDeb()
-                        || this.xFin == listeCanalPose.get(i).getxFin() && this.yFin == listeCanalPose.get(i).getyFin()
-                        || this.xDeb == listeCanalPose.get(i).getxFin() && this.yDeb == listeCanalPose.get(i).getyFin()
-                        || this.xFin == listeCanalPose.get(i).getxDeb() && this.yFin == listeCanalPose.get(i).getyDeb()) {
-                    // afficher le canal
+					if (this.xDeb == listeCanalPose.get(i).getxDeb() && this.yDeb == listeCanalPose.get(i).getyDeb()
+							|| this.xFin == listeCanalPose.get(i).getxFin() && this.yFin == listeCanalPose.get(i).getyFin()
+							|| this.xDeb == listeCanalPose.get(i).getxFin() && this.yDeb == listeCanalPose.get(i).getyFin()
+							|| this.xFin == listeCanalPose.get(i).getxDeb() && this.yFin == listeCanalPose.get(i).getyDeb()) {
+							// afficher le canal
+							// condition si jamais poser passe a false durant la boucle
+							if(poser!=false){
+								poser = true;
+							}
+						}else {
+							if (this.xDeb == listeCanalPose.get(i).getxDeb() && this.yDeb == listeCanalPose.get(i).getyDeb()
+									&& this.xFin == listeCanalPose.get(i).getxFin() && this.yFin == listeCanalPose.get(i).getyFin()) {
+								poser = false;
+							}
+						
+						}
+					}
 
-                    poser = true;
-                }else {
-                    if (this.xDeb == listeCanalPose.get(i).getxDeb() && this.yDeb == listeCanalPose.get(i).getyDeb()
-                            && this.xFin == listeCanalPose.get(i).getxFin() && this.yFin == listeCanalPose.get(i).getyFin()) {
-                        poser = false;
-                    }
-                }
-            }
-
-
-        }
+			}
 
         return poser;
     }
