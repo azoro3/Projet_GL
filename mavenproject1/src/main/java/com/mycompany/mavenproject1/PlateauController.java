@@ -50,6 +50,9 @@ public class PlateauController implements Initializable {
     @FXML
     private Label j4Nom, j4Couleur;
     private ArrayList<Joueur> listeJoueurs;
+    
+    @FXML
+    private ImageView canalPropHoriz, canalPropVerti;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -69,7 +72,7 @@ public class PlateauController implements Initializable {
         partie.initPartie();
         
         // Affichage de la position de la source
-        posSource.setText("x : " + Source.getInstance().getX() + " y : " + Source.getInstance().getY());
+        posSource.setText("x : " + Source.getInstance().getX() + "\ny : " + Source.getInstance().getY());
         
         // On récupère la première tuile de chaque pile
         Tuiles[] tuiles = partie.getFirstCarte();
@@ -110,7 +113,11 @@ public class PlateauController implements Initializable {
         Joueur meilleurJoueur = null;
         Joueur creuseur = null;
         ArrayList<Joueur> ltemp = partie.getListeJoueurs();
-
+        
+        dragAndDropCanal(canalPropHoriz);
+        dragAndDropCanal(canalPropVerti);
+        
+        /*
         // enlever le constructeur
         for (int i = 0; i <= ltemp.size() - 1; i++) {
             if (ltemp.get(i).isEstConstructeur()) {
@@ -240,6 +247,7 @@ public class PlateauController implements Initializable {
             }
             listeCanalPose.add(c);
         }
+        */
     }
 
     /**
@@ -379,6 +387,61 @@ public class PlateauController implements Initializable {
             public void handle(DragEvent event) {
                 if (event.getTransferMode() == TransferMode.MOVE) {
                     //source.setImage(new Image("/images/vide.jpg"));
+                    source.setVisible(false);
+                }
+                event.consume();
+            }
+        });
+    }
+
+    private void dragAndDropCanal(final ImageView source) {
+        // Drag un canal
+        source.setOnDragDetected(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Dragboard db = source.startDragAndDrop(TransferMode.MOVE);
+                ClipboardContent cbContent = new ClipboardContent();
+                cbContent.putImage(source.getImage());
+                db.setContent(cbContent);
+                event.consume();
+            }
+        });
+
+        // Accepter le drop sur la grille du plateau
+        plateau.setOnDragOver(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent event) {
+                if (event.getGestureSource() != plateau && event.getDragboard().hasImage()) {
+                    event.acceptTransferModes(TransferMode.MOVE);
+                }
+                event.consume();
+            }
+        });
+
+        // Drop un canal sur le plateau
+        plateau.setOnDragDropped(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent event) {
+                Dragboard db = event.getDragboard();
+                boolean success = false;
+                Node node = event.getPickResult().getIntersectedNode();
+                if (node != plateau && db.hasImage()) {
+                    Integer col = GridPane.getColumnIndex(node);
+                    Integer lig = GridPane.getRowIndex(node);
+                    //System.out.println(col + " " + lig);
+                    plateau.add(new ImageView(db.getImage()), col, lig);
+                    success = true;
+                }
+                event.setDropCompleted(success);
+                event.consume();
+            }
+        });
+
+        // Lorsque le canal est déposé sur le plateau, il n'est plus visible
+        source.setOnDragDone(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent event) {
+                if (event.getTransferMode() == TransferMode.MOVE) {
                     source.setVisible(false);
                 }
                 event.consume();

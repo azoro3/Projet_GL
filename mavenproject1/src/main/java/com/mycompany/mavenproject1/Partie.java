@@ -10,6 +10,8 @@ import com.mycompany.mavenproject1.Jeu.Factory.CanalFactory;
 import com.mycompany.mavenproject1.Jeu.Factory.TuilesFactory;
 import com.mycompany.mavenproject1.Jeu.Plateau.Source;
 import java.util.*;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.ChoiceDialog;
 import javax.swing.JOptionPane;
 
 /**
@@ -39,8 +41,21 @@ public class Partie {
         
         for (int i = 0; i <= 3; i++) {
             String nomJ = JOptionPane.showInputDialog("Nom du joueur :");
-//      modifier l'attribut couleur
-            String couleurJ = JOptionPane.showInputDialog("Choisissez votre couleur :");
+            
+            // Choisir la couleur
+            String[] colors = {"Vert", "Jaune", "Orange", "Rouge"};
+            String couleurJ = "";
+            ChoiceDialog<String> cDial = new ChoiceDialog<>(colors[2], colors);
+            cDial.setTitle("Choisissez votre couleur");
+            cDial.setHeaderText(null);
+            cDial.setContentText("Couleurs :");
+            cDial.getDialogPane().lookupButton(ButtonType.CANCEL).disableProperty();
+            Optional<String> selection = cDial.showAndWait();
+            if (selection.isPresent()) {
+                couleurJ = selection.get();
+            }
+            
+            //couleurJ = JOptionPane.showInputDialog("Choisissez votre couleur :");
             Joueur J = new Joueur(nomJ, couleurJ, 10, 22);
             CanalJ c = new CanalJ(couleurJ);
             this.listeJoueurs.add(J);
