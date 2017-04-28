@@ -10,8 +10,17 @@ import com.mycompany.mavenproject1.Jeu.Factory.CanalFactory;
 import com.mycompany.mavenproject1.Jeu.Factory.TuilesFactory;
 import com.mycompany.mavenproject1.Jeu.Plateau.Source;
 import java.util.*;
+import javafx.collections.FXCollections;
+import javafx.geometry.Insets;
+import javafx.scene.Node;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.ChoiceDialog;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
+import javafx.util.Pair;
 import javax.swing.JOptionPane;
 
 /**
@@ -19,13 +28,14 @@ import javax.swing.JOptionPane;
  * @author Arthur
  */
 public class Partie {
+    
     private ArrayList<Joueur> listeJoueurs;
-    private List<Tuiles> pile1 =new LinkedList();
-    private List<Tuiles> pile2 =new LinkedList();
-    private List<Tuiles> pile3 =new LinkedList();
-    private List<Tuiles> pile4 =new LinkedList();
-    private List<Tuiles> pile5 =new LinkedList();
-    private List<Canal> listeCanal =new LinkedList();
+    private List<Tuiles> pile1 = new LinkedList();
+    private List<Tuiles> pile2 = new LinkedList();
+    private List<Tuiles> pile3 = new LinkedList();
+    private List<Tuiles> pile4 = new LinkedList();
+    private List<Tuiles> pile5 = new LinkedList();
+    private List<Canal> listeCanal = new LinkedList();
     private List<Canal> listeCanalPose = new LinkedList<>();
     private Source s;
     
@@ -40,22 +50,56 @@ public class Partie {
         this.listeJoueurs = new ArrayList();
         
         for (int i = 0; i <= 3; i++) {
-            String nomJ = JOptionPane.showInputDialog("Nom du joueur :");
-            
-            // Choisir la couleur
-            String[] colors = {"Vert", "Jaune", "Orange", "Rouge"};
+            // Le joueur doit choisir son nom et sa couleur
+            String nomJ = "";
             String couleurJ = "";
-            ChoiceDialog<String> cDial = new ChoiceDialog<>(colors[2], colors);
-            cDial.setTitle("Choisissez votre couleur");
-            cDial.setHeaderText(null);
-            cDial.setContentText("Couleurs :");
-            cDial.getDialogPane().lookupButton(ButtonType.CANCEL).disableProperty();
-            Optional<String> selection = cDial.showAndWait();
-            if (selection.isPresent()) {
-                couleurJ = selection.get();
-            }
+            Dialog<Pair<String, String>> dialog = new Dialog<>();
+            dialog.setTitle("Informations joueurs");
+            dialog.setHeaderText("Choisissez vos informations.");
             
-            //couleurJ = JOptionPane.showInputDialog("Choisissez votre couleur :");
+            ButtonType okButtonType = new ButtonType("OK", ButtonData.OK_DONE);
+            dialog.getDialogPane().getButtonTypes().addAll(okButtonType);
+            
+            GridPane grid = new GridPane();
+            grid.setHgap(10);
+            grid.setVgap(10);
+            grid.setPadding(new Insets(20, 150, 10, 10));
+
+            // Champ pour le nom
+            TextField nom = new TextField();
+            nom.setPromptText("Nom");
+            // Liste de choix de couleur
+            ChoiceBox couleur = new ChoiceBox(FXCollections.observableArrayList("Vert", "Jaune", "Orange", "Rouge"));
+            couleur.getSelectionModel().selectFirst();
+            
+            grid.add(new Label("Nom :"), 0, 0);
+            grid.add(nom, 1, 0);
+            grid.add(new Label("Couleur :"), 0, 1);
+            grid.add(couleur, 1, 1);
+            
+            // Active/désactive le bouton OK si le champ Nom est complété
+            Node okButton = dialog.getDialogPane().lookupButton(okButtonType);
+            okButton.setDisable(true);
+            nom.textProperty().addListener((observable, oldValue, newValue) -> {
+                okButton.setDisable(newValue.trim().isEmpty());
+            });
+            
+            dialog.getDialogPane().setContent(grid);
+            
+            // Conversion du résultat en une paire de string lorsque le bouton OK est cliqué
+            dialog.setResultConverter(dialogButton -> {
+                if (dialogButton == okButtonType) {
+                    return new Pair<>(nom.getText(), (String) couleur.getSelectionModel().getSelectedItem());
+                }
+                return null;
+            });
+            
+            Optional<Pair<String, String>> result = dialog.showAndWait();
+            if(result.isPresent()){
+                nomJ = result.get().getKey();
+                couleurJ = result.get().getValue();
+            }
+
             Joueur J = new Joueur(nomJ, couleurJ, 10, 22);
             CanalJ c = new CanalJ(couleurJ);
             this.listeJoueurs.add(J);
