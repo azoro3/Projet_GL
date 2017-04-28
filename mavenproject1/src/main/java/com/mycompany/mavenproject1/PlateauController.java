@@ -62,7 +62,7 @@ public class PlateauController implements Initializable {
         plateau.add(img, Source.getInstance().getX(), Source.getInstance().getY());
     }
 
-    public void phase1() {
+    public void phase1() throws InterruptedException {
         /* PHASE 1 */
         // Initialisation d'une nouvelle partie
         partie = new Partie();
@@ -240,6 +240,7 @@ public class PlateauController implements Initializable {
             }
             listeCanalPose.add(c);
         }
+        
     }
 
     /**
@@ -317,6 +318,7 @@ public class PlateauController implements Initializable {
                 tuile.setImage(image);
                 break;
         }
+        
     }
 
     /**
@@ -380,10 +382,50 @@ public class PlateauController implements Initializable {
                 if (event.getTransferMode() == TransferMode.MOVE) {
                     //source.setImage(new Image("/images/vide.jpg"));
                     source.setVisible(false);
+                    
                 }
                 event.consume();
             }
         });
     }
-
+    /*PHASE 4*/
+    /**
+     * 
+     * @param tuiles liste des tuiles posée SUR le plateau
+     */
+    private void secheresse(Tuiles[] tuiles){
+        Tuiles t = tuiles[0];
+        t.setX((int) tuile1.getLayoutX());
+        t.setY((int) tuile1.getLayoutY());
+        partie.getTuilesJoue().add(t);
+        t = tuiles[1];
+        t.setX((int) tuile2.getLayoutX());
+        t.setY((int) tuile2.getLayoutY());
+        partie.getTuilesJoue().add(t);
+        t = tuiles[2];
+        t.setX((int) tuile3.getLayoutX());
+        t.setY((int) tuile3.getLayoutY());
+        partie.getTuilesJoue().add(t);
+        t = tuiles[3];
+        t.setX((int) tuile4.getLayoutX());
+        t.setY((int) tuile4.getLayoutY());
+        partie.getTuilesJoue().add(t);
+        t = tuiles[4];
+        t.setX((int) tuile5.getLayoutX());
+        t.setY((int) tuile5.getLayoutY());
+        partie.getTuilesJoue().add(t);
+        for(final Tuiles tu: partie.getTuilesJoue()){
+            for(final Canal c: partie.getListeCanalPose()){
+                if(tu.getX()-1==c.getxDeb()||tu.getX()+1==c.getxDeb()
+                  ||tu.getX()-1==c.getxFin()||tu.getX()+1==c.getxFin()
+                  ||tu.getY()-1==c.getyDeb()||tu.getY()+1==c.getyDeb()
+                  ||tu.getY()-1==c.getyFin()||tu.getY()+1==c.getyFin()){
+                  tu.setIrigue(true);break;
+                }
+            }
+            if(!tu.getIrigue()){
+                tu.setNbTravailleurs(tu.getNbTravailleurs()-1);
+            }
+        }
+    }
 }
