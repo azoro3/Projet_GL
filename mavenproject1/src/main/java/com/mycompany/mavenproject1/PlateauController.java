@@ -75,11 +75,11 @@ public class PlateauController implements Initializable {
         Tuiles[] tuiles = partie.getFirstCarte();
 
         // On affiche la première tuile
-        mettreImage(tuile1, tuiles[0].getType(), tuiles[0].getNbTravailleurs());
-        mettreImage(tuile2, tuiles[1].getType(), tuiles[1].getNbTravailleurs());
-        mettreImage(tuile3, tuiles[2].getType(), tuiles[2].getNbTravailleurs());
-        mettreImage(tuile4, tuiles[3].getType(), tuiles[3].getNbTravailleurs());
-        mettreImage(tuile5, tuiles[4].getType(), tuiles[4].getNbTravailleurs());
+        mettreImage(tuile1, tuiles[0].getType(), tuiles[0].getNbTravailleurs(),-1,-1);
+        mettreImage(tuile2, tuiles[1].getType(), tuiles[1].getNbTravailleurs(),-1,-1);
+        mettreImage(tuile3, tuiles[2].getType(), tuiles[2].getNbTravailleurs(),-1,-1);
+        mettreImage(tuile4, tuiles[3].getType(), tuiles[3].getNbTravailleurs(),-1,-1);
+        mettreImage(tuile5, tuiles[4].getType(), tuiles[4].getNbTravailleurs(),-1,-1);
 
         // Affichage des informations sur les joueurs
         listeJoueurs = partie.getListeJoueurs();
@@ -273,7 +273,7 @@ public class PlateauController implements Initializable {
      * @param type
      * @param nbTravailleurs
      */
-    private void mettreImage(ImageView tuile, String type, int nbTravailleurs) {
+    private void mettreImage(ImageView tuile, String type, int nbTravailleurs, int x, int y) {
         Image image;
 
         switch (type) {
@@ -315,7 +315,13 @@ public class PlateauController implements Initializable {
                 } else {
                     image = new Image(getClass().getResourceAsStream("/images/sucre2.png"));
                 }
-                tuile.setImage(image);
+                
+                if(x >=0){
+                    plateau.add(new ImageView(image),x,y);
+                } else {
+                    tuile.setImage(image);
+                }
+                
                 break;
         }
         
@@ -425,6 +431,13 @@ public class PlateauController implements Initializable {
             }
             if(!tu.getIrigue()){
                 tu.setNbTravailleurs(tu.getNbTravailleurs()-1);
+                if(tu.getNbTravailleurs()==0){
+                    Image desert = new Image(getClass().getResourceAsStream("/images/vide.jpg"));
+                    plateau.add(new ImageView(desert),tu.getX(),tu.getY());
+                }else
+                {
+                    mettreImage(null, tu.getType(), tu.getNbTravailleurs(),tu.getX(),tu.getY());
+                }
             }
         }
     }
