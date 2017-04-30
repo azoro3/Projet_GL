@@ -119,8 +119,8 @@ public class Partie {
      * 
      * @return un hasmap avec les différentes mises des joueurs
      */
-    public Map<Joueur, String> faireUneEnchere() {
-        Map<Joueur, String> enchere = new HashMap<>();
+    public Map<Joueur, Integer> faireUneEnchere() {
+        Map<Joueur, Integer> enchere = new HashMap<>();
 //      fonction pour trier les joueurs dans le sens des enchères.
         boolean tri = false; int i=0;
         ArrayList<Joueur> lTemp=new ArrayList<>();
@@ -136,19 +136,29 @@ public class Partie {
         this.listeJoueurs.addAll(lTemp);
 //      enchères des joueurs
         for (final Joueur joueur : this.listeJoueurs) {
-            String valeurEnchere = JOptionPane.showInputDialog(joueur.getNom() + ", faites votre enchère !");
-            while (enchere.values().contains(valeurEnchere) /*|| Integer.parseInt(valeurEnchere)>=joueur.getSolde()*/) {
-                if ("Passe".equals(valeurEnchere)) {
-                    enchere.put(joueur, valeurEnchere);
-                    break;
+            int valeurEnchere = Integer.parseInt(JOptionPane.showInputDialog(joueur.getNom() + ", faites votre enchère !"));
+            while (true) {
+                // verifie que la personne ne passe pas son tour
+                if (valeurEnchere > 0) {
+                    // verifie que la personne ait bien l'argent pour la mise
+                    if (joueur.getSolde() >= valeurEnchere) {
+                        // verifie que personne n'ai misé cela avant
+                        if (!enchere.values().contains(valeurEnchere)) {
+                            enchere.put(joueur,valeurEnchere);
+                            break;
+                        } else {
+                            valeurEnchere = Integer.parseInt(JOptionPane.showInputDialog("Quelqu'un à déjà miser cette somme, faites une autre enchères ! :"));
+                        }
+                    } else {
+                        valeurEnchere = Integer.parseInt(JOptionPane.showInputDialog("Vous n'avez pas assez d'argent pour une telle enchere ! :"));
+                    }
                 } else {
-                    valeurEnchere = JOptionPane.showInputDialog("Quelqu'un à déjà miser cette somme, faites une autre enchères ! :");
+                    valeurEnchere = Integer.parseInt(JOptionPane.showInputDialog("Pas d'enchere négative ! :"));
                 }
+
+
             }
-            enchere.put(joueur, valeurEnchere);
-            if(!valeurEnchere.equals("Passe")){
-                joueur.setSolde(joueur.getSolde()-Integer.parseInt(valeurEnchere));
-            }
+
         }
         return enchere;
     }
@@ -157,10 +167,20 @@ public class Partie {
      * 
      * @param enchere map avec les enchère de chaque joueurs
      */
-    public void changerConstructeur(Map<Joueur, String> enchere) {
-        for (Map.Entry<Joueur, String> pair : enchere.entrySet()) {
-            if (pair.getValue().equals("Passe")) {
-                pair.getKey().setEstConstructeur(true);
+    public void changerConstructeur(Map<Joueur, Integer> enchere) {
+        Iterator it = enchere.values().iterator();
+        int inf = -1;
+        // prendre le meilleur joueur par rapport a toutes les encheres
+        while (it.hasNext()) {
+            int val = (int) it.next();
+            if (val < inf) {
+                inf = val;
+            }
+        }
+        for (Map.Entry<Joueur, Integer> pair : enchere.entrySet()) {
+            if ( pair.getValue() == inf) {
+                Joueur CreuseurJoueur = pair.getKey();
+                CreuseurJoueur.setEstConstructeur(true);
                 break;
             }
         }

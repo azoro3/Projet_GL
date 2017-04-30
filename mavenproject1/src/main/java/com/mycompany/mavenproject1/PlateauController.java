@@ -62,7 +62,7 @@ public class PlateauController implements Initializable {
         plateau.add(img, Source.getInstance().getX(), Source.getInstance().getY());
     }
 
-    public void phase1() {
+    public void phase1() throws InterruptedException {
         /* PHASE 1 */
         // Initialisation d'une nouvelle partie
         partie = new Partie();
@@ -92,7 +92,7 @@ public class PlateauController implements Initializable {
         j4Nom.setText(listeJoueurs.get(3).getNom());
         j4Couleur.setText(listeJoueurs.get(3).getCouleur());
 
-        Map<Joueur, String> enchere = partie.faireUneEnchere();
+        Map<Joueur, Integer> enchere = partie.faireUneEnchere();
 
         /* PHASE 2 */
         partie.changerConstructeur(enchere);
@@ -102,7 +102,6 @@ public class PlateauController implements Initializable {
         dragAndDropTuile(tuile3);
         dragAndDropTuile(tuile4);
         dragAndDropTuile(tuile5);
-
         /* PHASE 3 */
         Map<Joueur, Integer> joueurEncher = new HashMap<>();
         Map<Integer, Joueur> encherJoueur = new HashMap<>();
@@ -238,7 +237,29 @@ public class PlateauController implements Initializable {
                 yfin = Integer.parseInt(JOptionPane.showInputDialog("mauvaise coordonées y de fin du canal ! :"));
                 c = new Canal(xdeb, ydeb, xfin, yfin);
             }
+            // AFFICHER LE CANAL QUI A ETE DECIDE A LA FIN EN FX ( il sagit de c)
             listeCanalPose.add(c);
+        }
+
+        /* PHASE 4 */
+        //pour tous joueurs
+        for (final Joueur joueur : ltemp) {
+            int xdeb = Integer.parseInt(JOptionPane.showInputDialog("définir la coordonées x de depart du canal ! :"));
+            int ydeb = Integer.parseInt(JOptionPane.showInputDialog("définir la coordonées y de depart du canal ! :"));
+            int xfin = Integer.parseInt(JOptionPane.showInputDialog("définir la coordonées x de fin du canal ! :"));
+            int yfin = Integer.parseInt(JOptionPane.showInputDialog("définir la coordonées y de fin du canal ! :"));
+            Canal c = new Canal(xdeb, ydeb, xfin, yfin);
+            while (!c.poserCanal(Source.getInstance(), listeCanalPose)) {
+                xdeb = Integer.parseInt(JOptionPane.showInputDialog("mauvaise coordonées x de depart du canal ! :"));
+                ydeb = Integer.parseInt(JOptionPane.showInputDialog("mauvaise coordonées y de depart du canal ! :"));
+                xfin = Integer.parseInt(JOptionPane.showInputDialog("mauvaise coordonées x de fin du canal ! :"));
+                yfin = Integer.parseInt(JOptionPane.showInputDialog("mauvaise coordonées y de fin du canal ! :"));
+                c = new Canal(xdeb, ydeb, xfin, yfin);
+            }
+            // AFFICHER LE CANAL QUI A ETE DECIDE A LA FIN EN FX ( il sagit de c)
+            listeCanalPose.add(c);
+
+
         }
     }
 
