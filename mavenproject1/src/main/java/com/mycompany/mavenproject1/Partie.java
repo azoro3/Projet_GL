@@ -9,6 +9,9 @@ import com.mycompany.mavenproject1.Jeu.*;
 import com.mycompany.mavenproject1.Jeu.Factory.CanalFactory;
 import com.mycompany.mavenproject1.Jeu.Factory.TuilesFactory;
 import com.mycompany.mavenproject1.Jeu.Plateau.Source;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 import javax.swing.JOptionPane;
 
@@ -165,6 +168,23 @@ public class Partie {
                 break;
             }
         }
+    }
+    public void saveScore(String filePath){
+        String res="{joueurs :[";
+        for(final Joueur j :this.listeJoueurs){
+            res+=j.toJSON()+",\n";
+        }
+        res=res.substring(-1);
+        res+="]}";
+        try{
+            FileWriter fw= new FileWriter(filePath);
+            BufferedWriter bw = new BufferedWriter(fw);  
+            bw.write(res);
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+        
     }
 
     public ArrayList<Joueur> getListeJoueurs() {
