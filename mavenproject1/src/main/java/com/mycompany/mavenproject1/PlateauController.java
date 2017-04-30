@@ -100,12 +100,12 @@ public class PlateauController implements Initializable {
         /* PHASE 2 */
         partie.changerConstructeur(enchere);
 
-        dragAndDropTuile(tuile1);
-        dragAndDropTuile(tuile2);
-        dragAndDropTuile(tuile3);
-        dragAndDropTuile(tuile4);
-        dragAndDropTuile(tuile5);
-
+        dragAndDrop(tuile1);
+        dragAndDrop(tuile2);
+        dragAndDrop(tuile3);
+        dragAndDrop(tuile4);
+        dragAndDrop(tuile5);
+        
         /* PHASE 3 */
         Map<Joueur, Integer> joueurEncher = new HashMap<>();
         Map<Integer, Joueur> encherJoueur = new HashMap<>();
@@ -121,10 +121,14 @@ public class PlateauController implements Initializable {
                 ltemp.remove(i);
             }
         }
-
+        
         // enchères des joueurs
         List<Canal> listeCanalPose = partie.getListeCanalPose();
         
+        dragAndDrop(canalPropHoriz);
+        dragAndDrop(canalPropVerti);
+        
+        /*
         for (final Joueur joueur : ltemp) {
             int valeurEnchere = Integer.parseInt(JOptionPane.showInputDialog(joueur.getNom() + ", faites votre enchère !"));
             while (true) {
@@ -242,6 +246,7 @@ public class PlateauController implements Initializable {
             }
             listeCanalPose.add(c);
         }
+        */
     }
 
     /**
@@ -278,12 +283,12 @@ public class PlateauController implements Initializable {
 
         // Le canal est horizontal
         if (yDeb == yFin) {
-            plateau.add(new ImageView(canalHoriz), xDeb + 1, yDeb + 1);
+            plateau.add(new ImageView(canalHoriz), xDeb + 1, yDeb);
         }
 
         // Le canal est vertical
         if (xDeb == xFin) {
-            plateau.add(new ImageView(canalVerti), xDeb + 1, yDeb + 1);
+            plateau.add(new ImageView(canalVerti), xDeb, yDeb + 1);
         }
     }
 
@@ -342,124 +347,89 @@ public class PlateauController implements Initializable {
     }
 
     /**
-     * Fonction qui gère le Drag and Drop des tuiles sur le plateau de jeu.
-     *
-     * @param source
+     * Fonction qui gère le Drag & Drop d'une image (soit une tuile, soit un canal) sur le plateau.
+     * @param source 
      */
-    private void dragAndDropTuile(final ImageView source) {
-        // Drag une des tuiles des piles
-        source.setOnDragDetected(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                Dragboard db = source.startDragAndDrop(TransferMode.MOVE);
-                ClipboardContent cbContent = new ClipboardContent();
-                cbContent.putImage(source.getImage());
-                db.setContent(cbContent);
-                event.consume();
-            }
+    private void dragAndDrop(final ImageView source) {
+        // Drag une image
+        source.setOnDragDetected((MouseEvent event) -> {
+            Dragboard db = source.startDragAndDrop(TransferMode.MOVE);
+            ClipboardContent cbContent = new ClipboardContent();
+            cbContent.putImage(source.getImage());
+            db.setContent(cbContent);
+            event.consume();
         });
 
         // Accepter le drop sur la grille du plateau
-        plateau.setOnDragOver(new EventHandler<DragEvent>() {
-            @Override
-            public void handle(DragEvent event) {
-                if (event.getGestureSource() != plateau && event.getDragboard().hasImage()) {
-                    event.acceptTransferModes(TransferMode.MOVE);
-                }
-                event.consume();
+        plateau.setOnDragOver((DragEvent event) -> {
+            if (event.getGestureSource() != plateau && event.getDragboard().hasImage()) {
+                event.acceptTransferModes(TransferMode.MOVE);
             }
+            event.consume();
         });
 
-        // Drop une tuile sur le plateau
-        plateau.setOnDragDropped(new EventHandler<DragEvent>() {
-            @Override
-            public void handle(DragEvent event) {
-                Dragboard db = event.getDragboard();
-                boolean success = false;
-                Node node = event.getPickResult().getIntersectedNode();
-                if (node != plateau && db.hasImage()) {
-                    Integer col = GridPane.getColumnIndex(node);
-                    Integer lig = GridPane.getRowIndex(node);
-
-                    // Certaines cases seulement peuvent accueillir des tuiles
+        // Drop une image sur le plateau
+        plateau.setOnDragDropped((DragEvent event) -> {
+            Dragboard db = event.getDragboard();
+            boolean success = false;
+            Node node = event.getPickResult().getIntersectedNode();
+            if (node != plateau && db.hasImage()) {
+                Integer col = GridPane.getColumnIndex(node);
+                Integer lig = GridPane.getRowIndex(node);
+                
+                // Bug lorsque col et lig sont à 0 (on obtient des valeurs à null au lieu de 0)
+                if(col == null){
+                    col = 0;
+                }
+                if(lig == null){
+                    lig = 0;
+                }
+                
+                //System.out.println("hauteur " + db.getImage().getHeight() + " largeur " + db.getImage().getWidth());
+                //System.out.println(col + " " + lig);
+                
+                // Cas d'une tuile
+                // TODO : vérifier que la tuile est près d'un canal irrigué
+                if (db.getImage().getHeight() == 100.0 && db.getImage().getWidth() == 100.0) {
                     if ((col == 1 || col == 2 || col == 4 || col == 5 || col == 7 || col == 8 || col == 10 || col == 11)
                             && (lig == 1 || lig == 2 || lig == 4 || lig == 5 || lig == 7 || lig == 8)) {
-                        //System.out.println(col + " " + lig);
                         plateau.add(new ImageView(db.getImage()), col, lig);
                         success = true;
                     }
-
                 }
-                event.setDropCompleted(success);
-                event.consume();
+                
+                // Cas d'un canal horizontal
+                // TODO : Vérifier que le canal est près de la source ou d'un autre canal
+                if (db.getImage().getHeight() == 10.0 && db.getImage().getWidth() == 100.0) {
+                    if ((col == 1 || col == 4 || col == 7 || col == 10)
+                            && (lig == 0 || lig == 3 || lig == 6 || lig == 9)) {
+                        plateau.add(new ImageView(db.getImage()), col, lig);
+                        plateau.add(new ImageView(db.getImage()), col + 1, lig);
+                        success = true;
+                    }
+                }
+
+                // Cas d'un canal vertical
+                // TODO : Vérifier que le canal est près de la source ou d'un autre canal
+                if (db.getImage().getHeight() == 100.0 && db.getImage().getWidth() == 10.0) {
+                    if ((col == 0 || col == 3 || col == 6 || col == 9 || col == 12)
+                            && (lig == 1 || lig == 4 || lig == 7)) {
+                        plateau.add(new ImageView(db.getImage()), col, lig);
+                        plateau.add(new ImageView(db.getImage()), col, lig + 1);
+                        success = true;
+                    }
+                }
             }
+            event.setDropCompleted(success);
+            event.consume();
         });
 
-        // Lorsque la tuile est déposée sur le plateau, elle n'est plus visible dans les piles
-        source.setOnDragDone(new EventHandler<DragEvent>() {
-            @Override
-            public void handle(DragEvent event) {
-                if (event.getTransferMode() == TransferMode.MOVE) {
-                    //source.setImage(new Image("/images/vide.jpg"));
-                    source.setVisible(false);
-                }
-                event.consume();
+        // Lorsque l'image est déposée sur le plateau, elle n'est plus visible
+        source.setOnDragDone((DragEvent event) -> {
+            if (event.getTransferMode() == TransferMode.MOVE) {
+                source.setVisible(false);
             }
-        });
-    }
-
-    private void dragAndDropCanal(final ImageView source) {
-        // Drag un canal
-        source.setOnDragDetected(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                Dragboard db = source.startDragAndDrop(TransferMode.MOVE);
-                ClipboardContent cbContent = new ClipboardContent();
-                cbContent.putImage(source.getImage());
-                db.setContent(cbContent);
-                event.consume();
-            }
-        });
-
-        // Accepter le drop sur la grille du plateau
-        plateau.setOnDragOver(new EventHandler<DragEvent>() {
-            @Override
-            public void handle(DragEvent event) {
-                if (event.getGestureSource() != plateau && event.getDragboard().hasImage()) {
-                    event.acceptTransferModes(TransferMode.MOVE);
-                }
-                event.consume();
-            }
-        });
-
-        // Drop un canal sur le plateau
-        plateau.setOnDragDropped(new EventHandler<DragEvent>() {
-            @Override
-            public void handle(DragEvent event) {
-                Dragboard db = event.getDragboard();
-                boolean success = false;
-                Node node = event.getPickResult().getIntersectedNode();
-                if (node != plateau && db.hasImage()) {
-                    Integer col = GridPane.getColumnIndex(node);
-                    Integer lig = GridPane.getRowIndex(node);
-                    //System.out.println(col + " " + lig);
-                    plateau.add(new ImageView(db.getImage()), col, lig);
-                    success = true;
-                }
-                event.setDropCompleted(success);
-                event.consume();
-            }
-        });
-
-        // Lorsque le canal est déposé sur le plateau, il n'est plus visible
-        source.setOnDragDone(new EventHandler<DragEvent>() {
-            @Override
-            public void handle(DragEvent event) {
-                if (event.getTransferMode() == TransferMode.MOVE) {
-                    source.setVisible(false);
-                }
-                event.consume();
-            }
+            event.consume();
         });
     }
 
