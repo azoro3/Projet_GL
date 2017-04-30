@@ -9,6 +9,9 @@ import com.mycompany.mavenproject1.Jeu.Factory.CanalFactory;
 import com.mycompany.mavenproject1.Jeu.*;
 import com.mycompany.mavenproject1.Jeu.Factory.TuilesFactory;
 import com.mycompany.mavenproject1.Jeu.Plateau.Source;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import java.util.*;
 
@@ -54,7 +57,6 @@ public class JUnitSantiago {
     @Test
     public void testNbTravailleurs() {
         Tuiles t = new Tuiles("piment");
-        System.out.println("nombre travailleures : " + t.getNbTravailleurs());
         assertTrue(t.getNbTravailleurs() < 3 && t.getNbTravailleurs() > 0);
 
     }
@@ -117,6 +119,28 @@ public class JUnitSantiago {
        assertEquals(9,pile4.size());
        assertEquals(9,pile5.size());
     }
+    
+    @DisplayName("test save score")
+    @Test
+    public void testSaveScore() throws IOException{
+        String res="{joueurs :[\n";
+        ArrayList<Joueur> listeJoueurs = new ArrayList<>();
+        Joueur J = new Joueur("Arthur", "Bleu", 10, 22);
+        listeJoueurs.add(J);
+        Joueur J2 = new Joueur("Manon", "Vert", 10, 22);
+        listeJoueurs.add(J2);
+        for(final Joueur j :listeJoueurs){
+            res+=j.toJSON()+",\r\n";
+        }
+        res=res.substring(0,(res.length()-3));
+        res+="]}";
+        FileWriter fw= new FileWriter("D:\\Arthur\\Documents\\Cours\\Prog\\M1 MIAGE\\Programme S8\\Projet_GL\\mavenproject1\\saveScore.json");
+        BufferedWriter bw = new BufferedWriter(fw);
+        bw.write(res);
+        bw.flush();
+        bw.close();
+    }
+    
     @DisplayName("testPoserCanal")
     @Test
     public void testPoserCanal() {

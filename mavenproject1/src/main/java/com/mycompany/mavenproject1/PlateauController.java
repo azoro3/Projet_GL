@@ -4,6 +4,9 @@ import com.mycompany.mavenproject1.Jeu.Canal;
 import com.mycompany.mavenproject1.Jeu.Joueur;
 import com.mycompany.mavenproject1.Jeu.Plateau.Source;
 import com.mycompany.mavenproject1.Jeu.Tuiles;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -60,6 +63,27 @@ public class PlateauController implements Initializable {
 
         // Placement aléatoire de la source
         plateau.add(img, Source.getInstance().getX(), Source.getInstance().getY());
+    }
+    
+    public void saveScore(){
+        String filePath="./saveScore.json";
+        String res="{joueurs :[\n";
+        for(final Joueur j :this.listeJoueurs){
+            res+=j.toJSON()+",\r\n";
+        }
+        res=res.substring(0,(res.length()-3));
+        res+="]}";
+        try{
+            FileWriter fw= new FileWriter("saveScore.json");
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(res);
+            bw.flush();
+            bw.close();
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+        
     }
 
     public void phase1() throws InterruptedException {

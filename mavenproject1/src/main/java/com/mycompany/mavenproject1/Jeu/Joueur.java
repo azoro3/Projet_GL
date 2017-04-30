@@ -74,7 +74,7 @@ public class Joueur {
     }
     public String toJSON(){
         int score=22-this.travailleurs+this.solde;
-        String joueurJSON ="{nom : "+this.nom+",couleur:"+this.couleur+",solde:"+this.solde+",score :"+score+"}";
+        String joueurJSON ="{nom : "+this.nom+",couleur:"+this.couleur+",solde:"+this.solde+",score:"+score+"}";
         return joueurJSON;
     }
     
