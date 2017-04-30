@@ -114,10 +114,6 @@ public class PlateauController implements Initializable {
         Joueur creuseur = null;
         ArrayList<Joueur> ltemp = partie.getListeJoueurs();
         
-        dragAndDropCanal(canalPropHoriz);
-        dragAndDropCanal(canalPropVerti);
-        
-        /*
         // enlever le constructeur
         for (int i = 0; i <= ltemp.size() - 1; i++) {
             if (ltemp.get(i).isEstConstructeur()) {
@@ -128,7 +124,7 @@ public class PlateauController implements Initializable {
 
         // enchères des joueurs
         List<Canal> listeCanalPose = partie.getListeCanalPose();
-
+        
         for (final Joueur joueur : ltemp) {
             int valeurEnchere = Integer.parseInt(JOptionPane.showInputDialog(joueur.getNom() + ", faites votre enchère !"));
             while (true) {
@@ -156,9 +152,8 @@ public class PlateauController implements Initializable {
 
                             joueurCanal.put(joueur, c);
                             // Affichage de chaque canal proposé par les joueurs sur le plateau de jeu
-                            // TODO : il faut encore gérer les couleurs (pour l'instant ils sont tous verts)
                             for (Map.Entry<Joueur, Canal> prop : joueurCanal.entrySet()) {
-                                afficherPropositionCanal(prop.getValue().getxDeb(), prop.getValue().getyDeb(), prop.getValue().getxFin(), prop.getValue().getyFin());
+                                afficherPropositionCanal(prop.getKey().getCouleur(), prop.getValue().getxDeb(), prop.getValue().getyDeb(), prop.getValue().getxFin(), prop.getValue().getyFin());
                             }
 
                             Iterator it = joueurEncher.values().iterator();
@@ -247,20 +242,39 @@ public class PlateauController implements Initializable {
             }
             listeCanalPose.add(c);
         }
-        */
     }
 
     /**
      * Fonction d'affichage des propositions de canal.
      *
+     * @param couleur couleur du joueur
      * @param xDeb
      * @param xFin
      * @param yDeb
      * @param yFin
      */
-    private void afficherPropositionCanal(int xDeb, int xFin, int yDeb, int yFin) {
-        Image canalHoriz = new Image(getClass().getResourceAsStream("/images/canal_horiz_prop.png"));
-        Image canalVerti = new Image(getClass().getResourceAsStream("/images/canal_verti_prop.png"));
+    private void afficherPropositionCanal(String couleur, int xDeb, int xFin, int yDeb, int yFin) {
+        Image canalHoriz = null;
+        Image canalVerti = null;
+
+        switch (couleur) {
+            case "Noir":
+                canalHoriz = new Image(getClass().getResourceAsStream("/images/canal_horiz_noir.png"));
+                canalVerti = new Image(getClass().getResourceAsStream("/images/canal_verti_noir.png"));
+                break;
+            case "Violet":
+                canalHoriz = new Image(getClass().getResourceAsStream("/images/canal_horiz_violet.png"));
+                canalVerti = new Image(getClass().getResourceAsStream("/images/canal_verti_violet.png"));
+                break;
+            case "Beige":
+                canalHoriz = new Image(getClass().getResourceAsStream("/images/canal_horiz_beige.png"));
+                canalVerti = new Image(getClass().getResourceAsStream("/images/canal_verti_beige.png"));
+                break;
+            case "Gris":
+                canalHoriz = new Image(getClass().getResourceAsStream("/images/canal_horiz_gris.png"));
+                canalVerti = new Image(getClass().getResourceAsStream("/images/canal_verti_gris.png"));
+                break;
+        }
 
         // Le canal est horizontal
         if (yDeb == yFin) {
