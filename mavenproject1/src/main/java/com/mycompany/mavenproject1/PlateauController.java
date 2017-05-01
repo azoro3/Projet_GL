@@ -11,6 +11,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -384,39 +385,50 @@ public class PlateauController implements Initializable {
                 if(lig == null){
                     lig = 0;
                 }
-                
-                //System.out.println("hauteur " + db.getImage().getHeight() + " largeur " + db.getImage().getWidth());
-                //System.out.println(col + " " + lig);
-                
+
                 // Cas d'une tuile
-                // TODO : vérifier que la tuile est près d'un canal irrigué
                 if (db.getImage().getHeight() == 100.0 && db.getImage().getWidth() == 100.0) {
+                    // Vérifie que la position est acceptée pour une tuile
                     if ((col == 1 || col == 2 || col == 4 || col == 5 || col == 7 || col == 8 || col == 10 || col == 11)
                             && (lig == 1 || lig == 2 || lig == 4 || lig == 5 || lig == 7 || lig == 8)) {
-                        plateau.add(new ImageView(db.getImage()), col, lig);
-                        success = true;
+                        // Vérifie que la place n'est pas déjà occupée par une autre tuile
+                        if (!getNodeByRowColumnIndex(plateau, lig, col).isDisable()) {
+                            plateau.add(new ImageView(db.getImage()), col, lig);
+                            getNodeByRowColumnIndex(plateau, lig, col).setDisable(true);
+                            success = true;
+                        }
                     }
                 }
                 
+                List<Canal> listeCanalPose = partie.getListeCanalPose();
+                
                 // Cas d'un canal horizontal
-                // TODO : Vérifier que le canal est près de la source ou d'un autre canal
                 if (db.getImage().getHeight() == 10.0 && db.getImage().getWidth() == 100.0) {
+                    // Vérifie que la position est acceptée pour un canal horizontal
                     if ((col == 1 || col == 4 || col == 7 || col == 10)
                             && (lig == 0 || lig == 3 || lig == 6 || lig == 9)) {
-                        plateau.add(new ImageView(db.getImage()), col, lig);
-                        plateau.add(new ImageView(db.getImage()), col + 1, lig);
-                        success = true;
+                        // Vérifier que le canal est près de la source ou d'un autre canal
+                        Canal c = new Canal(col, lig, col + 1, lig);
+                        if (c.poserCanal(Source.getInstance(), listeCanalPose)) {
+                            plateau.add(new ImageView(db.getImage()), col, lig);
+                            plateau.add(new ImageView(db.getImage()), col + 1, lig);
+                            success = true;
+                        }
                     }
                 }
 
                 // Cas d'un canal vertical
-                // TODO : Vérifier que le canal est près de la source ou d'un autre canal
                 if (db.getImage().getHeight() == 100.0 && db.getImage().getWidth() == 10.0) {
+                    // Vérifie que la position est acceptée pour un canal vertical
                     if ((col == 0 || col == 3 || col == 6 || col == 9 || col == 12)
                             && (lig == 1 || lig == 4 || lig == 7)) {
-                        plateau.add(new ImageView(db.getImage()), col, lig);
-                        plateau.add(new ImageView(db.getImage()), col, lig + 1);
-                        success = true;
+                        // Vérifier que le canal est près de la source ou d'un autre canal
+                        Canal c = new Canal(col, lig, col, lig + 1);
+                        if (c.poserCanal(Source.getInstance(), listeCanalPose)) {
+                            plateau.add(new ImageView(db.getImage()), col, lig);
+                            plateau.add(new ImageView(db.getImage()), col, lig + 1);
+                            success = true;
+                        }
                     }
                 }
             }
@@ -431,6 +443,25 @@ public class PlateauController implements Initializable {
             }
             event.consume();
         });
+    }
+    
+    /**
+     * Retourne le noeud d'une GridPane à une colonne et une ligne définie
+     * @param gridPane
+     * @param lig
+     * @param col
+     * @return 
+     */
+    private Node getNodeByRowColumnIndex(GridPane gridPane, final int lig, final int col) {
+        Node result = null;
+        ObservableList<Node> childrens = gridPane.getChildren();
+        for(Node node : childrens) {
+            if(gridPane.getRowIndex(node) == lig && gridPane.getColumnIndex(node) == col) {
+                result = node;
+                break;
+            }
+        }
+        return result;
     }
 
 }
