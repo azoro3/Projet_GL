@@ -67,7 +67,7 @@ public class PlateauController implements Initializable {
     
     public void saveScore(){
         String filePath="./saveScore.json";
-        String res="{joueurs :[\n";
+        String res="{\"joueurs\" :[\n";
         for(final Joueur j :this.listeJoueurs){
             res+=j.toJSON()+",\r\n";
         }
@@ -84,6 +84,53 @@ public class PlateauController implements Initializable {
             e.printStackTrace();
         }
         
+    }
+    
+    public void savePartie(){
+        String res="{\"tuiles\" :[\n";
+        for(final Tuiles t :partie.getPile1()){
+            res+=t.toJSON()+",\r\n";
+        }
+        for(final Tuiles t :partie.getPile2()){
+            res+=t.toJSON()+",\r\n";
+        }
+        for(final Tuiles t :partie.getPile3()){
+            res+=t.toJSON()+",\r\n";
+        }
+        for(final Tuiles t :partie.getPile4()){
+            res+=t.toJSON()+",\r\n";
+        }
+        for(final Tuiles t :partie.getPile5()){
+            res+=t.toJSON()+",\r\n";
+        }
+        res=res.substring(0,(res.length()-3));
+        res+="]}";
+        try{
+            FileWriter fw= new FileWriter("savePartie.json");
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(res);
+            bw.flush();
+            bw.close();
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        } 
+        res="\n{\"joueurs\" :[\n";
+        for(final Joueur j :this.listeJoueurs){
+            res+=j.toJSON()+",\r\n";
+        }
+        res=res.substring(0,(res.length()-3));
+        res+="]}";
+        try{
+            FileWriter fw= new FileWriter("savePartie.json",true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(res);
+            bw.flush();
+            bw.close();
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
     }
 
     public void phase1() throws InterruptedException {

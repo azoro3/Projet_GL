@@ -23,6 +23,11 @@ public class Tuiles {
         Random r=new Random();
         this.nbTravailleurs = 1 + r.nextInt(3 - 1);
     }
+    
+    public String toJSON(){
+        String tuileJSON ="{\"type\":\""+this.type+"\",\"x\":"+this.x+",\"y\":"+this.y+",\"isIrigue\" :"+this.isIrigue+"}";
+        return tuileJSON;
+    }
 
     public void setX(int x) {
         this.x = x;
