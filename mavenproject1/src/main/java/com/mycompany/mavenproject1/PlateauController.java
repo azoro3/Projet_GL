@@ -409,7 +409,7 @@ public class PlateauController implements Initializable {
                             && (lig == 0 || lig == 3 || lig == 6 || lig == 9)) {
                         // Vérifier que le canal est près de la source ou d'un autre canal
                         Canal c = new Canal(col, lig, col + 1, lig);
-                        if (c.poserCanal(Source.getInstance(), listeCanalPose)) {
+                        if(c.poserCanalPlateau(Source.getInstance(), listeCanalPose)){
                             plateau.add(new ImageView(db.getImage()), col, lig);
                             plateau.add(new ImageView(db.getImage()), col + 1, lig);
                             success = true;
@@ -424,7 +424,7 @@ public class PlateauController implements Initializable {
                             && (lig == 1 || lig == 4 || lig == 7)) {
                         // Vérifier que le canal est près de la source ou d'un autre canal
                         Canal c = new Canal(col, lig, col, lig + 1);
-                        if (c.poserCanal(Source.getInstance(), listeCanalPose)) {
+                        if(c.poserCanalPlateau(Source.getInstance(), listeCanalPose)){
                             plateau.add(new ImageView(db.getImage()), col, lig);
                             plateau.add(new ImageView(db.getImage()), col, lig + 1);
                             success = true;
