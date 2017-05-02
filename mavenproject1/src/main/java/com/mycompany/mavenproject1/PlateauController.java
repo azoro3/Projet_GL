@@ -11,9 +11,11 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -55,6 +57,10 @@ public class PlateauController implements Initializable {
     private Label j4Nom, j4Couleur;
     @FXML
     private Label j5Nom, j5Couleur;
+    @FXML
+    private Label p1,p2,p3,p4,p5,e1,e2,e3,e4,e5;
+    private final Label[] p={p1,p2,p3,p4,p5};
+    private final Label[] e={e1,e2,e3,e4,e5};
     private ArrayList<Joueur> listeJoueurs;
     
     @FXML
@@ -185,6 +191,13 @@ public class PlateauController implements Initializable {
         /* PHASE 2 */
         Map<Joueur, String> enchere = partie.faireUneEnchere();
         partie.changerConstructeur(enchere);
+        int i=0;
+        for (HashMap.Entry<Joueur, String> entry : enchere.entrySet())
+        {
+            this.p[i].setText(entry.getKey().getNom());
+            this.e[i].setText(entry.getValue());
+            i++;
+        }  
 
         dragAndDrop(tuile1);
         dragAndDrop(tuile2);
@@ -195,9 +208,10 @@ public class PlateauController implements Initializable {
     }
     
     public void phase3(){
-        List<Canal> listeCanalPose = partie.getListeCanalPose();
-        dragAndDrop(canalPropHoriz);
-        dragAndDrop(canalPropVerti);
+        for(final Joueur j: partie.getListeJoueurs()){
+            dragAndDrop(canalPropHoriz);
+            dragAndDrop(canalPropVerti);
+        }
     }
         
         // enchères des joueurs
@@ -237,12 +251,12 @@ public class PlateauController implements Initializable {
 
         // Le canal est horizontal
         if (yDeb == yFin) {
-            plateau.add(new ImageView(canalHoriz), xDeb + 1, yDeb);
+            plateau.add(new ImageView(canalHoriz), xDeb + 3, yDeb);
         }
 
         // Le canal est vertical
         if (xDeb == xFin) {
-            plateau.add(new ImageView(canalVerti), xDeb, yDeb + 1);
+            plateau.add(new ImageView(canalVerti), xDeb, yDeb + 3);
         }
     }
 
