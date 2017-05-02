@@ -38,10 +38,9 @@ public class Partie {
 
 //      création des joueurs
         s=Source.getInstance();
-        System.out.println(s.getX()+""+s.getY());
         this.listeJoueurs = new ArrayList();
         
-        for (int i = 0; i <= 3; i++) {
+        for (int i = 0; i <= 4; i++) {
             String nomJ = JOptionPane.showInputDialog("Nom du joueur :");
 //      modifier l'attribut couleur
             String couleurJ = JOptionPane.showInputDialog("Choisissez votre couleur :");
