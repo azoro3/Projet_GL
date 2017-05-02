@@ -23,13 +23,12 @@ public class Tuiles {
         Random r=new Random();
         this.nbTravailleurs = 1 + r.nextInt(3 - 1);
     }
-    
+    /**
+     * 
+     * @return un objet tuiles au format JSON
+     */
     public String toJSON(){
-<<<<<<< HEAD
         String tuileJSON ="{\"type\":\""+this.type+"\",\"x\":"+this.x+",\"y\":"+this.y+",\"isIrigue\" :"+this.isIrigue+"}";
-=======
-        String tuileJSON ="{\"type\":\""+this.type+"\",x:"+this.x+",y:"+this.y+",\"isIrigue\" :"+this.isIrigue+"}";
->>>>>>> aaeefc547f22e35991d9277a7c2c620abbcf00b5
         return tuileJSON;
     }
 

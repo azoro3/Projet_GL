@@ -64,7 +64,9 @@ public class PlateauController implements Initializable {
         // Placement aléatoire de la source
         plateau.add(img, Source.getInstance().getX(), Source.getInstance().getY());
     }
-    
+    /**
+     * fonction pour sauvegarder les scores de la partie au format JSON
+     */
     public void saveScore(){
         String filePath="./saveScore.json";
         String res="{\"joueurs\" :[\n";
@@ -85,12 +87,10 @@ public class PlateauController implements Initializable {
         }
         
     }
-    
+    /**
+     * fonctions pour sauvegarder la partie au format JSON
+     */
     public void savePartie(){
-<<<<<<< HEAD
-=======
-       String filePath="./savePartie.json";
->>>>>>> aaeefc547f22e35991d9277a7c2c620abbcf00b5
         String res="{\"tuiles\" :[\n";
         for(final Tuiles t :partie.getPile1()){
             res+=t.toJSON()+",\r\n";
@@ -119,7 +119,6 @@ public class PlateauController implements Initializable {
         catch(IOException e){
             e.printStackTrace();
         } 
-<<<<<<< HEAD
         res="\n{\"joueurs\" :[\n";
         for(final Joueur j :this.listeJoueurs){
             res+=j.toJSON()+",\r\n";
@@ -136,8 +135,6 @@ public class PlateauController implements Initializable {
         catch(IOException e){
             e.printStackTrace();
         }
-=======
->>>>>>> aaeefc547f22e35991d9277a7c2c620abbcf00b5
     }
 
     public void phase1() throws InterruptedException {
@@ -344,13 +341,14 @@ public class PlateauController implements Initializable {
         }
     }
 
-    /**
-     * Fonction d'affichage des tuiles.
-     *
-     * @param tuile
-     * @param type
-     * @param nbTravailleurs
-     */
+/**
+ * fonctions d'affichage des tuiles
+ * @param tuile
+ * @param type type de la tuiles (banane, patates,...)
+ * @param nbTravailleurs
+ * @param x position de la tuiles a placer si =0, placer sur les piles de tuiles
+ * @param y 
+ */
     private void mettreImage(ImageView tuile, String type, int nbTravailleurs, int x, int y) {
         Image image;
 
