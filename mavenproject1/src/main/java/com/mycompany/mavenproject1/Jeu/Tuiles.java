@@ -25,7 +25,11 @@ public class Tuiles {
     }
     
     public String toJSON(){
+<<<<<<< HEAD
         String tuileJSON ="{\"type\":\""+this.type+"\",\"x\":"+this.x+",\"y\":"+this.y+",\"isIrigue\" :"+this.isIrigue+"}";
+=======
+        String tuileJSON ="{\"type\":\""+this.type+"\",x:"+this.x+",y:"+this.y+",\"isIrigue\" :"+this.isIrigue+"}";
+>>>>>>> aaeefc547f22e35991d9277a7c2c620abbcf00b5
         return tuileJSON;
     }
 
