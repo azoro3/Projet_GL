@@ -173,8 +173,8 @@ public class PlateauController implements Initializable {
         j3Couleur.setText(listeJoueurs.get(2).getCouleur());
         j4Nom.setText(listeJoueurs.get(3).getNom());
         j4Couleur.setText(listeJoueurs.get(3).getCouleur());
-        j5Nom.setText(listeJoueurs.get(3).getNom());
-        j5Couleur.setText(listeJoueurs.get(3).getCouleur());
+        j5Nom.setText(listeJoueurs.get(4).getNom());
+        j5Couleur.setText(listeJoueurs.get(4).getCouleur());
         
         this.phase2();
 
@@ -191,31 +191,16 @@ public class PlateauController implements Initializable {
         dragAndDrop(tuile3);
         dragAndDrop(tuile4);
         dragAndDrop(tuile5);
-        
-        /* PHASE 3 */
-        Map<Joueur, Integer> joueurEncher = new HashMap<>();
-        Map<Integer, Joueur> encherJoueur = new HashMap<>();
-        Map<Joueur, Canal> joueurCanal = new HashMap<>();
-        Joueur meilleurJoueur = null;
-        Joueur creuseur = null;
-        ArrayList<Joueur> ltemp = partie.getListeJoueurs();
-        
-        // enlever le constructeur
-        for (int i = 0; i <= ltemp.size() - 1; i++) {
-            if (ltemp.get(i).isEstConstructeur()) {
-                creuseur = ltemp.get(i);
-                ltemp.remove(i);
-            }
-        }
-        
-        // enchères des joueurs
+        this.phase3();
+    }
+    
+    public void phase3(){
         List<Canal> listeCanalPose = partie.getListeCanalPose();
-        
         dragAndDrop(canalPropHoriz);
         dragAndDrop(canalPropVerti);
-        
     }
-
+        
+        // enchères des joueurs
         /* PHASE 3 */
 
     /**

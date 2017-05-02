@@ -789,6 +789,8 @@
                         <Label fx:id="j3Couleur" layoutX="97.0" layoutY="143.0" />
                         <Label fx:id="j4Nom" layoutX="14.0" layoutY="163.0" />
                         <Label fx:id="j4Couleur" layoutX="97.0" layoutY="163.0" />
+                        <Label fx:id="j5Nom" layoutX="14.0" layoutY="183.0" />
+                        <Label fx:id="j5Couleur" layoutX="97.0" layoutY="183.0" />
                         <ImageView fx:id="canalPropHoriz" fitHeight="100.0" fitWidth="10.0" layoutX="104.0" layoutY="446.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/canal_verti_eau.png" />

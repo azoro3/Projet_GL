@@ -50,7 +50,7 @@ public class Partie {
         System.out.println(s.getX()+""+s.getY());
         this.listeJoueurs = new ArrayList();
         
-        for (int i = 0; i <= 3; i++) {
+        for (int i = 0; i <= 4; i++) {
             // Le joueur doit choisir son nom et sa couleur
             String nomJ = "";
             String couleurJ = "";
@@ -70,7 +70,7 @@ public class Partie {
             TextField nom = new TextField();
             nom.setPromptText("Nom");
             // Liste de choix de couleur
-            ChoiceBox couleur = new ChoiceBox(FXCollections.observableArrayList("Noir", "Violet", "Beige", "Gris"));
+            ChoiceBox couleur = new ChoiceBox(FXCollections.observableArrayList("Noir", "Violet", "Beige", "Gris","Caca d'oie"));
             couleur.getSelectionModel().selectFirst();
             
             grid.add(new Label("Nom :"), 0, 0);
