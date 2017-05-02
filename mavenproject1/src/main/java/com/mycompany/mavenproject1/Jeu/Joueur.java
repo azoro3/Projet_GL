@@ -72,6 +72,15 @@ public class Joueur {
         this.solde = solde;
         this.travailleurs = travailleurs;
     }
+    /**
+     * 
+     * @return un objet joueur au format JSON
+     */
+    public String toJSON(){
+        int score=22-this.travailleurs+this.solde;
+        String joueurJSON ="{\"nom\" : \""+this.nom+"\",\"couleur\":\""+this.couleur+"\",\"solde\":"+this.solde+",\"score\":"+score+"}";
+        return joueurJSON;
+    }
     
     
 }

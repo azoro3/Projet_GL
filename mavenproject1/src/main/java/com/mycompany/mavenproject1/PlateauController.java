@@ -4,6 +4,9 @@ import com.mycompany.mavenproject1.Jeu.Canal;
 import com.mycompany.mavenproject1.Jeu.Joueur;
 import com.mycompany.mavenproject1.Jeu.Plateau.Source;
 import com.mycompany.mavenproject1.Jeu.Tuiles;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,6 +53,8 @@ public class PlateauController implements Initializable {
     private Label j3Nom, j3Couleur;
     @FXML
     private Label j4Nom, j4Couleur;
+    @FXML
+    private Label j5Nom, j5Couleur;
     private ArrayList<Joueur> listeJoueurs;
     
     @FXML
@@ -65,8 +70,81 @@ public class PlateauController implements Initializable {
         // Placement aléatoire de la source
         plateau.add(img, Source.getInstance().getX(), Source.getInstance().getY());
     }
+    /**
+     * fonction pour sauvegarder les scores de la partie au format JSON
+     */
+    public void saveScore(){
+        String filePath="./saveScore.json";
+        String res="{\"joueurs\" :[\n";
+        for(final Joueur j :partie.getListeJoueurs()){
+            System.out.println(j.getNom());
+            res+=j.toJSON()+",\r\n";
+        }
+        res=res.substring(0,(res.length()-3));
+        res+="]}";
+        try{
+            FileWriter fw= new FileWriter("saveScore.json");
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(res);
+            bw.flush();
+            bw.close();
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+        
+    }
+    /**
+     * fonctions pour sauvegarder la partie au format JSON
+     */
+    public void savePartie(){
+        String res="{\n\"tuiles\" :[\n";
+        for(final Tuiles t :partie.getPile1()){
+            res+=t.toJSON()+",\r\n";
+        }
+        for(final Tuiles t :partie.getPile2()){
+            res+=t.toJSON()+",\r\n";
+        }
+        for(final Tuiles t :partie.getPile3()){
+            res+=t.toJSON()+",\r\n";
+        }
+        for(final Tuiles t :partie.getPile4()){
+            res+=t.toJSON()+",\r\n";
+        }
+        for(final Tuiles t :partie.getPile5()){
+            res+=t.toJSON()+",\r\n";
+        }
+        res=res.substring(0,(res.length()-3));
+        res+="}]";
+        try{
+            FileWriter fw= new FileWriter("savePartie.json");
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(res);
+            bw.flush();
+            bw.close();
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        } 
+        res=",\n\"joueurs\" :[\n";
+        for(final Joueur j :partie.getListeJoueurs()){
+            res+=j.toJSON()+",\r\n";
+        }
+        res=res.substring(0,(res.length()-3));
+        res+="]}";
+        try{
+            FileWriter fw= new FileWriter("savePartie.json",true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(res);
+            bw.flush();
+            bw.close();
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+    }
 
-    public void phase1() {
+    public void phase1() throws InterruptedException {
         /* PHASE 1 */
         // Initialisation d'une nouvelle partie
         partie = new Partie();
@@ -79,11 +157,11 @@ public class PlateauController implements Initializable {
         Tuiles[] tuiles = partie.getFirstCarte();
 
         // On affiche la première tuile
-        mettreImage(tuile1, tuiles[0].getType(), tuiles[0].getNbTravailleurs());
-        mettreImage(tuile2, tuiles[1].getType(), tuiles[1].getNbTravailleurs());
-        mettreImage(tuile3, tuiles[2].getType(), tuiles[2].getNbTravailleurs());
-        mettreImage(tuile4, tuiles[3].getType(), tuiles[3].getNbTravailleurs());
-        mettreImage(tuile5, tuiles[4].getType(), tuiles[4].getNbTravailleurs());
+        mettreImage(tuile1, tuiles[0].getType(), tuiles[0].getNbTravailleurs(),-1,-1);
+        mettreImage(tuile2, tuiles[1].getType(), tuiles[1].getNbTravailleurs(),-1,-1);
+        mettreImage(tuile3, tuiles[2].getType(), tuiles[2].getNbTravailleurs(),-1,-1);
+        mettreImage(tuile4, tuiles[3].getType(), tuiles[3].getNbTravailleurs(),-1,-1);
+        mettreImage(tuile5, tuiles[4].getType(), tuiles[4].getNbTravailleurs(),-1,-1);
 
         // Affichage des informations sur les joueurs
         listeJoueurs = partie.getListeJoueurs();
@@ -95,10 +173,17 @@ public class PlateauController implements Initializable {
         j3Couleur.setText(listeJoueurs.get(2).getCouleur());
         j4Nom.setText(listeJoueurs.get(3).getNom());
         j4Couleur.setText(listeJoueurs.get(3).getCouleur());
+        j5Nom.setText(listeJoueurs.get(3).getNom());
+        j5Couleur.setText(listeJoueurs.get(3).getCouleur());
+        
+        this.phase2();
 
-        Map<Joueur, String> enchere = partie.faireUneEnchere();
+    }
 
+    public void phase2(){
+        
         /* PHASE 2 */
+        Map<Joueur, String> enchere = partie.faireUneEnchere();
         partie.changerConstructeur(enchere);
 
         dragAndDrop(tuile1);
@@ -129,126 +214,9 @@ public class PlateauController implements Initializable {
         dragAndDrop(canalPropHoriz);
         dragAndDrop(canalPropVerti);
         
-        /*
-        for (final Joueur joueur : ltemp) {
-            int valeurEnchere = Integer.parseInt(JOptionPane.showInputDialog(joueur.getNom() + ", faites votre enchère !"));
-            while (true) {
-                // verifie que la personne ne passe pas son tour
-                if (valeurEnchere > 0) {
-                    // verifie que la personne ait bien l'argent pour la mise
-                    if (joueur.getSolde() >= valeurEnchere) {
-                        // verifie que personne n'ai misé cela avant
-                        if (!joueurEncher.values().contains(valeurEnchere)) {
-                            int xdeb = Integer.parseInt(JOptionPane.showInputDialog("définir la coordonées x de depart du canal ! :"));
-                            int ydeb = Integer.parseInt(JOptionPane.showInputDialog("définir la coordonées y de depart du canal ! :"));
-                            int xfin = Integer.parseInt(JOptionPane.showInputDialog("définir la coordonées x de fin du canal ! :"));
-                            int yfin = Integer.parseInt(JOptionPane.showInputDialog("définir la coordonées y de fin du canal ! :"));
-                            Canal c = new Canal(xdeb, ydeb, xfin, yfin);
-                            while (!c.poserCanal(Source.getInstance(), listeCanalPose)) {
-                                xdeb = Integer.parseInt(JOptionPane.showInputDialog("mauvaise coordonées x de depart du canal ! :"));
-                                ydeb = Integer.parseInt(JOptionPane.showInputDialog("mauvaise coordonées y de depart du canal ! :"));
-                                xfin = Integer.parseInt(JOptionPane.showInputDialog("mauvaise coordonées x de fin du canal ! :"));
-                                yfin = Integer.parseInt(JOptionPane.showInputDialog("mauvaise coordonées y de fin du canal ! :"));
-                                c = new Canal(xdeb, ydeb, xfin, yfin);
-                            }
-
-                            encherJoueur.put(valeurEnchere, joueur);
-                            joueurEncher.put(joueur, valeurEnchere);
-
-                            joueurCanal.put(joueur, c);
-                            // Affichage de chaque canal proposé par les joueurs sur le plateau de jeu
-                            for (Map.Entry<Joueur, Canal> prop : joueurCanal.entrySet()) {
-                                afficherPropositionCanal(prop.getKey().getCouleur(), prop.getValue().getxDeb(), prop.getValue().getyDeb(), prop.getValue().getxFin(), prop.getValue().getyFin());
-                            }
-
-                            Iterator it = joueurEncher.values().iterator();
-                            int sup = -1;
-                            // prendre le meilleur joueur par rapport a toutes les encheres
-                            while (it.hasNext()) {
-                                int val = (int) it.next();
-                                if (val > sup) {
-                                    sup = val;
-                                }
-                            }
-
-                            if (sup == -1 || joueur == encherJoueur.get(sup)) {
-                                meilleurJoueur = joueur;
-                            }
-                            break;
-                        } else {
-                            valeurEnchere = Integer.parseInt(JOptionPane.showInputDialog("Quelqu'un à déjà miser cette somme, faites une autre enchères ! :"));
-                        }
-                    } else {
-                        valeurEnchere = Integer.parseInt(JOptionPane.showInputDialog("Vous n'avez pas assez d'argent pour une telle enchere ! :"));
-                    }
-                } else {
-                    break;
-                }
-            }
-        }
-        // afficher la valeur du meilleur joueur pour que le creuseur prenne sa decision (suivre la meilleur proposition on creuser lui meme)
-        String reponse;
-        // verifie si les joueurs n'ont pas tous passés
-        if (meilleurJoueur != null) {
-            Alert offreDialog = new Alert(AlertType.INFORMATION);
-            offreDialog.setTitle("Meilleur offre");
-            offreDialog.setHeaderText(null);
-            offreDialog.setContentText("meilleur joueur : " + meilleurJoueur.getNom() + " enchere de : " + joueurEncher.get(meilleurJoueur)
-                    + " position canal xdeb : " + joueurCanal.get(meilleurJoueur).getxDeb() + " ydeb : " + joueurCanal.get(meilleurJoueur).getyDeb()
-                    + " xfin : " + joueurCanal.get(meilleurJoueur).getxFin() + " yfin : " + joueurCanal.get(meilleurJoueur).getyFin());
-            offreDialog.showAndWait();
-
-            reponse = JOptionPane.showInputDialog("Voulez-vous prendre la meilleur enchere ? oui/non");
-            while (!reponse.equals("OUI") && !reponse.equals("NON") && !reponse.equals("non") && !reponse.equals("oui") && !reponse.equals("o") && !reponse.equals("n")) {
-                reponse = JOptionPane.showInputDialog("Voulez-vous prendre la meilleur enchere ? oui/non");
-            }
-
-            if (reponse.equals("oui") || reponse.equals("OUI") || reponse.equals("o")) {
-                // si le creuseur choisit de suivre le meilleur joueur il gagne la mise et creuse dans le sens de ce joueur
-                listeCanalPose.add(joueurCanal.get(meilleurJoueur));
-                creuseur.setSolde(creuseur.getSolde() + joueurEncher.get(meilleurJoueur));
-                meilleurJoueur.setSolde(meilleurJoueur.getSolde() - joueurEncher.get(meilleurJoueur));
-            } else {
-                //sinon il creuse ou il veut mais paye un de plus que le meilleur joueur
-                if (creuseur.getSolde() >= joueurEncher.get(meilleurJoueur) + 1) {
-                    int xdeb = Integer.parseInt(JOptionPane.showInputDialog("définir la coordonées x de depart du canal ! :"));
-                    int ydeb = Integer.parseInt(JOptionPane.showInputDialog("définir la coordonées y de depart du canal ! :"));
-                    int xfin = Integer.parseInt(JOptionPane.showInputDialog("définir la coordonées x de fin du canal ! :"));
-                    int yfin = Integer.parseInt(JOptionPane.showInputDialog("définir la coordonées y de fin du canal ! :"));
-                    Canal c = new Canal(xdeb, ydeb, xfin, yfin);
-                    while (!c.poserCanal(Source.getInstance(), listeCanalPose)) {
-                        xdeb = Integer.parseInt(JOptionPane.showInputDialog("mauvaise coordonées x de depart du canal ! :"));
-                        ydeb = Integer.parseInt(JOptionPane.showInputDialog("mauvaise coordonées y de depart du canal ! :"));
-                        xfin = Integer.parseInt(JOptionPane.showInputDialog("mauvaise coordonées x de fin du canal ! :"));
-                        yfin = Integer.parseInt(JOptionPane.showInputDialog("mauvaise coordonées y de fin du canal ! :"));
-                        c = new Canal(xdeb, ydeb, xfin, yfin);
-                    }
-                    listeCanalPose.add(c);
-                    creuseur.setSolde(creuseur.getSolde() - (joueurEncher.get(meilleurJoueur) + 1));
-                } else {
-                    listeCanalPose.add(joueurCanal.get(meilleurJoueur));
-                    creuseur.setSolde(creuseur.getSolde() + joueurEncher.get(meilleurJoueur));
-                    meilleurJoueur.setSolde(meilleurJoueur.getSolde() - joueurEncher.get(meilleurJoueur));
-                }
-            }
-            // si les joueurs ont tous passés alors le creuseur decide lui meme
-        } else {
-            int xdeb = Integer.parseInt(JOptionPane.showInputDialog("définir la coordonées x de depart du canal ! :"));
-            int ydeb = Integer.parseInt(JOptionPane.showInputDialog("définir la coordonées y de depart du canal ! :"));
-            int xfin = Integer.parseInt(JOptionPane.showInputDialog("définir la coordonées x de fin du canal ! :"));
-            int yfin = Integer.parseInt(JOptionPane.showInputDialog("définir la coordonées y de fin du canal ! :"));
-            Canal c = new Canal(xdeb, ydeb, xfin, yfin);
-            while (!c.poserCanal(Source.getInstance(), listeCanalPose)) {
-                xdeb = Integer.parseInt(JOptionPane.showInputDialog("mauvaise coordonées x de depart du canal ! :"));
-                ydeb = Integer.parseInt(JOptionPane.showInputDialog("mauvaise coordonées y de depart du canal ! :"));
-                xfin = Integer.parseInt(JOptionPane.showInputDialog("mauvaise coordonées x de fin du canal ! :"));
-                yfin = Integer.parseInt(JOptionPane.showInputDialog("mauvaise coordonées y de fin du canal ! :"));
-                c = new Canal(xdeb, ydeb, xfin, yfin);
-            }
-            listeCanalPose.add(c);
-        }
-        */
     }
+
+        /* PHASE 3 */
 
     /**
      * Fonction d'affichage des propositions de canal.
@@ -293,14 +261,15 @@ public class PlateauController implements Initializable {
         }
     }
 
-    /**
-     * Fonction d'affichage des tuiles.
-     *
-     * @param tuile
-     * @param type
-     * @param nbTravailleurs
-     */
-    private void mettreImage(ImageView tuile, String type, int nbTravailleurs) {
+/**
+ * fonctions d'affichage des tuiles
+ * @param tuile
+ * @param type type de la tuiles (banane, patates,...)
+ * @param nbTravailleurs
+ * @param x position de la tuiles a placer si =0, placer sur les piles de tuiles
+ * @param y 
+ */
+    private void mettreImage(ImageView tuile, String type, int nbTravailleurs, int x, int y) {
         Image image;
 
         switch (type) {
@@ -342,9 +311,16 @@ public class PlateauController implements Initializable {
                 } else {
                     image = new Image(getClass().getResourceAsStream("/images/sucre2.png"));
                 }
-                tuile.setImage(image);
+                
+                if(x >=0){
+                    plateau.add(new ImageView(image),x,y);
+                } else {
+                    tuile.setImage(image);
+                }
+                
                 break;
         }
+        
     }
 
     /**
@@ -464,4 +440,51 @@ public class PlateauController implements Initializable {
         return result;
     }
 
+    /*PHASE 5*/
+    /**
+     * 
+     * @param tuiles liste des tuiles posée SUR le plateau
+     */
+    private void secheresse(Tuiles[] tuiles){
+        Tuiles t = tuiles[0];
+        t.setX((int) tuile1.getLayoutX());
+        t.setY((int) tuile1.getLayoutY());
+        partie.getTuilesJoue().add(t);
+        t = tuiles[1];
+        t.setX((int) tuile2.getLayoutX());
+        t.setY((int) tuile2.getLayoutY());
+        partie.getTuilesJoue().add(t);
+        t = tuiles[2];
+        t.setX((int) tuile3.getLayoutX());
+        t.setY((int) tuile3.getLayoutY());
+        partie.getTuilesJoue().add(t);
+        t = tuiles[3];
+        t.setX((int) tuile4.getLayoutX());
+        t.setY((int) tuile4.getLayoutY());
+        partie.getTuilesJoue().add(t);
+        t = tuiles[4];
+        t.setX((int) tuile5.getLayoutX());
+        t.setY((int) tuile5.getLayoutY());
+        partie.getTuilesJoue().add(t);
+        for(final Tuiles tu: partie.getTuilesJoue()){
+            for(final Canal c: partie.getListeCanalPose()){
+                if(tu.getX()-1==c.getxDeb()||tu.getX()+1==c.getxDeb()
+                  ||tu.getX()-1==c.getxFin()||tu.getX()+1==c.getxFin()
+                  ||tu.getY()-1==c.getyDeb()||tu.getY()+1==c.getyDeb()
+                  ||tu.getY()-1==c.getyFin()||tu.getY()+1==c.getyFin()){
+                  tu.setIrigue(true);break;
+                }
+            }
+            if(!tu.getIrigue()){
+                tu.setNbTravailleurs(tu.getNbTravailleurs()-1);
+                if(tu.getNbTravailleurs()==0){
+                    Image desert = new Image(getClass().getResourceAsStream("/images/vide.jpg"));
+                    plateau.add(new ImageView(desert),tu.getX(),tu.getY());
+                }else
+                {
+                    mettreImage(null, tu.getType(), tu.getNbTravailleurs(),tu.getX(),tu.getY());
+                }
+            }
+        }
+    }
 }

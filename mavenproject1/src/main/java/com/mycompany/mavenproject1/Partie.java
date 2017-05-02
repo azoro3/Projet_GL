@@ -37,6 +37,7 @@ public class Partie {
     private List<Tuiles> pile5 = new LinkedList();
     private List<Canal> listeCanal = new LinkedList();
     private List<Canal> listeCanalPose = new LinkedList<>();
+    private List<Tuiles> tuilesJoue = new LinkedList<>();
     private Source s;
     
    /**
@@ -257,5 +258,8 @@ public class Partie {
     public List<Canal> getListeCanalPose() {
         return listeCanalPose;
     }
+     public List<Tuiles> getTuilesJoue(){
+        return tuilesJoue;
+}
 
 }
