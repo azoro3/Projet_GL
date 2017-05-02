@@ -87,10 +87,6 @@ public class PlateauController implements Initializable {
     }
     
     public void savePartie(){
-<<<<<<< HEAD
-=======
-       String filePath="./savePartie.json";
->>>>>>> aaeefc547f22e35991d9277a7c2c620abbcf00b5
         String res="{\"tuiles\" :[\n";
         for(final Tuiles t :partie.getPile1()){
             res+=t.toJSON()+",\r\n";
@@ -119,7 +115,6 @@ public class PlateauController implements Initializable {
         catch(IOException e){
             e.printStackTrace();
         } 
-<<<<<<< HEAD
         res="\n{\"joueurs\" :[\n";
         for(final Joueur j :this.listeJoueurs){
             res+=j.toJSON()+",\r\n";
@@ -136,8 +131,6 @@ public class PlateauController implements Initializable {
         catch(IOException e){
             e.printStackTrace();
         }
-=======
->>>>>>> aaeefc547f22e35991d9277a7c2c620abbcf00b5
     }
 
     public void phase1() throws InterruptedException {
