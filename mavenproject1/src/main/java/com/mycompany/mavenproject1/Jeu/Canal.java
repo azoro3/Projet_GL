@@ -6,6 +6,7 @@
 package com.mycompany.mavenproject1.Jeu;
 
 import com.mycompany.mavenproject1.Jeu.Plateau.Source;
+import java.util.ArrayList;
 
 import java.util.List;
 
@@ -97,4 +98,56 @@ public class Canal {
 
         return poser;
     }
+    
+    /**
+     * Fonction qui permet de savoir si un canal peut être posé à une position en fonction de la source et des autres canaux.
+     * @param s source
+     * @param listeCanalPose liste des canaux déjà posés sur le plateau
+     * @return 
+     */
+    public Boolean poserCanalPlateau(Source s, List<Canal> listeCanalPose) {
+        int xCanal, yCanal;
+        Boolean b = false;
+
+        // Lors de la première pose des canaux, il suffit de vérifier près de la source
+        if (listeCanalPose.isEmpty()) {
+            if ((this.getxDeb() == s.getX() + 1 && this.getyDeb() == s.getY())
+                    || (this.getxDeb() == s.getX() - 2 && this.getyDeb() == s.getY())
+                    || (this.getxDeb() == s.getX() && this.getyDeb() == s.getY() + 1)
+                    || (this.getxDeb() == s.getX() && this.getyDeb() == s.getY() - 2)) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            for (Canal c : listeCanalPose) {
+                xCanal = c.getxDeb();
+                yCanal = c.getyDeb();
+                // La place est déjà occupée par un autre canal
+                if (this.getxDeb() == xCanal && this.getyDeb() == yCanal) {
+                    return false;
+                } else {
+                    // Sinon, il faut vérifier qu'il y a la source à côté
+                    if ((this.getxDeb() == s.getX() + 1 && this.getyDeb() == s.getY())
+                            || (this.getxDeb() == s.getX() - 2 && this.getyDeb() == s.getY())
+                            || (this.getxDeb() == s.getX() && this.getyDeb() == s.getY() + 1)
+                            || (this.getxDeb() == s.getX() && this.getyDeb() == s.getY() - 2)) {
+                        return true;
+                    } // Ou qu'un canal adjacent est posé
+                    else if ((this.getxDeb() == xCanal + 3 && this.getyDeb() == yCanal)
+                            || (this.getxDeb() == xCanal - 3 && this.getyDeb() == yCanal)
+                            || (this.getxDeb() == xCanal + 2 && this.getyDeb() == yCanal - 2)
+                            || (this.getxDeb() == xCanal + 2 && this.getyDeb() == yCanal + 1)
+                            || (this.getxDeb() == xCanal + 1 && this.getyDeb() == yCanal - 2)
+                            || (this.getxDeb() == xCanal + 1 && this.getyDeb() == yCanal - 1)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    
 }
+
+

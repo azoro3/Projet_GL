@@ -11,6 +11,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -50,6 +51,9 @@ public class PlateauController implements Initializable {
     @FXML
     private Label j4Nom, j4Couleur;
     private ArrayList<Joueur> listeJoueurs;
+    
+    @FXML
+    private ImageView canalPropHoriz, canalPropVerti;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -69,7 +73,7 @@ public class PlateauController implements Initializable {
         partie.initPartie();
         
         // Affichage de la position de la source
-        posSource.setText("x : " + Source.getInstance().getX() + " y : " + Source.getInstance().getY());
+        posSource.setText("x : " + Source.getInstance().getX() + "\ny : " + Source.getInstance().getY());
         
         // On récupère la première tuile de chaque pile
         Tuiles[] tuiles = partie.getFirstCarte();
@@ -97,12 +101,12 @@ public class PlateauController implements Initializable {
         /* PHASE 2 */
         partie.changerConstructeur(enchere);
 
-        dragAndDropTuile(tuile1);
-        dragAndDropTuile(tuile2);
-        dragAndDropTuile(tuile3);
-        dragAndDropTuile(tuile4);
-        dragAndDropTuile(tuile5);
-
+        dragAndDrop(tuile1);
+        dragAndDrop(tuile2);
+        dragAndDrop(tuile3);
+        dragAndDrop(tuile4);
+        dragAndDrop(tuile5);
+        
         /* PHASE 3 */
         Map<Joueur, Integer> joueurEncher = new HashMap<>();
         Map<Integer, Joueur> encherJoueur = new HashMap<>();
@@ -110,7 +114,7 @@ public class PlateauController implements Initializable {
         Joueur meilleurJoueur = null;
         Joueur creuseur = null;
         ArrayList<Joueur> ltemp = partie.getListeJoueurs();
-
+        
         // enlever le constructeur
         for (int i = 0; i <= ltemp.size() - 1; i++) {
             if (ltemp.get(i).isEstConstructeur()) {
@@ -118,10 +122,14 @@ public class PlateauController implements Initializable {
                 ltemp.remove(i);
             }
         }
-
+        
         // enchères des joueurs
         List<Canal> listeCanalPose = partie.getListeCanalPose();
-
+        
+        dragAndDrop(canalPropHoriz);
+        dragAndDrop(canalPropVerti);
+        
+        /*
         for (final Joueur joueur : ltemp) {
             int valeurEnchere = Integer.parseInt(JOptionPane.showInputDialog(joueur.getNom() + ", faites votre enchère !"));
             while (true) {
@@ -149,9 +157,8 @@ public class PlateauController implements Initializable {
 
                             joueurCanal.put(joueur, c);
                             // Affichage de chaque canal proposé par les joueurs sur le plateau de jeu
-                            // TODO : il faut encore gérer les couleurs (pour l'instant ils sont tous verts)
                             for (Map.Entry<Joueur, Canal> prop : joueurCanal.entrySet()) {
-                                afficherPropositionCanal(prop.getValue().getxDeb(), prop.getValue().getyDeb(), prop.getValue().getxFin(), prop.getValue().getyFin());
+                                afficherPropositionCanal(prop.getKey().getCouleur(), prop.getValue().getxDeb(), prop.getValue().getyDeb(), prop.getValue().getxFin(), prop.getValue().getyFin());
                             }
 
                             Iterator it = joueurEncher.values().iterator();
@@ -240,28 +247,49 @@ public class PlateauController implements Initializable {
             }
             listeCanalPose.add(c);
         }
+        */
     }
 
     /**
      * Fonction d'affichage des propositions de canal.
      *
+     * @param couleur couleur du joueur
      * @param xDeb
      * @param xFin
      * @param yDeb
      * @param yFin
      */
-    private void afficherPropositionCanal(int xDeb, int xFin, int yDeb, int yFin) {
-        Image canalHoriz = new Image(getClass().getResourceAsStream("/images/canal_horiz_prop.png"));
-        Image canalVerti = new Image(getClass().getResourceAsStream("/images/canal_verti_prop.png"));
+    private void afficherPropositionCanal(String couleur, int xDeb, int xFin, int yDeb, int yFin) {
+        Image canalHoriz = null;
+        Image canalVerti = null;
+
+        switch (couleur) {
+            case "Noir":
+                canalHoriz = new Image(getClass().getResourceAsStream("/images/canal_horiz_noir.png"));
+                canalVerti = new Image(getClass().getResourceAsStream("/images/canal_verti_noir.png"));
+                break;
+            case "Violet":
+                canalHoriz = new Image(getClass().getResourceAsStream("/images/canal_horiz_violet.png"));
+                canalVerti = new Image(getClass().getResourceAsStream("/images/canal_verti_violet.png"));
+                break;
+            case "Beige":
+                canalHoriz = new Image(getClass().getResourceAsStream("/images/canal_horiz_beige.png"));
+                canalVerti = new Image(getClass().getResourceAsStream("/images/canal_verti_beige.png"));
+                break;
+            case "Gris":
+                canalHoriz = new Image(getClass().getResourceAsStream("/images/canal_horiz_gris.png"));
+                canalVerti = new Image(getClass().getResourceAsStream("/images/canal_verti_gris.png"));
+                break;
+        }
 
         // Le canal est horizontal
         if (yDeb == yFin) {
-            plateau.add(new ImageView(canalHoriz), xDeb + 1, yDeb + 1);
+            plateau.add(new ImageView(canalHoriz), xDeb + 1, yDeb);
         }
 
         // Le canal est vertical
         if (xDeb == xFin) {
-            plateau.add(new ImageView(canalVerti), xDeb + 1, yDeb + 1);
+            plateau.add(new ImageView(canalVerti), xDeb, yDeb + 1);
         }
     }
 
@@ -320,70 +348,120 @@ public class PlateauController implements Initializable {
     }
 
     /**
-     * Fonction qui gère le Drag and Drop des tuiles sur le plateau de jeu.
-     *
-     * @param source
+     * Fonction qui gère le Drag & Drop d'une image (soit une tuile, soit un canal) sur le plateau.
+     * @param source 
      */
-    private void dragAndDropTuile(final ImageView source) {
-        // Drag une des tuiles des piles
-        source.setOnDragDetected(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                Dragboard db = source.startDragAndDrop(TransferMode.MOVE);
-                ClipboardContent cbContent = new ClipboardContent();
-                cbContent.putImage(source.getImage());
-                db.setContent(cbContent);
-                event.consume();
-            }
+    private void dragAndDrop(final ImageView source) {
+        // Drag une image
+        source.setOnDragDetected((MouseEvent event) -> {
+            Dragboard db = source.startDragAndDrop(TransferMode.MOVE);
+            ClipboardContent cbContent = new ClipboardContent();
+            cbContent.putImage(source.getImage());
+            db.setContent(cbContent);
+            event.consume();
         });
 
         // Accepter le drop sur la grille du plateau
-        plateau.setOnDragOver(new EventHandler<DragEvent>() {
-            @Override
-            public void handle(DragEvent event) {
-                if (event.getGestureSource() != plateau && event.getDragboard().hasImage()) {
-                    event.acceptTransferModes(TransferMode.MOVE);
-                }
-                event.consume();
+        plateau.setOnDragOver((DragEvent event) -> {
+            if (event.getGestureSource() != plateau && event.getDragboard().hasImage()) {
+                event.acceptTransferModes(TransferMode.MOVE);
             }
+            event.consume();
         });
 
-        // Drop une tuile sur le plateau
-        plateau.setOnDragDropped(new EventHandler<DragEvent>() {
-            @Override
-            public void handle(DragEvent event) {
-                Dragboard db = event.getDragboard();
-                boolean success = false;
-                Node node = event.getPickResult().getIntersectedNode();
-                if (node != plateau && db.hasImage()) {
-                    Integer col = GridPane.getColumnIndex(node);
-                    Integer lig = GridPane.getRowIndex(node);
+        // Drop une image sur le plateau
+        plateau.setOnDragDropped((DragEvent event) -> {
+            Dragboard db = event.getDragboard();
+            boolean success = false;
+            Node node = event.getPickResult().getIntersectedNode();
+            if (node != plateau && db.hasImage()) {
+                Integer col = GridPane.getColumnIndex(node);
+                Integer lig = GridPane.getRowIndex(node);
+                
+                // Bug lorsque col et lig sont à 0 (on obtient des valeurs à null au lieu de 0)
+                if(col == null){
+                    col = 0;
+                }
+                if(lig == null){
+                    lig = 0;
+                }
 
-                    // Certaines cases seulement peuvent accueillir des tuiles
+                // Cas d'une tuile
+                if (db.getImage().getHeight() == 100.0 && db.getImage().getWidth() == 100.0) {
+                    // Vérifie que la position est acceptée pour une tuile
                     if ((col == 1 || col == 2 || col == 4 || col == 5 || col == 7 || col == 8 || col == 10 || col == 11)
                             && (lig == 1 || lig == 2 || lig == 4 || lig == 5 || lig == 7 || lig == 8)) {
-                        //System.out.println(col + " " + lig);
-                        plateau.add(new ImageView(db.getImage()), col, lig);
-                        success = true;
+                        // Vérifie que la place n'est pas déjà occupée par une autre tuile
+                        if (!getNodeByRowColumnIndex(plateau, lig, col).isDisable()) {
+                            plateau.add(new ImageView(db.getImage()), col, lig);
+                            getNodeByRowColumnIndex(plateau, lig, col).setDisable(true);
+                            success = true;
+                        }
                     }
-
                 }
-                event.setDropCompleted(success);
-                event.consume();
+                
+                List<Canal> listeCanalPose = partie.getListeCanalPose();
+                
+                // Cas d'un canal horizontal
+                if (db.getImage().getHeight() == 10.0 && db.getImage().getWidth() == 100.0) {
+                    // Vérifie que la position est acceptée pour un canal horizontal
+                    if ((col == 1 || col == 4 || col == 7 || col == 10)
+                            && (lig == 0 || lig == 3 || lig == 6 || lig == 9)) {
+                        // Vérifier que le canal est près de la source ou d'un autre canal
+                        Canal c = new Canal(col, lig, col + 1, lig);
+                        if(c.poserCanalPlateau(Source.getInstance(), listeCanalPose)){
+                            plateau.add(new ImageView(db.getImage()), col, lig);
+                            plateau.add(new ImageView(db.getImage()), col + 1, lig);
+                            success = true;
+                        }
+                    }
+                }
+
+                // Cas d'un canal vertical
+                if (db.getImage().getHeight() == 100.0 && db.getImage().getWidth() == 10.0) {
+                    // Vérifie que la position est acceptée pour un canal vertical
+                    if ((col == 0 || col == 3 || col == 6 || col == 9 || col == 12)
+                            && (lig == 1 || lig == 4 || lig == 7)) {
+                        // Vérifier que le canal est près de la source ou d'un autre canal
+                        Canal c = new Canal(col, lig, col, lig + 1);
+                        if(c.poserCanalPlateau(Source.getInstance(), listeCanalPose)){
+                            plateau.add(new ImageView(db.getImage()), col, lig);
+                            plateau.add(new ImageView(db.getImage()), col, lig + 1);
+                            success = true;
+                        }
+                    }
+                }
             }
+            event.setDropCompleted(success);
+            event.consume();
         });
 
-        // Lorsque la tuile est déposée sur le plateau, elle n'est plus visible dans les piles
-        source.setOnDragDone(new EventHandler<DragEvent>() {
-            @Override
-            public void handle(DragEvent event) {
-                if (event.getTransferMode() == TransferMode.MOVE) {
-                    //source.setImage(new Image("/images/vide.jpg"));
-                    source.setVisible(false);
-                }
-                event.consume();
+        // Lorsque l'image est déposée sur le plateau, elle n'est plus visible
+        source.setOnDragDone((DragEvent event) -> {
+            if (event.getTransferMode() == TransferMode.MOVE) {
+                source.setVisible(false);
             }
+            event.consume();
         });
+    }
+    
+    /**
+     * Retourne le noeud d'une GridPane à une colonne et une ligne définie
+     * @param gridPane
+     * @param lig
+     * @param col
+     * @return 
+     */
+    private Node getNodeByRowColumnIndex(GridPane gridPane, final int lig, final int col) {
+        Node result = null;
+        ObservableList<Node> childrens = gridPane.getChildren();
+        for(Node node : childrens) {
+            if(gridPane.getRowIndex(node) == lig && gridPane.getColumnIndex(node) == col) {
+                result = node;
+                break;
+            }
+        }
+        return result;
     }
 
 }
