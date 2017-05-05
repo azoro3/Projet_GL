@@ -7,22 +7,20 @@ import com.mycompany.mavenproject1.Jeu.Tuiles;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.Thread.State;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -58,13 +56,21 @@ public class PlateauController implements Initializable {
     @FXML
     private Label j5Nom, j5Couleur;
     @FXML
-    private Label p1,p2,p3,p4,p5,e1,e2,e3,e4,e5;
-    private final Label[] p={p1,p2,p3,p4,p5};
-    private final Label[] e={e1,e2,e3,e4,e5};
+    private Label p1, p2, p3, p4, p5, e1, e2, e3, e4, e5;
+    private final Label[] p = {p1, p2, p3, p4, p5};
+    private final Label[] e = {e1, e2, e3, e4, e5};
     private ArrayList<Joueur> listeJoueurs;
     
     @FXML
-    private ImageView canalPropHoriz, canalPropVerti;
+    private ImageView canalPropHorizBe, canalPropVertiBe;
+    @FXML
+    private ImageView canalPropHorizBl, canalPropVertiBl;
+    @FXML
+    private ImageView canalPropHorizG, canalPropVertiG;
+    @FXML
+    private ImageView canalPropHorizN, canalPropVertiN;
+    @FXML
+    private ImageView canalPropHorizV, canalPropVertiV;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -150,8 +156,11 @@ public class PlateauController implements Initializable {
         }
     }
 
+    /**
+     * Phase 1
+     * @throws InterruptedException 
+     */
     public void phase1() throws InterruptedException {
-        /* PHASE 1 */
         // Initialisation d'une nouvelle partie
         partie = new Partie();
         partie.initPartie();
@@ -183,91 +192,88 @@ public class PlateauController implements Initializable {
         j5Couleur.setText(listeJoueurs.get(4).getCouleur());
         
         this.phase2();
-
+        
     }
 
-    public void phase2(){
-        
-        /* PHASE 2 */
+    /**
+     * Phase 2
+     */
+    public void phase2() {
         Map<Joueur, String> enchere = partie.faireUneEnchere();
         partie.changerConstructeur(enchere);
-        int i=0;
-        for (HashMap.Entry<Joueur, String> entry : enchere.entrySet())
-        {
+        /*
+        int i = 0;
+        for (HashMap.Entry<Joueur, String> entry : enchere.entrySet()) {
             this.p[i].setText(entry.getKey().getNom());
             this.e[i].setText(entry.getValue());
             i++;
-        }  
-
-        dragAndDrop(tuile1);
-        dragAndDrop(tuile2);
-        dragAndDrop(tuile3);
-        dragAndDrop(tuile4);
-        dragAndDrop(tuile5);
-        this.phase3();
+        }
+        */
+        
+        // Lorsque toutes les tuiles ont été posés sur le plateau, on peu passer à la phase 3
+        Task<Boolean> dragAndDropTuile = new Task<Boolean>() {
+            @Override
+            protected Boolean call() throws Exception {
+                while (tuile1.isVisible() || tuile2.isVisible() || tuile3.isVisible()
+                        || tuile4.isVisible() || tuile5.isVisible()) {
+                    dragAndDrop(tuile1);
+                    dragAndDrop(tuile2);
+                    dragAndDrop(tuile3);
+                    dragAndDrop(tuile4);
+                    dragAndDrop(tuile5);
+                }
+                return true;
+            }
+        };
+        
+        dragAndDropTuile.setOnSucceeded(e -> {
+            //System.out.println(dragAndDropTuile.getValue());
+            this.phase3();
+        });
+        
+        new Thread(dragAndDropTuile).start();
     }
     
-    public void phase3(){
-        for(final Joueur j: partie.getListeJoueurs()){
-            dragAndDrop(canalPropHoriz);
-            dragAndDrop(canalPropVerti);
-        }
-    }
-        
-        // enchères des joueurs
-        /* PHASE 3 */
-
     /**
-     * Fonction d'affichage des propositions de canal.
-     *
-     * @param couleur couleur du joueur
-     * @param xDeb
-     * @param xFin
-     * @param yDeb
-     * @param yFin
+     * Phase 3
      */
-    private void afficherPropositionCanal(String couleur, int xDeb, int xFin, int yDeb, int yFin) {
-        Image canalHoriz = null;
-        Image canalVerti = null;
-
-        switch (couleur) {
-            case "Noir":
-                canalHoriz = new Image(getClass().getResourceAsStream("/images/canal_horiz_noir.png"));
-                canalVerti = new Image(getClass().getResourceAsStream("/images/canal_verti_noir.png"));
-                break;
-            case "Violet":
-                canalHoriz = new Image(getClass().getResourceAsStream("/images/canal_horiz_violet.png"));
-                canalVerti = new Image(getClass().getResourceAsStream("/images/canal_verti_violet.png"));
-                break;
-            case "Beige":
-                canalHoriz = new Image(getClass().getResourceAsStream("/images/canal_horiz_beige.png"));
-                canalVerti = new Image(getClass().getResourceAsStream("/images/canal_verti_beige.png"));
-                break;
-            case "Gris":
-                canalHoriz = new Image(getClass().getResourceAsStream("/images/canal_horiz_gris.png"));
-                canalVerti = new Image(getClass().getResourceAsStream("/images/canal_verti_gris.png"));
-                break;
-        }
-
-        // Le canal est horizontal
-        if (yDeb == yFin) {
-            plateau.add(new ImageView(canalHoriz), xDeb + 3, yDeb);
-        }
-
-        // Le canal est vertical
-        if (xDeb == xFin) {
-            plateau.add(new ImageView(canalVerti), xDeb, yDeb + 3);
+    public void phase3() {        
+        for (final Joueur j : partie.getListeJoueurs()) {
+            String couleur = j.getCouleur();
+            switch (couleur) {
+                case "Beige":
+                    dragAndDrop(canalPropHorizBe);
+                    dragAndDrop(canalPropVertiBe);
+                    break;
+                case "Blanc":
+                    dragAndDrop(canalPropHorizBl);
+                    dragAndDrop(canalPropVertiBl);
+                    break;
+                case "Gris":
+                    dragAndDrop(canalPropHorizG);
+                    dragAndDrop(canalPropVertiG);
+                    break;
+                case "Noir":
+                    dragAndDrop(canalPropHorizN);
+                    dragAndDrop(canalPropVertiN);
+                    break;
+                case "Violet":
+                    dragAndDrop(canalPropHorizV);
+                    dragAndDrop(canalPropVertiV);
+                    break;
+            }
         }
     }
-
-/**
- * fonctions d'affichage des tuiles
- * @param tuile
- * @param type type de la tuiles (banane, patates,...)
- * @param nbTravailleurs
- * @param x position de la tuiles a placer si =0, placer sur les piles de tuiles
- * @param y 
- */
+ 
+    /**
+     * Fonction d'affichage des tuiles
+     *
+     * @param tuile
+     * @param type type de la tuiles (banane, patates,...)
+     * @param nbTravailleurs
+     * @param x position de la tuiles a placer. Si = 0, placer sur les piles de tuiles
+     * @param y
+     */
     private void mettreImage(ImageView tuile, String type, int nbTravailleurs, int x, int y) {
         Image image;
 
@@ -319,7 +325,6 @@ public class PlateauController implements Initializable {
                 
                 break;
         }
-        
     }
 
     /**

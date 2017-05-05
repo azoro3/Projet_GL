@@ -70,7 +70,7 @@ public class Partie {
             TextField nom = new TextField();
             nom.setPromptText("Nom");
             // Liste de choix de couleur
-            ChoiceBox couleur = new ChoiceBox(FXCollections.observableArrayList("Noir", "Violet", "Beige", "Gris","Caca d'oie"));
+            ChoiceBox couleur = new ChoiceBox(FXCollections.observableArrayList("Noir", "Violet", "Beige", "Gris", "Blanc"));
             couleur.getSelectionModel().selectFirst();
             
             grid.add(new Label("Nom :"), 0, 0);
