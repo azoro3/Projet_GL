@@ -7,15 +7,12 @@ import com.mycompany.mavenproject1.Jeu.Tuiles;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.Thread.State;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -30,7 +27,6 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.GridPane;
-import javax.swing.JOptionPane;
 
 public class PlateauController implements Initializable {
 
@@ -57,8 +53,8 @@ public class PlateauController implements Initializable {
     private Label j5Nom, j5Couleur;
     @FXML
     private Label p1, p2, p3, p4, p5, e1, e2, e3, e4, e5;
-    private final Label[] p = {p1, p2, p3, p4, p5};
-    private final Label[] e = {e1, e2, e3, e4, e5};
+    private final Label[] p = new Label[5];
+    private final Label[] e = new Label[5];
     private ArrayList<Joueur> listeJoueurs;
     
     @FXML
@@ -201,14 +197,16 @@ public class PlateauController implements Initializable {
     public void phase2() {
         Map<Joueur, String> enchere = partie.faireUneEnchere();
         partie.changerConstructeur(enchere);
-        /*
+        
         int i = 0;
+        p[0] = this.p1; p[1] = this.p2; p[2] = this.p3; p[3] = this.p4; p[4] = this.p5;
+        e[0] = this.e1; e[1] = this.e2; e[2] = this.e3; e[3] = this.e4; e[4] = this.e5;
+        
         for (HashMap.Entry<Joueur, String> entry : enchere.entrySet()) {
             this.p[i].setText(entry.getKey().getNom());
             this.e[i].setText(entry.getValue());
             i++;
         }
-        */
         
         // Lorsque toutes les tuiles ont été posés sur le plateau, on peu passer à la phase 3
         Task<Boolean> dragAndDropTuile = new Task<Boolean>() {
@@ -225,19 +223,19 @@ public class PlateauController implements Initializable {
                 return true;
             }
         };
-        
+
         dragAndDropTuile.setOnSucceeded(e -> {
             //System.out.println(dragAndDropTuile.getValue());
             this.phase3();
         });
-        
+
         new Thread(dragAndDropTuile).start();
     }
     
     /**
      * Phase 3
      */
-    public void phase3() {        
+    public void phase3() {
         for (final Joueur j : partie.getListeJoueurs()) {
             String couleur = j.getCouleur();
             switch (couleur) {
