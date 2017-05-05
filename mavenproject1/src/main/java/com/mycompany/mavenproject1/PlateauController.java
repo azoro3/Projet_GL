@@ -164,17 +164,8 @@ public class PlateauController implements Initializable {
         // Affichage de la position de la source
         posSource.setText("x : " + Source.getInstance().getX() + "\ny : " + Source.getInstance().getY());
         
-        // On récupère la première tuile de chaque pile
-        Tuiles[] tuiles = partie.getFirstCarte();
+       
 
-        // On affiche la première tuile
-        mettreImage(tuile1, tuiles[0].getType(), tuiles[0].getNbTravailleurs(),-1,-1);
-        mettreImage(tuile2, tuiles[1].getType(), tuiles[1].getNbTravailleurs(),-1,-1);
-        mettreImage(tuile3, tuiles[2].getType(), tuiles[2].getNbTravailleurs(),-1,-1);
-        mettreImage(tuile4, tuiles[3].getType(), tuiles[3].getNbTravailleurs(),-1,-1);
-        mettreImage(tuile5, tuiles[4].getType(), tuiles[4].getNbTravailleurs(),-1,-1);
-
-        // Affichage des informations sur les joueurs
         listeJoueurs = partie.getListeJoueurs();
         j1Nom.setText(listeJoueurs.get(0).getNom());
         j1Couleur.setText(listeJoueurs.get(0).getCouleur());
@@ -186,9 +177,31 @@ public class PlateauController implements Initializable {
         j4Couleur.setText(listeJoueurs.get(3).getCouleur());
         j5Nom.setText(listeJoueurs.get(4).getNom());
         j5Couleur.setText(listeJoueurs.get(4).getCouleur());
+
+        //this.phase2();
         
-        this.phase2();
         
+        Task<Boolean> afficherTuile = new Task<Boolean>() {
+            @Override
+            protected Boolean call() throws Exception {
+                // On récupère la première tuile de chaque pile
+                Tuiles[] tuiles = partie.getFirstCarte();
+
+                // On affiche la première tuile
+                mettreImage(tuile1, tuiles[0].getType(), tuiles[0].getNbTravailleurs(), -1, -1);
+                mettreImage(tuile2, tuiles[1].getType(), tuiles[1].getNbTravailleurs(), -1, -1);
+                mettreImage(tuile3, tuiles[2].getType(), tuiles[2].getNbTravailleurs(), -1, -1);
+                mettreImage(tuile4, tuiles[3].getType(), tuiles[3].getNbTravailleurs(), -1, -1);
+                mettreImage(tuile5, tuiles[4].getType(), tuiles[4].getNbTravailleurs(), -1, -1);
+                return true;
+            }
+        };
+
+        afficherTuile.setOnSucceeded(e -> {
+            this.phase2();
+        });
+
+        new Thread(afficherTuile).start();
     }
 
     /**
@@ -262,7 +275,7 @@ public class PlateauController implements Initializable {
             }
         }
     }
- 
+
     /**
      * Fonction d'affichage des tuiles
      *
