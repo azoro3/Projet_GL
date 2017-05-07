@@ -27,6 +27,7 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.GridPane;
+import javax.swing.JOptionPane;
 
 public class PlateauController implements Initializable {
 
@@ -269,13 +270,23 @@ public class PlateauController implements Initializable {
                     dragAndDrop(canalPropVertiN);
                     break;
                 case "Violet":
-                    dragAndDrop(canalPropHorizV);
+                    dragAndDrop(canalPropHorizV);   
                     dragAndDrop(canalPropVertiV);
                     break;
             }
         }
     }
-
+    public void phase4(){
+        for(Joueur j:this.listeJoueurs){
+            if(!j.getCanal().getIsPosed()){
+                String res=JOptionPane.showInputDialog("Voulez VOus posez un canal ? (o/n)");
+                if(res=="o"){
+                    //Drag and drop du canal associé
+                    break;
+                }
+            }
+        }
+    }
     /**
      * Fonction d'affichage des tuiles
      *

@@ -11,6 +11,7 @@ package com.mycompany.mavenproject1.Jeu;
  */
 public class CanalJ extends Canal {
     private String Couleur;
+    private boolean isPosed;
 
     public String getCouleur() {
         return Couleur;
@@ -23,7 +24,12 @@ public class CanalJ extends Canal {
     public CanalJ(String Couleur) {
         this.Couleur = Couleur;
     }
+
+    public void setIsPosed(boolean isPosed){
+        this.isPosed=isPosed;
+    }
     
-    
-    
+    public boolean getIsPosed(){
+        return this.isPosed;
+    }
 }

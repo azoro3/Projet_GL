@@ -12,7 +12,7 @@ package com.mycompany.mavenproject1.Jeu;
 public class Joueur {
     private String nom;
     private String couleur;
-    private Canal canal;
+    private CanalJ canal;
     private int solde;
     private int travailleurs;
     private boolean estConstructeur = false;
@@ -34,11 +34,11 @@ public class Joueur {
         this.couleur = couleur;
     }
 
-    public Canal getCanal() {
+    public CanalJ getCanal() {
         return canal;
     }
 
-    public void setCanal(Canal canal) {
+    public void setCanal(CanalJ canal) {
         this.canal = canal;
     }
 
