@@ -5,10 +5,13 @@
  */
 package com.mycompany.mavenproject1;
 
+import Reseau.InterfaceServeur;
 import com.mycompany.mavenproject1.Jeu.*;
 import com.mycompany.mavenproject1.Jeu.Factory.CanalFactory;
 import com.mycompany.mavenproject1.Jeu.Factory.TuilesFactory;
 import com.mycompany.mavenproject1.Jeu.Plateau.Source;
+
+import java.rmi.RemoteException;
 import java.util.*;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
@@ -39,28 +42,36 @@ public class Partie {
     private List<Canal> listeCanalPose = new LinkedList<>();
     private List<Tuiles> tuilesJoue = new LinkedList<>();
     private Source s;
-    
-   /**
+    private InterfaceServeur serv;
+
+    public InterfaceServeur getServeur(){
+        return this.serv;
+    }
+    public void setServeur(InterfaceServeur s){
+        this.serv=s;
+    }
+
+    /**
     * fonction de création d'une partie
     */
-    public  void initPartie() {
+    public  void initPartie() throws RemoteException {
 
 //      création des joueurs
         s=Source.getInstance();
         System.out.println(s.getX()+""+s.getY());
         this.listeJoueurs = new ArrayList();
-        
-        for (int i = 0; i <= 4; i++) {
+
+
             // Le joueur doit choisir son nom et sa couleur
             String nomJ = "";
             String couleurJ = "";
             Dialog<Pair<String, String>> dialog = new Dialog<>();
             dialog.setTitle("Informations joueurs");
             dialog.setHeaderText("Choisissez vos informations.");
-            
+
             ButtonType okButtonType = new ButtonType("OK", ButtonData.OK_DONE);
             dialog.getDialogPane().getButtonTypes().addAll(okButtonType);
-            
+
             GridPane grid = new GridPane();
             grid.setHgap(10);
             grid.setVgap(10);
@@ -103,8 +114,9 @@ public class Partie {
 
             Joueur J = new Joueur(nomJ, couleurJ, 10, 22);
             CanalJ c = new CanalJ(couleurJ);
+            this.serv.enregistrer(J);
             this.listeJoueurs.add(J);
-        }
+
 
         this.listeJoueurs.get(0).setEstConstructeur(true);
         
@@ -112,8 +124,8 @@ public class Partie {
         List<Tuiles> touteLesTuiles = new LinkedList();
         CanalFactory factory=new CanalFactory();
         for(int i=0;i<=15;i++){
-            Canal c=factory.genererCanal();
-            this.listeCanal.add(c);
+            Canal ca=factory.genererCanal();
+            this.listeCanal.add(ca);
         }
 //      Mettre les tuiles dans les liste
         TuilesFactory tFactory;

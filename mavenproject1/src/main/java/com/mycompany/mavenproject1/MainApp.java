@@ -1,5 +1,6 @@
 package com.mycompany.mavenproject1;
 
+import Reseau.InterfaceServeur;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
@@ -7,8 +8,17 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-public class MainApp extends Application {
+import java.rmi.RemoteException;
 
+
+public class MainApp extends Application{
+    private InterfaceServeur serveur;
+    public InterfaceServeur getServeur(){
+        return this.serveur;
+    }
+    public void setServeur(InterfaceServeur s){
+        this.serveur=s;
+    }
     @Override
     public void start(Stage stage) throws Exception {
         AnchorPane root = FXMLLoader.load(getClass().getResource("/fxml/Plateau.fxml"));
@@ -19,7 +29,11 @@ public class MainApp extends Application {
         stage.setTitle("Santiago");
         stage.setResizable(false); // empêcher le redimmensionnement de la fenêtre
         stage.setScene(scene);
+        PlateauController p = new PlateauController();
+        System.out.println(this.getServeur().getListeNom());
         stage.show();
+        //p.phase1(this.serveur);
+
     }
 
     /**
@@ -30,8 +44,11 @@ public class MainApp extends Application {
      *
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-       launch(args);
+    public void main(String[] args) throws RemoteException, InterruptedException {
+
+       launch();
+
     }
+
 
 }

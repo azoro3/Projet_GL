@@ -1,5 +1,8 @@
 package com.mycompany.mavenproject1;
 
+import Reseau.InterfaceClient;
+import Reseau.InterfaceServeur;
+import Reseau.Serveur;
 import com.mycompany.mavenproject1.Jeu.Canal;
 import com.mycompany.mavenproject1.Jeu.Joueur;
 import com.mycompany.mavenproject1.Jeu.Plateau.Source;
@@ -8,6 +11,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -55,7 +59,7 @@ public class PlateauController implements Initializable {
     private Label j4Nom, j4Couleur;
     @FXML
     private Label j5Nom, j5Couleur;
-    private ArrayList<Joueur> listeJoueurs;
+    private ArrayList<InterfaceClient> listeJoueurs;
     
     @FXML
     private ImageView canalPropHoriz, canalPropVerti;
@@ -73,6 +77,7 @@ public class PlateauController implements Initializable {
     /**
      * fonction pour sauvegarder les scores de la partie au format JSON
      */
+
     public void saveScore(){
         String filePath="./saveScore.json";
         String res="{\"joueurs\" :[\n";
@@ -144,10 +149,11 @@ public class PlateauController implements Initializable {
         }
     }
 
-    public void phase1() throws InterruptedException {
+    public void phase1(InterfaceServeur s) throws InterruptedException, RemoteException {
         /* PHASE 1 */
         // Initialisation d'une nouvelle partie
         partie = new Partie();
+        partie.setServeur(s);
         partie.initPartie();
         
         // Affichage de la position de la source
@@ -164,7 +170,7 @@ public class PlateauController implements Initializable {
         mettreImage(tuile5, tuiles[4].getType(), tuiles[4].getNbTravailleurs(),-1,-1);
 
         // Affichage des informations sur les joueurs
-        listeJoueurs = partie.getListeJoueurs();
+        listeJoueurs = s.getListeClient();
         j1Nom.setText(listeJoueurs.get(0).getNom());
         j1Couleur.setText(listeJoueurs.get(0).getCouleur());
         j2Nom.setText(listeJoueurs.get(1).getNom());
@@ -175,12 +181,12 @@ public class PlateauController implements Initializable {
         j4Couleur.setText(listeJoueurs.get(3).getCouleur());
         j5Nom.setText(listeJoueurs.get(4).getNom());
         j5Couleur.setText(listeJoueurs.get(4).getCouleur());
-        
+
         this.phase2();
 
     }
 
-    public void phase2(){
+    public void phase2() throws RemoteException {
         
         /* PHASE 2 */
         Map<Joueur, String> enchere = partie.faireUneEnchere();

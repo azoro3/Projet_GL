@@ -5,21 +5,33 @@
  */
 package com.mycompany.mavenproject1.Jeu;
 
+import Reseau.InterfaceClient;
+import Reseau.InterfaceServeur;
+
+import java.rmi.RemoteException;
+
 /**
  *
  * @author Arthur
  */
-public class Joueur {
+public class Joueur implements InterfaceClient {
     private String nom;
     private String couleur;
     private Canal canal;
     private int solde;
     private int travailleurs;
     private boolean estConstructeur = false;
+    private InterfaceServeur serv;
 
     //Getter and setter
-    public String getNom() {
+    public String getNom(){
         return nom;
+    }
+    public InterfaceServeur getServeur(){
+        return this.serv;
+    }
+    public void setServeur(InterfaceServeur se){
+        this.serv=se;
     }
 
     public void setNom(String nom) {
@@ -66,7 +78,8 @@ public class Joueur {
         this.estConstructeur = estConstructeur;
     }
 
-    public Joueur(String nom, String couleur, int solde, int travailleurs) {
+    public Joueur(String nom, String couleur, int solde, int travailleurs) throws RemoteException {
+        super();
         this.nom = nom;
         this.couleur = couleur;
         this.solde = solde;
