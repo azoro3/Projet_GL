@@ -13,11 +13,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -26,7 +31,12 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class PlateauController implements Initializable {
 
@@ -164,8 +174,6 @@ public class PlateauController implements Initializable {
         // Affichage de la position de la source
         posSource.setText("x : " + Source.getInstance().getX() + "\ny : " + Source.getInstance().getY());
         
-       
-
         listeJoueurs = partie.getListeJoueurs();
         j1Nom.setText(listeJoueurs.get(0).getNom());
         j1Couleur.setText(listeJoueurs.get(0).getCouleur());
@@ -177,9 +185,6 @@ public class PlateauController implements Initializable {
         j4Couleur.setText(listeJoueurs.get(3).getCouleur());
         j5Nom.setText(listeJoueurs.get(4).getNom());
         j5Couleur.setText(listeJoueurs.get(4).getCouleur());
-
-        //this.phase2();
-        
         
         Task<Boolean> afficherTuile = new Task<Boolean>() {
             @Override
@@ -249,29 +254,78 @@ public class PlateauController implements Initializable {
      * Phase 3
      */
     public void phase3() {
+        Map<Joueur, String> enchere = new HashMap<>();
+        Map<Joueur, String> suivre = new HashMap<>();
+        Map<Joueur, String> passe = new HashMap<>();
+
         for (final Joueur j : partie.getListeJoueurs()) {
-            String couleur = j.getCouleur();
-            switch (couleur) {
-                case "Beige":
-                    dragAndDrop(canalPropHorizBe);
-                    dragAndDrop(canalPropVertiBe);
-                    break;
-                case "Blanc":
-                    dragAndDrop(canalPropHorizBl);
-                    dragAndDrop(canalPropVertiBl);
-                    break;
-                case "Gris":
-                    dragAndDrop(canalPropHorizG);
-                    dragAndDrop(canalPropVertiG);
-                    break;
-                case "Noir":
-                    dragAndDrop(canalPropHorizN);
-                    dragAndDrop(canalPropVertiN);
-                    break;
-                case "Violet":
-                    dragAndDrop(canalPropHorizV);
-                    dragAndDrop(canalPropVertiV);
-                    break;
+            // Seul les joueurs qui ne sont pas constructeur peuvent miser
+            // Le constructeur n'intervient qu'à la fin
+            if (!j.isEstConstructeur()) {
+                String couleur = j.getCouleur();
+
+                try {
+                    // Chaque joueur doit décider s'il fait une proposition, s'il soutient une autre proposition ou s'il passe
+                    FXMLLoader loader = new FXMLLoader(MainApp.class.getResource("/fxml/Phase3.fxml"));
+                    AnchorPane page = (AnchorPane) loader.load();
+                    Stage dialogStage = new Stage();
+                    dialogStage.setTitle("Mises");
+                    dialogStage.initModality(Modality.WINDOW_MODAL);
+
+                    Scene scene = new Scene(page);
+                    dialogStage.setScene(scene);
+
+                    Phase3Controller controller = loader.getController();
+                    controller.setDialogStage(dialogStage);
+                    controller.setEnchere(enchere);
+                    controller.setJoueurActuel(j);
+
+                    dialogStage.showAndWait();
+                    String res = controller.getResultat();
+
+                    // Cas où le joueur passe son tour
+                    // Il n'intervient pas dans la construction des canaux
+                    if (res.equals("Passe")) {
+                        passe.put(j, res);
+                    } // Cas où le joueur suit une mise existante
+                    // Il soutient une nouvelle mise de 1 Escudos
+                    else if (res.contains("mise")) {
+                        suivre.put(j, res + 1);
+                    } // Cas où le joueur fait une nouvelle proposition
+                    // Il creuse un nouveau canal
+                    else {
+                        enchere.put(j, res);
+                        switch (couleur) {
+                            case "Beige":
+                                dragAndDrop(canalPropHorizBe);
+                                dragAndDrop(canalPropVertiBe);
+                                break;
+                            case "Blanc":
+                                dragAndDrop(canalPropHorizBl);
+                                dragAndDrop(canalPropVertiBl);
+                                break;
+                            case "Gris":
+                                dragAndDrop(canalPropHorizG);
+                                dragAndDrop(canalPropVertiG);
+                                break;
+                            case "Noir":
+                                dragAndDrop(canalPropHorizN);
+                                dragAndDrop(canalPropVertiN);
+                                break;
+                            case "Violet":
+                                dragAndDrop(canalPropHorizV);
+                                dragAndDrop(canalPropVertiV);
+                                break;
+                        }
+                    }
+                } catch (IOException ex) {
+                    Logger.getLogger(PlateauController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        // TODO : demander au constructeur de canal s'il veut accepter une offre où construire où il veut
+        for (final Joueur j : partie.getListeJoueurs()) {
+            if (j.isEstConstructeur()) {
             }
         }
     }
