@@ -5,44 +5,42 @@
  */
 package com.mycompany.mavenproject1;
 
+import Reseau.InterfacePartie;
 import Reseau.InterfaceServeur;
+import Reseau.InterfaceTuiles;
 import com.mycompany.mavenproject1.Jeu.*;
 import com.mycompany.mavenproject1.Jeu.Factory.CanalFactory;
 import com.mycompany.mavenproject1.Jeu.Factory.TuilesFactory;
 import com.mycompany.mavenproject1.Jeu.Plateau.Source;
 
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.*;
-import javafx.collections.FXCollections;
-import javafx.geometry.Insets;
-import javafx.scene.Node;
-import javafx.scene.control.ButtonBar.ButtonData;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
-import javafx.util.Pair;
+
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author Arthur
  */
-public class Partie {
+public class Partie extends UnicastRemoteObject implements InterfacePartie{
     
     private ArrayList<Joueur> listeJoueurs;
-    private List<Tuiles> pile1 = new LinkedList();
-    private List<Tuiles> pile2 = new LinkedList();
-    private List<Tuiles> pile3 = new LinkedList();
-    private List<Tuiles> pile4 = new LinkedList();
-    private List<Tuiles> pile5 = new LinkedList();
+    private List<InterfaceTuiles> pile1 = new LinkedList();
+    private List<InterfaceTuiles> pile2 = new LinkedList();
+    private List<InterfaceTuiles> pile3 = new LinkedList();
+    private List<InterfaceTuiles> pile4 = new LinkedList();
+    private List<InterfaceTuiles> pile5 = new LinkedList();
     private List<Canal> listeCanal = new LinkedList();
     private List<Canal> listeCanalPose = new LinkedList<>();
-    private List<Tuiles> tuilesJoue = new LinkedList<>();
+    private List<InterfaceTuiles> tuilesJoue = new LinkedList<>();
     private Source s;
     private InterfaceServeur serv;
+    private Source source;
+
+    public Partie() throws RemoteException {
+        super();
+    }
 
     public InterfaceServeur getServeur(){
         return this.serv;
@@ -54,72 +52,11 @@ public class Partie {
     /**
     * fonction de création d'une partie
     */
-    public  void initPartie() throws RemoteException {
+    public  void initPartie(Source s) throws RemoteException {
 
 //      création des joueurs
-        s=Source.getInstance();
+        this.source=s;
         System.out.println(s.getX()+""+s.getY());
-        this.listeJoueurs = new ArrayList();
-
-
-            // Le joueur doit choisir son nom et sa couleur
-            String nomJ = "";
-            String couleurJ = "";
-            Dialog<Pair<String, String>> dialog = new Dialog<>();
-            dialog.setTitle("Informations joueurs");
-            dialog.setHeaderText("Choisissez vos informations.");
-
-            ButtonType okButtonType = new ButtonType("OK", ButtonData.OK_DONE);
-            dialog.getDialogPane().getButtonTypes().addAll(okButtonType);
-
-            GridPane grid = new GridPane();
-            grid.setHgap(10);
-            grid.setVgap(10);
-            grid.setPadding(new Insets(20, 150, 10, 10));
-
-            // Champ pour le nom
-            TextField nom = new TextField();
-            nom.setPromptText("Nom");
-            // Liste de choix de couleur
-            ChoiceBox couleur = new ChoiceBox(FXCollections.observableArrayList("Noir", "Violet", "Beige", "Gris","Caca d'oie"));
-            couleur.getSelectionModel().selectFirst();
-            
-            grid.add(new Label("Nom :"), 0, 0);
-            grid.add(nom, 1, 0);
-            grid.add(new Label("Couleur :"), 0, 1);
-            grid.add(couleur, 1, 1);
-            
-            // Active/désactive le bouton OK si le champ Nom est complété
-            Node okButton = dialog.getDialogPane().lookupButton(okButtonType);
-            okButton.setDisable(true);
-            nom.textProperty().addListener((observable, oldValue, newValue) -> {
-                okButton.setDisable(newValue.trim().isEmpty());
-            });
-            
-            dialog.getDialogPane().setContent(grid);
-            
-            // Conversion du résultat en une paire de string lorsque le bouton OK est cliqué
-            dialog.setResultConverter(dialogButton -> {
-                if (dialogButton == okButtonType) {
-                    return new Pair<>(nom.getText(), (String) couleur.getSelectionModel().getSelectedItem());
-                }
-                return null;
-            });
-            
-            Optional<Pair<String, String>> result = dialog.showAndWait();
-            if(result.isPresent()){
-                nomJ = result.get().getKey();
-                couleurJ = result.get().getValue();
-            }
-
-            Joueur J = new Joueur(nomJ, couleurJ, 10, 22);
-            CanalJ c = new CanalJ(couleurJ);
-            this.serv.enregistrer(J);
-            this.listeJoueurs.add(J);
-
-
-        this.listeJoueurs.get(0).setEstConstructeur(true);
-        
 //      création des Tuiles
         List<Tuiles> touteLesTuiles = new LinkedList();
         CanalFactory factory=new CanalFactory();
@@ -170,15 +107,16 @@ public class Partie {
                     break;
             }
         }
-     
+
     }
     
     /**
      * 
      * @return tableau avec la première tuile de chaque pile
      */
-    public Tuiles[] getFirstCarte() {
-        Tuiles[] t = new Tuiles[5];
+
+    public InterfaceTuiles[] getFirstCarte() {
+        InterfaceTuiles[] t = new InterfaceTuiles[5];
         t[0] = this.pile1.get(0);
         t[1] = this.pile2.get(0);
         t[2] = this.pile3.get(0);
@@ -243,23 +181,23 @@ public class Partie {
         return listeJoueurs;
     }
 
-    public List<Tuiles> getPile1() {
+    public List<InterfaceTuiles> getPile1() {
         return pile1;
     }
 
-    public List<Tuiles> getPile2() {
+    public List<InterfaceTuiles> getPile2() {
         return pile2;
     }
 
-    public List<Tuiles> getPile3() {
+    public List<InterfaceTuiles> getPile3() {
         return pile3;
     }
 
-    public List<Tuiles> getPile4() {
+    public List<InterfaceTuiles> getPile4() {
         return pile4;
     }
 
-    public List<Tuiles> getPile5() {
+    public List<InterfaceTuiles> getPile5() {
         return pile5;
     }
 
@@ -270,7 +208,7 @@ public class Partie {
     public List<Canal> getListeCanalPose() {
         return listeCanalPose;
     }
-     public List<Tuiles> getTuilesJoue(){
+     public List<InterfaceTuiles> getTuilesJoue(){
         return tuilesJoue;
 }
 

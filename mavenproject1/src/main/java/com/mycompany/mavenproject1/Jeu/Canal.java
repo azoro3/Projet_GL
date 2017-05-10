@@ -5,9 +5,10 @@
  */
 package com.mycompany.mavenproject1.Jeu;
 
+import Reseau.InterfaceSource;
 import com.mycompany.mavenproject1.Jeu.Plateau.Source;
-import java.util.ArrayList;
 
+import java.rmi.RemoteException;
 import java.util.List;
 
 /**
@@ -103,9 +104,9 @@ public class Canal {
      * Fonction qui permet de savoir si un canal peut être posé à une position en fonction de la source et des autres canaux.
      * @param s source
      * @param listeCanalPose liste des canaux déjà posés sur le plateau
-     * @return 
+     * @return
      */
-    public Boolean poserCanalPlateau(Source s, List<Canal> listeCanalPose) {
+    public Boolean poserCanalPlateau(InterfaceSource s, List<Canal> listeCanalPose) throws RemoteException {
         int xCanal, yCanal;
         Boolean b = false;
 

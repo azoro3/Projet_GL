@@ -13,6 +13,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import java.rmi.RemoteException;
 import java.util.*;
 
 import static org.junit.Assert.*;
@@ -32,8 +33,8 @@ public class JUnitSantiago {
     //test sur la génération de la source
     @DisplayName("testAlea")
     @Test
-    public void testAlea() {
-        Source s = Source.getInstance();
+    public void testAlea() throws RemoteException {
+        Source s = new Source();
         int sx = s.getX();
         int sy = s.getY();
         assertTrue(sx % 3 == 0);
@@ -55,7 +56,7 @@ public class JUnitSantiago {
 
     @DisplayName("testNbTravailleurs")
     @Test
-    public void testNbTravailleurs() {
+    public void testNbTravailleurs() throws RemoteException {
         Tuiles t = new Tuiles("piment");
         assertTrue(t.getNbTravailleurs() < 3 && t.getNbTravailleurs() > 0);
 
@@ -64,7 +65,7 @@ public class JUnitSantiago {
     
     @DisplayName("createPileCartes")
     @Test
-    public void testPileCartes(){
+    public void testPileCartes() throws RemoteException {
         List<Tuiles> touteLesTuiles = new LinkedList();
         List<Tuiles> pile1 =new LinkedList();
         List<Tuiles> pile2 =new LinkedList();
@@ -143,11 +144,11 @@ public class JUnitSantiago {
     
     @DisplayName("testPoserCanal")
     @Test
-    public void testPoserCanal() {
+    public void testPoserCanal() throws RemoteException {
         Boolean reponse;
         Canal c = new Canal();
         Canal c2 = new Canal();
-        Source s = Source.getInstance();
+        Source s = new Source();
         List<Canal> listCanalPose=new LinkedList();
         c.setxDeb(0);
         c.setxFin(1);

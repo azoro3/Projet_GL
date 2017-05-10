@@ -7,6 +7,8 @@ package com.mycompany.mavenproject1.Jeu.Factory;
 
 import com.mycompany.mavenproject1.Jeu.Tuiles;
 
+import java.rmi.RemoteException;
+
 /**
  *
  * @author Arthur
@@ -17,7 +19,7 @@ public class TuilesFactory {
         this.sTF=new SimpleTuileFactory();
     }
     
-    public Tuiles genererTuiles(String type){
+    public Tuiles genererTuiles(String type) throws RemoteException {
         Tuiles tuile=this.sTF.creerTuile(type);
         return tuile;
     }

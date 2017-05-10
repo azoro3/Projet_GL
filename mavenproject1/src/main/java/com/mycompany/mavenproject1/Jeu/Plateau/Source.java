@@ -5,16 +5,22 @@
  */
 package com.mycompany.mavenproject1.Jeu.Plateau;
 
+import Reseau.InterfaceSource;
+
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
+
 /**
  *
  * @author Arthur
  */
-public class Source {
+public class Source extends UnicastRemoteObject implements InterfaceSource {
 
     private int x;
     private int y;
 
-    public Source() {
+    public Source() throws RemoteException {
+        super();
         this.x = rand3(0,13);
         this.y = rand3(0,10);
     }
@@ -25,21 +31,14 @@ public class Source {
      * @param max
      * @return 
      */
-    private int rand3(int min, int max) {
+    public int rand3(int min, int max) {
         return (int) ((Math.random() * (max - min) + min) / 3) * 3;
     }
 
-    public static Source getInstance() {
-        return SourceHolder.INSTANCE;
-    }
 
-    private static class SourceHolder {
 
-        private static final Source INSTANCE = new Source();
-    }
 
-    @Override
-    public String toString() {
+    public String tostring() {
         return "Source{" + "x=" + x + ", y=" + y + '}';
     }
 

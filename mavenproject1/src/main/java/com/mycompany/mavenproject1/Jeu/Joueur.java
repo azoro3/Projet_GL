@@ -9,12 +9,13 @@ import Reseau.InterfaceClient;
 import Reseau.InterfaceServeur;
 
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 
 /**
  *
  * @author Arthur
  */
-public class Joueur implements InterfaceClient {
+public class Joueur  extends UnicastRemoteObject implements InterfaceClient {
     private String nom;
     private String couleur;
     private Canal canal;

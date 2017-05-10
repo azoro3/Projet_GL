@@ -5,20 +5,25 @@
  */
 package com.mycompany.mavenproject1.Jeu;
 
+import Reseau.InterfaceTuiles;
+
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.Random;
 
 /**
  *
  * @author Arthur
  */
-public class Tuiles {
+public class Tuiles extends UnicastRemoteObject implements InterfaceTuiles {
     private String type;
     private int nbTravailleurs;
     private int x;
     private int y;
     private boolean isIrigue;
 
-    public Tuiles(String type) {
+    public Tuiles(String type) throws RemoteException {
+        super();
         this.type=type;
         Random r=new Random();
         this.nbTravailleurs = 1 + r.nextInt(3 - 1);

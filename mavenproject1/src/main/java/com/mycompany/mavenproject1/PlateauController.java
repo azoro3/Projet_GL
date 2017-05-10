@@ -1,31 +1,29 @@
 package com.mycompany.mavenproject1;
 
-import Reseau.InterfaceClient;
-import Reseau.InterfaceServeur;
-import Reseau.Serveur;
+import Reseau.*;
 import com.mycompany.mavenproject1.Jeu.Canal;
+import com.mycompany.mavenproject1.Jeu.CanalJ;
 import com.mycompany.mavenproject1.Jeu.Joueur;
 import com.mycompany.mavenproject1.Jeu.Plateau.Source;
 import com.mycompany.mavenproject1.Jeu.Tuiles;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
+
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
@@ -34,11 +32,13 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.GridPane;
+import javafx.util.Pair;
+
 import javax.swing.JOptionPane;
 
 public class PlateauController implements Initializable {
 
-    static Partie partie = new Partie();
+    private static InterfacePartie partie;
 
     @FXML
     private GridPane plateau;
@@ -59,7 +59,9 @@ public class PlateauController implements Initializable {
     private Label j4Nom, j4Couleur;
     @FXML
     private Label j5Nom, j5Couleur;
-    private ArrayList<InterfaceClient> listeJoueurs;
+    private ArrayList<Joueur> listeJoueurs;
+    private InterfaceServeur serv;
+    private InterfaceSource source;
     
     @FXML
     private ImageView canalPropHoriz, canalPropVerti;
@@ -70,15 +72,35 @@ public class PlateauController implements Initializable {
         final ImageView img = new ImageView();
         final Image sourceImg = new Image(getClass().getResourceAsStream("/images/source.png"));
         img.setImage(sourceImg);
-
+        try {
+            this.lancerClient();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        } catch (NotBoundException e) {
+            e.printStackTrace();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
         // Placement aléatoire de la source
-        plateau.add(img, Source.getInstance().getX(), Source.getInstance().getY());
+        try {
+            plateau.add(img,this.source.getX(), this.source.getY());
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+
     }
     /**
      * fonction pour sauvegarder les scores de la partie au format JSON
      */
-
-    public void saveScore(){
+    public void setServeur(Serveur s){
+        this.serv=s;
+    }
+    public InterfaceServeur getServeur(){
+        return this.serv;
+    }
+    public void saveScore() throws RemoteException {
         String filePath="./saveScore.json";
         String res="{\"joueurs\" :[\n";
         for(final Joueur j :partie.getListeJoueurs()){
@@ -102,21 +124,21 @@ public class PlateauController implements Initializable {
     /**
      * fonctions pour sauvegarder la partie au format JSON
      */
-    public void savePartie(){
+    public void savePartie() throws RemoteException {
         String res="{\n\"tuiles\" :[\n";
-        for(final Tuiles t :partie.getPile1()){
+        for(final InterfaceTuiles t :partie.getPile1()){
             res+=t.toJSON()+",\r\n";
         }
-        for(final Tuiles t :partie.getPile2()){
+        for(final InterfaceTuiles t :partie.getPile2()){
             res+=t.toJSON()+",\r\n";
         }
-        for(final Tuiles t :partie.getPile3()){
+        for(final InterfaceTuiles t :partie.getPile3()){
             res+=t.toJSON()+",\r\n";
         }
-        for(final Tuiles t :partie.getPile4()){
+        for(final InterfaceTuiles t :partie.getPile4()){
             res+=t.toJSON()+",\r\n";
         }
-        for(final Tuiles t :partie.getPile5()){
+        for(final InterfaceTuiles t :partie.getPile5()){
             res+=t.toJSON()+",\r\n";
         }
         res=res.substring(0,(res.length()-3));
@@ -149,20 +171,22 @@ public class PlateauController implements Initializable {
         }
     }
 
-    public void phase1(InterfaceServeur s) throws InterruptedException, RemoteException {
+    public void phase1() throws InterruptedException, RemoteException, NotBoundException, MalformedURLException {
         /* PHASE 1 */
         // Initialisation d'une nouvelle partie
-        partie = new Partie();
-        partie.setServeur(s);
-        partie.initPartie();
-        
+
+
+
+        this.inscrireJoueur();
+
+
         // Affichage de la position de la source
-        posSource.setText("x : " + Source.getInstance().getX() + "\ny : " + Source.getInstance().getY());
+        posSource.setText("x : " + this.source.getX() + "\ny : " + this.source.getY());
         
         // On récupère la première tuile de chaque pile
-        Tuiles[] tuiles = partie.getFirstCarte();
-
+        InterfaceTuiles[] tuiles = partie.getFirstCarte();
         // On affiche la première tuile
+
         mettreImage(tuile1, tuiles[0].getType(), tuiles[0].getNbTravailleurs(),-1,-1);
         mettreImage(tuile2, tuiles[1].getType(), tuiles[1].getNbTravailleurs(),-1,-1);
         mettreImage(tuile3, tuiles[2].getType(), tuiles[2].getNbTravailleurs(),-1,-1);
@@ -170,8 +194,8 @@ public class PlateauController implements Initializable {
         mettreImage(tuile5, tuiles[4].getType(), tuiles[4].getNbTravailleurs(),-1,-1);
 
         // Affichage des informations sur les joueurs
-        listeJoueurs = s.getListeClient();
-        j1Nom.setText(listeJoueurs.get(0).getNom());
+        listeJoueurs = partie.getListeJoueurs();
+        /*j1Nom.setText(listeJoueurs.get(0).getNom());
         j1Couleur.setText(listeJoueurs.get(0).getCouleur());
         j2Nom.setText(listeJoueurs.get(1).getNom());
         j2Couleur.setText(listeJoueurs.get(1).getCouleur());
@@ -182,8 +206,16 @@ public class PlateauController implements Initializable {
         j5Nom.setText(listeJoueurs.get(4).getNom());
         j5Couleur.setText(listeJoueurs.get(4).getCouleur());
 
-        this.phase2();
+        this.phase2();*/
 
+    }
+
+    private void lancerClient() throws InterruptedException, RemoteException, NotBoundException, MalformedURLException {
+        LancerClient client=new LancerClient();
+        client.run();
+        this.serv=client.getServeur();
+        partie=client.getPartie();
+        this.source=client.getSource();
     }
 
     public void phase2() throws RemoteException {
@@ -200,7 +232,7 @@ public class PlateauController implements Initializable {
         this.phase3();
     }
     
-    public void phase3(){
+    public void phase3() throws RemoteException {
         List<Canal> listeCanalPose = partie.getListeCanalPose();
         dragAndDrop(canalPropHoriz);
         dragAndDrop(canalPropVerti);
@@ -313,6 +345,69 @@ public class PlateauController implements Initializable {
         }
         
     }
+    public void inscrireJoueur() throws RemoteException {
+        this.listeJoueurs = new ArrayList();
+
+
+        // Le joueur doit choisir son nom et sa couleur
+        String nomJ = "";
+        String couleurJ = "";
+        Dialog<Pair<String, String>> dialog = new Dialog<>();
+        dialog.setTitle("Informations joueurs");
+        dialog.setHeaderText("Choisissez vos informations.");
+
+        ButtonType okButtonType = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(okButtonType);
+
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(20, 150, 10, 10));
+
+        // Champ pour le nom
+        TextField nom = new TextField();
+        nom.setPromptText("Nom");
+        // Liste de choix de couleur
+        ChoiceBox couleur = new ChoiceBox(FXCollections.observableArrayList("Noir", "Violet", "Beige", "Gris","Caca d'oie"));
+        couleur.getSelectionModel().selectFirst();
+
+        grid.add(new Label("Nom :"), 0, 0);
+        grid.add(nom, 1, 0);
+        grid.add(new Label("Couleur :"), 0, 1);
+        grid.add(couleur, 1, 1);
+
+        // Active/désactive le bouton OK si le champ Nom est complété
+        Node okButton = dialog.getDialogPane().lookupButton(okButtonType);
+        okButton.setDisable(true);
+        nom.textProperty().addListener((observable, oldValue, newValue) -> {
+            okButton.setDisable(newValue.trim().isEmpty());
+        });
+
+        dialog.getDialogPane().setContent(grid);
+
+        // Conversion du résultat en une paire de string lorsque le bouton OK est cliqué
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == okButtonType) {
+                return new Pair<>(nom.getText(), (String) couleur.getSelectionModel().getSelectedItem());
+            }
+            return null;
+        });
+
+        Optional<Pair<String, String>> result = dialog.showAndWait();
+        if(result.isPresent()){
+            nomJ = result.get().getKey();
+            couleurJ = result.get().getValue();
+        }
+
+        Joueur J = new Joueur(nomJ, couleurJ, 10, 22);
+        CanalJ c = new CanalJ(couleurJ);
+        this.serv.enregistrer(J);
+        this.listeJoueurs.add(J);
+
+
+        this.listeJoueurs.get(0).setEstConstructeur(true);
+
+    }
 
     /**
      * Fonction qui gère le Drag & Drop d'une image (soit une tuile, soit un canal) sur le plateau.
@@ -366,9 +461,14 @@ public class PlateauController implements Initializable {
                         }
                     }
                 }
-                
-                List<Canal> listeCanalPose = partie.getListeCanalPose();
-                
+
+                List<Canal> listeCanalPose = null;
+                try {
+                    listeCanalPose = partie.getListeCanalPose();
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+
                 // Cas d'un canal horizontal
                 if (db.getImage().getHeight() == 10.0 && db.getImage().getWidth() == 100.0) {
                     // Vérifie que la position est acceptée pour un canal horizontal
@@ -376,10 +476,14 @@ public class PlateauController implements Initializable {
                             && (lig == 0 || lig == 3 || lig == 6 || lig == 9)) {
                         // Vérifier que le canal est près de la source ou d'un autre canal
                         Canal c = new Canal(col, lig, col + 1, lig);
-                        if(c.poserCanalPlateau(Source.getInstance(), listeCanalPose)){
-                            plateau.add(new ImageView(db.getImage()), col, lig);
-                            plateau.add(new ImageView(db.getImage()), col + 1, lig);
-                            success = true;
+                        try {
+                            if(c.poserCanalPlateau(this.source, listeCanalPose)){
+                                plateau.add(new ImageView(db.getImage()), col, lig);
+                                plateau.add(new ImageView(db.getImage()), col + 1, lig);
+                                success = true;
+                            }
+                        } catch (RemoteException e) {
+                            e.printStackTrace();
                         }
                     }
                 }
@@ -391,10 +495,14 @@ public class PlateauController implements Initializable {
                             && (lig == 1 || lig == 4 || lig == 7)) {
                         // Vérifier que le canal est près de la source ou d'un autre canal
                         Canal c = new Canal(col, lig, col, lig + 1);
-                        if(c.poserCanalPlateau(Source.getInstance(), listeCanalPose)){
-                            plateau.add(new ImageView(db.getImage()), col, lig);
-                            plateau.add(new ImageView(db.getImage()), col, lig + 1);
-                            success = true;
+                        try {
+                            if(c.poserCanalPlateau(this.source, listeCanalPose)){
+                                plateau.add(new ImageView(db.getImage()), col, lig);
+                                plateau.add(new ImageView(db.getImage()), col, lig + 1);
+                                success = true;
+                            }
+                        } catch (RemoteException e) {
+                            e.printStackTrace();
                         }
                     }
                 }
@@ -436,7 +544,7 @@ public class PlateauController implements Initializable {
      * 
      * @param tuiles liste des tuiles posée SUR le plateau
      */
-    private void secheresse(Tuiles[] tuiles){
+    private void secheresse(Tuiles[] tuiles) throws RemoteException {
         Tuiles t = tuiles[0];
         t.setX((int) tuile1.getLayoutX());
         t.setY((int) tuile1.getLayoutY());
@@ -457,7 +565,7 @@ public class PlateauController implements Initializable {
         t.setX((int) tuile5.getLayoutX());
         t.setY((int) tuile5.getLayoutY());
         partie.getTuilesJoue().add(t);
-        for(final Tuiles tu: partie.getTuilesJoue()){
+        for(final InterfaceTuiles tu: partie.getTuilesJoue()){
             for(final Canal c: partie.getListeCanalPose()){
                 if(tu.getX()-1==c.getxDeb()||tu.getX()+1==c.getxDeb()
                   ||tu.getX()-1==c.getxFin()||tu.getX()+1==c.getxFin()

@@ -7,13 +7,15 @@ package com.mycompany.mavenproject1.Jeu.Factory;
 
 import com.mycompany.mavenproject1.Jeu.Tuiles;
 
+import java.rmi.RemoteException;
+
 /**
  *
  * @author Arthur
  */
 public class SimpleTuileFactory {
 
-    public Tuiles creerTuile(String type){
+    public Tuiles creerTuile(String type) throws RemoteException {
         Tuiles t=null;
         switch(type){
             case("piment"):t=new Tuiles("piment");break;

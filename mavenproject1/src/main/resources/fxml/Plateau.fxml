@@ -27,8 +27,9 @@
                             <menus>
                                 <Menu mnemonicParsing="false" text="Jeu">
                                     <items>
+                                        <MenuItem fx:id="newGame" mnemonicParsing="false" onAction="#phase1" text="Nouvelle partie" />
                                         <MenuItem fx:id="saveScore" mnemonicParsing="false" onAction="#saveScore" text="Sauvegarder les scores" />
-                              <MenuItem fx:id="savePartie" mnemonicParsing="false" onAction="#savePartie" text="Sauvegarder la partie" />
+                                        <MenuItem fx:id="savePartie" mnemonicParsing="false" onAction="#savePartie" text="Sauvegarder la partie" />
                                     </items>
                                 </Menu>
                             </menus>

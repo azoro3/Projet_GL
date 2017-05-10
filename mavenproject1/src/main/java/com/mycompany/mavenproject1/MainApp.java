@@ -1,6 +1,10 @@
 package com.mycompany.mavenproject1;
 
 import Reseau.InterfaceServeur;
+import Reseau.LancerClient;
+import Reseau.LancerServeur;
+import com.mycompany.mavenproject1.Jeu.Joueur;
+import com.mycompany.mavenproject1.Jeu.Plateau.Source;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
@@ -12,15 +16,9 @@ import java.rmi.RemoteException;
 
 
 public class MainApp extends Application{
-    private InterfaceServeur serveur;
-    public InterfaceServeur getServeur(){
-        return this.serveur;
-    }
-    public void setServeur(InterfaceServeur s){
-        this.serveur=s;
-    }
     @Override
     public void start(Stage stage) throws Exception {
+
         AnchorPane root = FXMLLoader.load(getClass().getResource("/fxml/Plateau.fxml"));
 
         Scene scene = new Scene(root);
@@ -29,10 +27,8 @@ public class MainApp extends Application{
         stage.setTitle("Santiago");
         stage.setResizable(false); // empêcher le redimmensionnement de la fenêtre
         stage.setScene(scene);
-        PlateauController p = new PlateauController();
-        System.out.println(this.getServeur().getListeNom());
+
         stage.show();
-        //p.phase1(this.serveur);
 
     }
 
@@ -44,10 +40,8 @@ public class MainApp extends Application{
      *
      * @param args the command line arguments
      */
-    public void main(String[] args) throws RemoteException, InterruptedException {
-
-       launch();
-
+    public static void main(String[] args) throws RemoteException, InterruptedException {
+       launch(args);
     }
 
 
