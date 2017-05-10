@@ -11,6 +11,7 @@ import com.mycompany.mavenproject1.Jeu.Factory.TuilesFactory;
 import com.mycompany.mavenproject1.Jeu.Plateau.Source;
 import java.util.*;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.ButtonBar.ButtonData;
@@ -39,6 +40,7 @@ public class Partie {
     private List<Canal> listeCanalPose = new LinkedList<>();
     private List<Tuiles> tuilesJoue = new LinkedList<>();
     private Source s;
+    private ObservableList colors = FXCollections.observableArrayList("Noir", "Violet", "Beige", "Gris", "Blanc");
     
    /**
     * fonction de création d'une partie
@@ -57,7 +59,6 @@ public class Partie {
             Dialog<Pair<String, String>> dialog = new Dialog<>();
             dialog.setTitle("Informations joueurs");
             dialog.setHeaderText("Choisissez vos informations.");
-            
             ButtonType okButtonType = new ButtonType("OK", ButtonData.OK_DONE);
             dialog.getDialogPane().getButtonTypes().addAll(okButtonType);
             
@@ -70,7 +71,8 @@ public class Partie {
             TextField nom = new TextField();
             nom.setPromptText("Nom");
             // Liste de choix de couleur
-            ChoiceBox couleur = new ChoiceBox(FXCollections.observableArrayList("Noir", "Violet", "Beige", "Gris", "Blanc"));
+            
+            ChoiceBox couleur = new ChoiceBox(colors);
             couleur.getSelectionModel().selectFirst();
             
             grid.add(new Label("Nom :"), 0, 0);
@@ -99,6 +101,7 @@ public class Partie {
             if(result.isPresent()){
                 nomJ = result.get().getKey();
                 couleurJ = result.get().getValue();
+                colors.remove(couleurJ);
             }
 
             Joueur J = new Joueur(nomJ, couleurJ, 10, 22);

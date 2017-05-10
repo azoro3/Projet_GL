@@ -47,7 +47,7 @@ public class Phase3Controller implements Initializable {
 
     private Stage dialogStage;
     final ToggleGroup group = new ToggleGroup();
-    private Map<Joueur, String> enchere;
+    private Map<Joueur, Integer> enchere = new HashMap<>();
     private String resultat;
     private Joueur joueurActuel;
 
@@ -89,18 +89,19 @@ public class Phase3Controller implements Initializable {
                 mise.setText(newValue.replaceAll("[^\\d]", ""));
             }
         });
+        
     }
     
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
     }
     
-    public void setEnchere(Map<Joueur, String> enchere){
+    public void setEnchere(Map<Joueur, Integer> enchere){
         this.enchere = enchere;
         
         // Remplissage de la liste de choix si suivi de mise
         enchere.entrySet().forEach((entry) -> {
-            soutien.getItems().add(entry.getKey().getNom() + " mise " + entry.getValue());
+            soutien.getItems().add(entry.getValue() + " Escudos misé(s) par " + entry.getKey().getNom());
         });
     }
 

@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,8 +22,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -33,10 +34,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 public class PlateauController implements Initializable {
 
@@ -254,13 +253,12 @@ public class PlateauController implements Initializable {
      * Phase 3
      */
     public void phase3() {
-        Map<Joueur, String> enchere = new HashMap<>();
-        Map<Joueur, String> suivre = new HashMap<>();
+        Map<Joueur, Integer> enchere = new HashMap<>();
         Map<Joueur, String> passe = new HashMap<>();
 
         for (final Joueur j : partie.getListeJoueurs()) {
             // Seul les joueurs qui ne sont pas constructeur peuvent miser
-            // Le constructeur n'intervient qu'à la fin
+            // Le constructeur n'intervient qu'à la fin de la phase
             if (!j.isEstConstructeur()) {
                 String couleur = j.getCouleur();
 
@@ -287,14 +285,15 @@ public class PlateauController implements Initializable {
                     // Il n'intervient pas dans la construction des canaux
                     if (res.equals("Passe")) {
                         passe.put(j, res);
-                    } // Cas où le joueur suit une mise existante
+                    } // Cas où le joueur suit une mise existante :
                     // Il soutient une nouvelle mise de 1 Escudos
-                    else if (res.contains("mise")) {
-                        suivre.put(j, res + 1);
-                    } // Cas où le joueur fait une nouvelle proposition
+                    else if (res.contains("Escudos")) {
+                        int mise = Integer.parseInt(res.substring(0, res.indexOf(" ")));
+                        enchere.put(j, mise + 1);
+                    } // Cas où le joueur fait une nouvelle proposition :
                     // Il creuse un nouveau canal
                     else {
-                        enchere.put(j, res);
+                        enchere.put(j, Integer.parseInt(res));
                         switch (couleur) {
                             case "Beige":
                                 dragAndDrop(canalPropHorizBe);
@@ -323,9 +322,27 @@ public class PlateauController implements Initializable {
                 }
             }
         }
-        // TODO : demander au constructeur de canal s'il veut accepter une offre où construire où il veut
+        // Demander au constructeur de canal s'il veut accepter une offre où construire où il veut
+        ArrayList<String> choices = new ArrayList<>();
+        choices.add("Contruire un autre canal");
+        enchere.entrySet().forEach((entry) -> {
+            choices.add(entry.getValue() + " Escudos misé(s) par " + entry.getKey().getNom());
+        });
+
         for (final Joueur j : partie.getListeJoueurs()) {
             if (j.isEstConstructeur()) {
+                ChoiceDialog<String> dialog = new ChoiceDialog<>();
+                dialog.getItems().addAll(choices);
+                dialog.setTitle("Mises enregistrées");
+                dialog.setHeaderText(null);
+                dialog.setContentText("Choissisez une proposition : ");
+                
+                dialog.setSelectedItem("Construire un autre canal");
+                
+                Optional<String> result = dialog.showAndWait();
+                if (result.isPresent()) {
+                    System.out.println("Réponse : " + result.get());
+                }
             }
         }
     }
