@@ -47,7 +47,7 @@ public class Joueur {
     }
 
     public void setSolde(int solde) {
-        this.solde = solde;
+        this.solde += solde;
     }
 
     public int getTravailleurs() {

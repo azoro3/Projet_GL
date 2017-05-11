@@ -287,6 +287,58 @@ public class PlateauController implements Initializable {
             }
         }
     }
+    /*PHASE 5*/
+    /**
+     * 
+     * @param tuiles liste des tuiles posée SUR le plateau
+     */
+    private void phase5(Tuiles[] tuiles){
+        Tuiles t = tuiles[0];
+        t.setX((int) tuile1.getLayoutX());
+        t.setY((int) tuile1.getLayoutY());
+        partie.getTuilesJoue().add(t);
+        t = tuiles[1];
+        t.setX((int) tuile2.getLayoutX());
+        t.setY((int) tuile2.getLayoutY());
+        partie.getTuilesJoue().add(t);
+        t = tuiles[2];
+        t.setX((int) tuile3.getLayoutX());
+        t.setY((int) tuile3.getLayoutY());
+        partie.getTuilesJoue().add(t);
+        t = tuiles[3];
+        t.setX((int) tuile4.getLayoutX());
+        t.setY((int) tuile4.getLayoutY());
+        partie.getTuilesJoue().add(t);
+        t = tuiles[4];
+        t.setX((int) tuile5.getLayoutX());
+        t.setY((int) tuile5.getLayoutY());
+        partie.getTuilesJoue().add(t);
+        for(final Tuiles tu: partie.getTuilesJoue()){
+            for(final Canal c: partie.getListeCanalPose()){
+                if(tu.getX()-1==c.getxDeb()||tu.getX()+1==c.getxDeb()
+                  ||tu.getX()-1==c.getxFin()||tu.getX()+1==c.getxFin()
+                  ||tu.getY()-1==c.getyDeb()||tu.getY()+1==c.getyDeb()
+                  ||tu.getY()-1==c.getyFin()||tu.getY()+1==c.getyFin()){
+                  tu.setIrigue(true);break;
+                }
+            }
+            if(!tu.getIrigue()){
+                tu.setNbTravailleurs(tu.getNbTravailleurs()-1);
+                if(tu.getNbTravailleurs()==0){
+                    Image desert = new Image(getClass().getResourceAsStream("/images/vide.jpg"));
+                    plateau.add(new ImageView(desert),tu.getX(),tu.getY());
+                }else
+                {
+                    mettreImage(null, tu.getType(), tu.getNbTravailleurs(),tu.getX(),tu.getY());
+                }
+            }
+        }
+    }
+    public void phase6(){
+        for(final Joueur j :this.listeJoueurs){
+            j.setSolde(3);
+        }
+    }
     /**
      * Fonction d'affichage des tuiles
      *
@@ -464,53 +516,5 @@ public class PlateauController implements Initializable {
             }
         }
         return result;
-    }
-
-    /*PHASE 5*/
-    /**
-     * 
-     * @param tuiles liste des tuiles posée SUR le plateau
-     */
-    private void secheresse(Tuiles[] tuiles){
-        Tuiles t = tuiles[0];
-        t.setX((int) tuile1.getLayoutX());
-        t.setY((int) tuile1.getLayoutY());
-        partie.getTuilesJoue().add(t);
-        t = tuiles[1];
-        t.setX((int) tuile2.getLayoutX());
-        t.setY((int) tuile2.getLayoutY());
-        partie.getTuilesJoue().add(t);
-        t = tuiles[2];
-        t.setX((int) tuile3.getLayoutX());
-        t.setY((int) tuile3.getLayoutY());
-        partie.getTuilesJoue().add(t);
-        t = tuiles[3];
-        t.setX((int) tuile4.getLayoutX());
-        t.setY((int) tuile4.getLayoutY());
-        partie.getTuilesJoue().add(t);
-        t = tuiles[4];
-        t.setX((int) tuile5.getLayoutX());
-        t.setY((int) tuile5.getLayoutY());
-        partie.getTuilesJoue().add(t);
-        for(final Tuiles tu: partie.getTuilesJoue()){
-            for(final Canal c: partie.getListeCanalPose()){
-                if(tu.getX()-1==c.getxDeb()||tu.getX()+1==c.getxDeb()
-                  ||tu.getX()-1==c.getxFin()||tu.getX()+1==c.getxFin()
-                  ||tu.getY()-1==c.getyDeb()||tu.getY()+1==c.getyDeb()
-                  ||tu.getY()-1==c.getyFin()||tu.getY()+1==c.getyFin()){
-                  tu.setIrigue(true);break;
-                }
-            }
-            if(!tu.getIrigue()){
-                tu.setNbTravailleurs(tu.getNbTravailleurs()-1);
-                if(tu.getNbTravailleurs()==0){
-                    Image desert = new Image(getClass().getResourceAsStream("/images/vide.jpg"));
-                    plateau.add(new ImageView(desert),tu.getX(),tu.getY());
-                }else
-                {
-                    mettreImage(null, tu.getType(), tu.getNbTravailleurs(),tu.getX(),tu.getY());
-                }
-            }
-        }
     }
 }
