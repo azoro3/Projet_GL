@@ -7,9 +7,13 @@ package com.mycompany.mavenproject1.Jeu;
 
 import Reseau.InterfaceClient;
 import Reseau.InterfaceServeur;
+import com.mycompany.mavenproject1.PlateauController;
+import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 
 /**
  *
@@ -23,7 +27,7 @@ public class Joueur  extends UnicastRemoteObject implements InterfaceClient {
     private int travailleurs;
     private boolean estConstructeur = false;
     private InterfaceServeur serv;
-
+    private ArrayList<InterfaceClient> listeJoueurs;
     //Getter and setter
     public String getNom(){
         return nom;
@@ -95,6 +99,8 @@ public class Joueur  extends UnicastRemoteObject implements InterfaceClient {
         String joueurJSON ="{\"nom\" : \""+this.nom+"\",\"couleur\":\""+this.couleur+"\",\"solde\":"+this.solde+",\"score\":"+score+"}";
         return joueurJSON;
     }
-    
+
+
+
     
 }

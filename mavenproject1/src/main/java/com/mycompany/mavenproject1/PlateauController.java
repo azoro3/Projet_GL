@@ -38,7 +38,7 @@ import javax.swing.JOptionPane;
 
 public class PlateauController implements Initializable {
 
-    private static InterfacePartie partie;
+    private InterfacePartie partie;
 
     @FXML
     private GridPane plateau;
@@ -49,6 +49,13 @@ public class PlateauController implements Initializable {
     @FXML
     private Label posSource;
 
+
+    private ArrayList<InterfaceClient> listeJoueurs;
+    private InterfaceServeur serv;
+    private InterfaceSource source;
+    
+    @FXML
+    private ImageView canalPropHoriz, canalPropVerti;
     @FXML
     private Label j1Nom, j1Couleur;
     @FXML
@@ -59,13 +66,7 @@ public class PlateauController implements Initializable {
     private Label j4Nom, j4Couleur;
     @FXML
     private Label j5Nom, j5Couleur;
-    private ArrayList<Joueur> listeJoueurs;
-    private InterfaceServeur serv;
-    private InterfaceSource source;
-    
-    @FXML
-    private ImageView canalPropHoriz, canalPropVerti;
-
+    private InterfaceClient joueurEnCours;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // Chargement de l'image "source.png"
@@ -94,16 +95,13 @@ public class PlateauController implements Initializable {
     /**
      * fonction pour sauvegarder les scores de la partie au format JSON
      */
-    public void setServeur(Serveur s){
-        this.serv=s;
-    }
     public InterfaceServeur getServeur(){
         return this.serv;
     }
     public void saveScore() throws RemoteException {
         String filePath="./saveScore.json";
         String res="{\"joueurs\" :[\n";
-        for(final Joueur j :partie.getListeJoueurs()){
+        for(final InterfaceClient j :partie.getListeJoueurs()){
             System.out.println(j.getNom());
             res+=j.toJSON()+",\r\n";
         }
@@ -154,7 +152,7 @@ public class PlateauController implements Initializable {
             e.printStackTrace();
         } 
         res=",\n\"joueurs\" :[\n";
-        for(final Joueur j :partie.getListeJoueurs()){
+        for(final InterfaceClient j :partie.getListeJoueurs()){
             res+=j.toJSON()+",\r\n";
         }
         res=res.substring(0,(res.length()-3));
@@ -176,9 +174,35 @@ public class PlateauController implements Initializable {
         // Initialisation d'une nouvelle partie
 
 
-
         this.inscrireJoueur();
+        while(this.serv.getListeClient().size()!=5){
+            Dialog<Pair<String, String>> dialog = new Dialog<>();
+            dialog.setTitle("WAIT");
+            dialog.setHeaderText("Attendre qu'il y ait 5 joueurs de connectés");
 
+            ButtonType okButtonType = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
+            dialog.getDialogPane().getButtonTypes().addAll(okButtonType);
+
+            GridPane grid = new GridPane();
+            grid.setHgap(10);
+            grid.setVgap(10);
+            grid.setPadding(new Insets(20, 150, 10, 10));
+
+
+
+
+            Node okButton = dialog.getDialogPane().lookupButton(okButtonType);
+
+
+
+            dialog.getDialogPane().setContent(grid);
+
+            // Conversion du résultat en une paire de string lorsque le bouton OK est cliqué
+            Optional<Pair<String, String>> result = dialog.showAndWait();
+
+        }
+        partie.setServeur(this.serv);
+        this.afficherJoueur();
 
         // Affichage de la position de la source
         posSource.setText("x : " + this.source.getX() + "\ny : " + this.source.getY());
@@ -193,20 +217,9 @@ public class PlateauController implements Initializable {
         mettreImage(tuile4, tuiles[3].getType(), tuiles[3].getNbTravailleurs(),-1,-1);
         mettreImage(tuile5, tuiles[4].getType(), tuiles[4].getNbTravailleurs(),-1,-1);
 
-        // Affichage des informations sur les joueurs
-        listeJoueurs = partie.getListeJoueurs();
-        /*j1Nom.setText(listeJoueurs.get(0).getNom());
-        j1Couleur.setText(listeJoueurs.get(0).getCouleur());
-        j2Nom.setText(listeJoueurs.get(1).getNom());
-        j2Couleur.setText(listeJoueurs.get(1).getCouleur());
-        j3Nom.setText(listeJoueurs.get(2).getNom());
-        j3Couleur.setText(listeJoueurs.get(2).getCouleur());
-        j4Nom.setText(listeJoueurs.get(3).getNom());
-        j4Couleur.setText(listeJoueurs.get(3).getCouleur());
-        j5Nom.setText(listeJoueurs.get(4).getNom());
-        j5Couleur.setText(listeJoueurs.get(4).getCouleur());
 
-        this.phase2();*/
+
+        this.phase2();
 
     }
 
@@ -217,19 +230,84 @@ public class PlateauController implements Initializable {
         partie=client.getPartie();
         this.source=client.getSource();
     }
+    public void afficherJoueur() throws RemoteException {
+        ArrayList<InterfaceClient> listeClient = this.serv.getListeClient();
+        this.listeJoueurs=this.serv.getListeClient();
+        j1Nom.setText(listeClient.get(0).getNom());
+        j1Couleur.setText(listeClient.get(0).getNom());
+        if (this.listeJoueurs.size() == 2 || this.listeJoueurs.size() == 3 || this.listeJoueurs.size() == 4 || this.listeJoueurs.size() == 5) {
+            j2Nom.setText(listeJoueurs.get(1).getNom());
+            j2Couleur.setText(listeJoueurs.get(1).getCouleur());
+        }
+        if (this.listeJoueurs.size() == 3 || this.listeJoueurs.size() == 4 || this.listeJoueurs.size() == 5) {
+            j3Nom.setText(listeJoueurs.get(2).getNom());
+            j3Couleur.setText(listeJoueurs.get(2).getCouleur());
+        }
+        if (this.listeJoueurs.size() == 4 || this.listeJoueurs.size() == 5) {
+            j4Nom.setText(listeJoueurs.get(3).getNom());
+            j4Couleur.setText(listeJoueurs.get(3).getCouleur());
+        }
+        if (this.listeJoueurs.size() == 5) {
+            j5Nom.setText(listeJoueurs.get(4).getNom());
+            j5Couleur.setText(listeJoueurs.get(4).getCouleur());
+        }
+    }
+
 
     public void phase2() throws RemoteException {
-        
+
+        this.listeJoueurs=this.serv.getListeClient();
+//      fonction pour trier les joueurs dans le sens des enchères.
+        boolean tri = false; int i=0;
+        ArrayList<InterfaceClient> lTemp=new ArrayList<>();
+        while(!tri){
+            if(this.listeJoueurs.get(i).isEstConstructeur())  {
+                for(int j=0;j<=i;j++){
+                    lTemp.add(this.listeJoueurs.remove(j));
+                }
+                tri=true;
+            }
+            i++;
+        }
+        this.listeJoueurs.addAll(lTemp);
+        this.serv.setListeClient(this.listeJoueurs);
         /* PHASE 2 */
-        Map<Joueur, String> enchere = partie.faireUneEnchere();
-        partie.changerConstructeur(enchere);
+        this.serv.getEnchere();
+
+
+            int valeurEnchere = Integer.parseInt(JOptionPane.showInputDialog(this.joueurEnCours.getNom() + ", faites votre enchère !"));
+            while (true) {
+                // verifie que la personne ne passe pas son tour
+                if (valeurEnchere >= 0) {
+                    // verifie que la personne ait bien l'argent pour la mise
+                    if (this.joueurEnCours.getSolde() >= valeurEnchere) {
+                        // verifie que personne n'ai misé cela avant
+                        if (!this.serv.getEnchere().values().contains(valeurEnchere)) {
+                            this.serv.getEnchere().put(this.joueurEnCours,valeurEnchere);
+                            break;
+                        } else {
+                            valeurEnchere = Integer.parseInt(JOptionPane.showInputDialog("Quelqu'un à déjà miser cette somme, faites une autre enchères ! :"));
+                        }
+                    } else {
+                        valeurEnchere = Integer.parseInt(JOptionPane.showInputDialog("Vous n'avez pas assez d'argent pour une telle enchere ! :"));
+                    }
+                } else {
+                    valeurEnchere = Integer.parseInt(JOptionPane.showInputDialog("Pas d'enchere négative ! :"));
+                }
+
+
+            }
+
+
+
+        partie.changerConstructeur(this.serv.getEnchere());
 
         dragAndDrop(tuile1);
         dragAndDrop(tuile2);
         dragAndDrop(tuile3);
         dragAndDrop(tuile4);
         dragAndDrop(tuile5);
-        this.phase3();
+        //this.phase3();
     }
     
     public void phase3() throws RemoteException {
@@ -401,12 +479,14 @@ public class PlateauController implements Initializable {
 
         Joueur J = new Joueur(nomJ, couleurJ, 10, 22);
         CanalJ c = new CanalJ(couleurJ);
+        this.joueurEnCours = J;
         this.serv.enregistrer(J);
+        partie.setServeur(this.serv);
+
         this.listeJoueurs.add(J);
 
 
         this.listeJoueurs.get(0).setEstConstructeur(true);
-
     }
 
     /**
@@ -430,6 +510,7 @@ public class PlateauController implements Initializable {
             }
             event.consume();
         });
+
 
         // Drop une image sur le plateau
         plateau.setOnDragDropped((DragEvent event) -> {
