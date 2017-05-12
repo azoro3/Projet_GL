@@ -12,12 +12,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -26,8 +33,11 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javax.swing.JOptionPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 public class PlateauController implements Initializable {
 
@@ -57,17 +67,9 @@ public class PlateauController implements Initializable {
     private final Label[] p = new Label[5];
     private final Label[] e = new Label[5];
     private ArrayList<Joueur> listeJoueurs;
-    
-    @FXML
-    private ImageView canalPropHorizBe, canalPropVertiBe;
-    @FXML
-    private ImageView canalPropHorizBl, canalPropVertiBl;
-    @FXML
-    private ImageView canalPropHorizG, canalPropVertiG;
-    @FXML
-    private ImageView canalPropHorizN, canalPropVertiN;
-    @FXML
-    private ImageView canalPropHorizV, canalPropVertiV;
+
+    Image canalHorizVide = new Image(getClass().getResourceAsStream("/images/canal_horiz.png"));
+    Image canalVertiVide = new Image(getClass().getResourceAsStream("/images/canal_verti.png"));
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -79,6 +81,7 @@ public class PlateauController implements Initializable {
         // Placement aléatoire de la source
         plateau.add(img, Source.getInstance().getX(), Source.getInstance().getY());
     }
+    
     /**
      * fonction pour sauvegarder les scores de la partie au format JSON
      */
@@ -103,6 +106,7 @@ public class PlateauController implements Initializable {
         }
         
     }
+    
     /**
      * fonctions pour sauvegarder la partie au format JSON
      */
@@ -165,8 +169,6 @@ public class PlateauController implements Initializable {
         // Affichage de la position de la source
         posSource.setText("x : " + Source.getInstance().getX() + "\ny : " + Source.getInstance().getY());
         
-       
-
         listeJoueurs = partie.getListeJoueurs();
         j1Nom.setText(listeJoueurs.get(0).getNom());
         j1Couleur.setText(listeJoueurs.get(0).getCouleur());
@@ -178,9 +180,6 @@ public class PlateauController implements Initializable {
         j4Couleur.setText(listeJoueurs.get(3).getCouleur());
         j5Nom.setText(listeJoueurs.get(4).getNom());
         j5Couleur.setText(listeJoueurs.get(4).getCouleur());
-
-        //this.phase2();
-        
         
         Task<Boolean> afficherTuile = new Task<Boolean>() {
             @Override
@@ -245,37 +244,182 @@ public class PlateauController implements Initializable {
 
         new Thread(dragAndDropTuile).start();
     }
-    
+
     /**
      * Phase 3
      */
     public void phase3() {
+        Map<Joueur, Integer> enchere = new HashMap<>();
+        Map<Joueur, String> passe = new HashMap<>();
+        Map<Joueur, Integer> suivi = new HashMap<>();
+        Map<Joueur, Canal> propositionJoueur = new HashMap<>();
+
         for (final Joueur j : partie.getListeJoueurs()) {
-            String couleur = j.getCouleur();
-            switch (couleur) {
-                case "Beige":
-                    dragAndDrop(canalPropHorizBe);
-                    dragAndDrop(canalPropVertiBe);
-                    break;
-                case "Blanc":
-                    dragAndDrop(canalPropHorizBl);
-                    dragAndDrop(canalPropVertiBl);
-                    break;
-                case "Gris":
-                    dragAndDrop(canalPropHorizG);
-                    dragAndDrop(canalPropVertiG);
-                    break;
-                case "Noir":
-                    dragAndDrop(canalPropHorizN);
-                    dragAndDrop(canalPropVertiN);
-                    break;
-                case "Violet":
-                    dragAndDrop(canalPropHorizV);   
-                    dragAndDrop(canalPropVertiV);
-                    break;
+            // Seul les joueurs qui ne sont pas constructeur peuvent miser
+            // Le constructeur n'intervient qu'à la fin de la phase
+            if (!j.isEstConstructeur()) {
+
+                try {
+                    // Chaque joueur doit décider s'il fait une proposition, s'il soutient une autre proposition ou s'il passe
+                    FXMLLoader loader = new FXMLLoader(MainApp.class.getResource("/fxml/Phase3.fxml"));
+                    AnchorPane page = (AnchorPane) loader.load();
+                    Stage dialogStage = new Stage();
+                    dialogStage.setTitle("Mises");
+                    dialogStage.initModality(Modality.WINDOW_MODAL);
+
+                    Scene scene = new Scene(page);
+                    dialogStage.setScene(scene);
+
+                    Phase3Controller controller = loader.getController();
+                    controller.setDialogStage(dialogStage);
+                    controller.setEnchere(enchere);
+                    controller.setJoueurActuel(j);
+
+                    dialogStage.showAndWait();
+                    String res = controller.getResultat();
+
+                    // Cas où le joueur passe son tour
+                    // Il n'intervient pas dans la construction des canaux
+                    if (res.equals("Passe")) {
+                        passe.put(j, res);
+                    } // Cas où le joueur suit une mise existante :
+                    // Il soutient une nouvelle mise de 1 Escudos
+                    else if (res.contains("Escudos")) {
+                        int mise = Integer.parseInt(res.substring(0, res.indexOf(" ")));
+                        suivi.put(j, mise + 1);
+                    } // Cas où le joueur fait une nouvelle proposition :
+                    // Il fait une proposition pour creuser un nouveau canal
+                    else {
+                        enchere.put(j, Integer.parseInt(res));
+                    }
+                } catch (IOException ex) {
+                    Logger.getLogger(PlateauController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+
+        // Chaque joueur qui a fait une proposition doit creuser un canal
+        enchere.entrySet().forEach((entry) -> {
+            try {
+                String couleur = entry.getKey().getCouleur();
+                FXMLLoader loader = new FXMLLoader(MainApp.class.getResource("/fxml/PropositionCanal.fxml"));
+                AnchorPane page = (AnchorPane) loader.load();
+                Stage dialogStage = new Stage();
+                dialogStage.setTitle("Creuser un canal");
+                dialogStage.initModality(Modality.WINDOW_MODAL);
+                Scene scene = new Scene(page);
+                dialogStage.setScene(scene);
+                PropositionCanalController controller = loader.getController();
+                controller.setDialogStage(dialogStage);
+                controller.setPartie(this.partie);
+                controller.setJoueurActuel(entry.getKey());
+
+                dialogStage.showAndWait();
+                Canal res = controller.getResultat();
+                propositionJoueur.put(entry.getKey(), res);
+                this.afficherPropositionCanal(couleur, res.getxDeb(), res.getxFin(), res.getyDeb(), res.getyFin());
+
+            } catch (IOException ex) {
+                Logger.getLogger(PlateauController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+
+        // Demander au constructeur de canal s'il veut accepter une offre où construire où il veut
+        ArrayList<String> choices = new ArrayList<>();
+        choices.add("Contruire un autre canal");
+        enchere.entrySet().forEach((entry) -> {
+            choices.add(entry.getKey().getNom() + " a misé " + entry.getValue() + " Escudos");
+        });
+
+        for (final Joueur j : partie.getListeJoueurs()) {
+            if (j.isEstConstructeur()) {
+                ChoiceDialog<String> dialog = new ChoiceDialog<>();
+                dialog.getItems().addAll(choices);
+                dialog.setTitle("Mises enregistrées");
+                dialog.setHeaderText(null);
+                dialog.setContentText("Choissisez une proposition : ");
+                dialog.setSelectedItem("Construire un autre canal");
+
+                Optional<String> result = dialog.showAndWait();
+                if (result.isPresent()) {
+
+                    System.out.println("Réponse : " + result.get());
+
+                    if (result.get().contains("canal")) {
+                        // Nouvelle fenêtre avec plusieurs proposition, puis ajout à la liste des canaux posés
+                        try {
+                            FXMLLoader loader = new FXMLLoader(MainApp.class.getResource("/fxml/PropositionCanal.fxml"));
+                            AnchorPane page = (AnchorPane) loader.load();
+                            Stage dialogStage = new Stage();
+                            dialogStage.setTitle("Creuser un canal");
+                            dialogStage.initModality(Modality.WINDOW_MODAL);
+                            Scene scene = new Scene(page);
+                            dialogStage.setScene(scene);
+                            PropositionCanalController controller = loader.getController();
+                            controller.setDialogStage(dialogStage);
+                            controller.setPartie(this.partie);
+
+                            dialogStage.showAndWait();
+                            Canal res = controller.getResultat();
+
+                            // Effacer les propositions des joueurs
+                            propositionJoueur.entrySet().forEach((entry) -> {
+                                Canal c = entry.getValue();
+                                // Le canal est vertical
+                                if (c.getxDeb() == c.getxFin()) {
+                                    plateau.add(new ImageView(this.canalVertiVide), c.getxDeb(), c.getyDeb());
+                                    plateau.add(new ImageView(this.canalVertiVide), c.getxDeb(), c.getyDeb() + 1);
+                                } // Le canal est horizontal
+                                else if (c.getyDeb() == c.getyFin()) {
+                                    plateau.add(new ImageView(this.canalHorizVide), c.getxDeb(), c.getyDeb());
+                                    plateau.add(new ImageView(this.canalHorizVide), c.getxDeb() + 1, c.getyDeb());
+                                }
+                            });
+
+                            this.afficherPropositionCanal("Bleu", res.getxDeb(), res.getxFin(), res.getyDeb(), res.getyFin());
+
+                            partie.addListeCanauxPoses(res);
+                        } catch (IOException ex) {
+                            Logger.getLogger(PlateauController.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    } else if (result.get().contains("Escudos")) {
+                        // Récupérer le canal, puis ajout à la liste des canaux posés, puis coloration en bleu
+                        String joueur = result.get().substring(0, result.get().indexOf(" "));
+                        System.out.println(joueur);
+                        Canal res = new Canal();
+                        propositionJoueur.entrySet().forEach((Map.Entry<Joueur, Canal> entry) -> {
+                            if (entry.getKey().getNom().equals(joueur)) {
+                                res.setxDeb(entry.getValue().getxDeb());
+                                res.setxFin(entry.getValue().getxFin());
+                                res.setyDeb(entry.getValue().getyDeb());
+                                res.setyFin(entry.getValue().getyFin());
+                            }
+                        });
+
+                        // Effacer les propositions des joueurs
+                        propositionJoueur.entrySet().forEach((entry) -> {
+                            Canal c = entry.getValue();
+                            // Le canal est vertical
+                            if (c.getxDeb() == c.getxFin()) {
+                                plateau.add(new ImageView(this.canalVertiVide), c.getxDeb(), c.getyDeb());
+                                plateau.add(new ImageView(this.canalVertiVide), c.getxDeb(), c.getyDeb() + 1);
+                            } // Le canal est horizontal
+                            else if (c.getyDeb() == c.getyFin()) {
+                                plateau.add(new ImageView(this.canalHorizVide), c.getxDeb(), c.getyDeb());
+                                plateau.add(new ImageView(this.canalHorizVide), c.getxDeb() + 1, c.getyDeb());
+                            }
+                        });
+                        this.afficherPropositionCanal("Bleu", res.getxDeb(), res.getxFin(), res.getyDeb(), res.getyFin());
+                        partie.addListeCanauxPoses(res);
+                    }
+                }
             }
         }
     }
+    
+    /**
+     * Phase 4
+     */
     public void phase4(){
         for(Joueur j:this.listeJoueurs){
             if(!j.getCanal().getIsPosed()){
@@ -287,9 +431,9 @@ public class PlateauController implements Initializable {
             }
         }
     }
-    /*PHASE 5*/
+    
     /**
-     * 
+     * Phase 5
      * @param tuiles liste des tuiles posée SUR le plateau
      */
     private void phase5(Tuiles[] tuiles){
@@ -334,11 +478,69 @@ public class PlateauController implements Initializable {
             }
         }
     }
+    
+    /**
+     * Phase 6
+     */
     public void phase6(){
         for(final Joueur j :this.listeJoueurs){
             j.setSolde(3);
         }
     }
+    
+    /**
+     * Fonction d'affichage des propositions de canal.
+     *
+     * @param couleur couleur du joueur
+     * @param xDeb
+     * @param xFin
+     * @param yDeb
+     * @param yFin
+     */
+    private void afficherPropositionCanal(String couleur, int xDeb, int xFin, int yDeb, int yFin) {
+        Image canalHoriz = null;
+        Image canalVerti = null;
+
+        switch (couleur) {
+            case "Noir":
+                canalHoriz = new Image(getClass().getResourceAsStream("/images/canal_horiz_noir.png"));
+                canalVerti = new Image(getClass().getResourceAsStream("/images/canal_verti_noir.png"));
+                break;
+            case "Violet":
+                canalHoriz = new Image(getClass().getResourceAsStream("/images/canal_horiz_violet.png"));
+                canalVerti = new Image(getClass().getResourceAsStream("/images/canal_verti_violet.png"));
+                break;
+            case "Beige":
+                canalHoriz = new Image(getClass().getResourceAsStream("/images/canal_horiz_beige.png"));
+                canalVerti = new Image(getClass().getResourceAsStream("/images/canal_verti_beige.png"));
+                break;
+            case "Gris":
+                canalHoriz = new Image(getClass().getResourceAsStream("/images/canal_horiz_gris.png"));
+                canalVerti = new Image(getClass().getResourceAsStream("/images/canal_verti_gris.png"));
+                break;
+            case "Blanc":
+                canalHoriz = new Image(getClass().getResourceAsStream("/images/canal_horiz_blanc.png"));
+                canalVerti = new Image(getClass().getResourceAsStream("/images/canal_verti_blanc.png"));
+                break;
+            case "Bleu":
+                canalHoriz = new Image(getClass().getResourceAsStream("/images/canal_horiz_eau.png"));
+                canalVerti = new Image(getClass().getResourceAsStream("/images/canal_verti_eau.png"));
+                break;
+        }
+
+        // Le canal est horizontal
+        if (yDeb == yFin) {
+            plateau.add(new ImageView(canalHoriz), xDeb, yDeb);
+            plateau.add(new ImageView(canalHoriz), xDeb + 1, yDeb);
+        }
+
+        // Le canal est vertical
+        if (xDeb == xFin) {
+            plateau.add(new ImageView(canalVerti), xDeb, yDeb);
+            plateau.add(new ImageView(canalVerti), xDeb, yDeb + 1);
+        }
+    }
+
     /**
      * Fonction d'affichage des tuiles
      *
@@ -449,38 +651,6 @@ public class PlateauController implements Initializable {
                         if (!getNodeByRowColumnIndex(plateau, lig, col).isDisable()) {
                             plateau.add(new ImageView(db.getImage()), col, lig);
                             getNodeByRowColumnIndex(plateau, lig, col).setDisable(true);
-                            success = true;
-                        }
-                    }
-                }
-                
-                List<Canal> listeCanalPose = partie.getListeCanalPose();
-                
-                // Cas d'un canal horizontal
-                if (db.getImage().getHeight() == 10.0 && db.getImage().getWidth() == 100.0) {
-                    // Vérifie que la position est acceptée pour un canal horizontal
-                    if ((col == 1 || col == 4 || col == 7 || col == 10)
-                            && (lig == 0 || lig == 3 || lig == 6 || lig == 9)) {
-                        // Vérifier que le canal est près de la source ou d'un autre canal
-                        Canal c = new Canal(col, lig, col + 1, lig);
-                        if(c.poserCanalPlateau(Source.getInstance(), listeCanalPose)){
-                            plateau.add(new ImageView(db.getImage()), col, lig);
-                            plateau.add(new ImageView(db.getImage()), col + 1, lig);
-                            success = true;
-                        }
-                    }
-                }
-
-                // Cas d'un canal vertical
-                if (db.getImage().getHeight() == 100.0 && db.getImage().getWidth() == 10.0) {
-                    // Vérifie que la position est acceptée pour un canal vertical
-                    if ((col == 0 || col == 3 || col == 6 || col == 9 || col == 12)
-                            && (lig == 1 || lig == 4 || lig == 7)) {
-                        // Vérifier que le canal est près de la source ou d'un autre canal
-                        Canal c = new Canal(col, lig, col, lig + 1);
-                        if(c.poserCanalPlateau(Source.getInstance(), listeCanalPose)){
-                            plateau.add(new ImageView(db.getImage()), col, lig);
-                            plateau.add(new ImageView(db.getImage()), col, lig + 1);
                             success = true;
                         }
                     }
