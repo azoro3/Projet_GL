@@ -309,8 +309,8 @@ public class Partie {
         return tuilesJoue;
     }
     
-    public boolean addListeCanauxPoses(Canal c){
-        return listeCanalPose.add(c);
+    public void addListeCanauxPoses(Canal c){
+        listeCanalPose.add(c);
     }
 
 }

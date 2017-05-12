@@ -466,35 +466,34 @@ public class PlateauController implements Initializable {
             } else {
             }
         }
-        this.phase5(tuiles);
+        this.phase5();
     }
     
     /**
      * Phase 5
-     * @param tuiles liste des tuiles posée SUR le plateau
      */
-    private void phase5(Tuiles[] tuiles){
+    private void phase5(){
         System.out.println("sécheresse");
-        Tuiles t = tuiles[0];
-        t.setX((int) tuile1.getLayoutX());
-        t.setY((int) tuile1.getLayoutY());
-        partie.getTuilesJoue().add(t);
-        t = tuiles[1];
-        t.setX((int) tuile2.getLayoutX());
-        t.setY((int) tuile2.getLayoutY());
-        partie.getTuilesJoue().add(t);
-        t = tuiles[2];
-        t.setX((int) tuile3.getLayoutX());
-        t.setY((int) tuile3.getLayoutY());
-        partie.getTuilesJoue().add(t);
-        t = tuiles[3];
-        t.setX((int) tuile4.getLayoutX());
-        t.setY((int) tuile4.getLayoutY());
-        partie.getTuilesJoue().add(t);
-        t = tuiles[4];
-        t.setX((int) tuile5.getLayoutX());
-        t.setY((int) tuile5.getLayoutY());
-        partie.getTuilesJoue().add(t);
+        Tuiles t = partie.getPile1().get(0);
+        t.setX((int) tuile1.getX());
+        t.setY((int) tuile1.getY());
+        partie.getTuilesJoue().add(partie.getPile1().remove(1));
+        t = partie.getPile2().get(0);
+        t.setX((int) tuile2.getX());
+        t.setY((int) tuile2.getY());
+        partie.getTuilesJoue().add(partie.getPile2().remove(1));
+        partie.getPile3().get(0);
+        t.setX((int) tuile3.getX());
+        t.setY((int) tuile3.getY());
+        partie.getTuilesJoue().add(partie.getPile3().remove(1));
+        partie.getPile4().get(0);
+        t.setX((int) tuile4.getX());
+        t.setY((int) tuile4.getY());
+        partie.getTuilesJoue().add(partie.getPile4().remove(1));
+        partie.getPile5().get(0);
+        t.setX((int) tuile5.getX());
+        t.setY((int) tuile5.getY());
+        partie.getTuilesJoue().add(partie.getPile5().remove(1));
         for(final Tuiles tu: partie.getTuilesJoue()){
             for(final Canal c: partie.getListeCanalPose()){
                 if(tu.getX()-1==c.getxDeb()||tu.getX()+1==c.getxDeb()
@@ -523,9 +522,9 @@ public class PlateauController implements Initializable {
      */
     public void phase6(){
         System.out.println("Revenu");
-        for(final Joueur j :this.listeJoueurs){
+        this.listeJoueurs.forEach((j) -> {
             j.setSolde(3);
-        }
+        });
     }
     
     /**
