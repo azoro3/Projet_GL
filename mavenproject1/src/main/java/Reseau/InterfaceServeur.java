@@ -21,4 +21,7 @@ public interface InterfaceServeur extends Remote{
 	public void putEnchere(InterfaceClient ic,Integer i) throws RemoteException;
 	public void setEnchere(Map<InterfaceClient,Integer> p) throws RemoteException;
 	public Map<InterfaceClient,Integer> getEnchere() throws RemoteException;
+
+    void setListeEncherClient(ArrayList<InterfaceClient> interfaceClients)throws RemoteException;
+	ArrayList<InterfaceClient> getListeEncherClient()throws RemoteException;
 }

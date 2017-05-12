@@ -19,6 +19,7 @@ public class Serveur extends UnicastRemoteObject implements InterfaceServeur {
 	private ArrayList<String> tabNom;
 	private InterfacePartie partie;
 	private Map<InterfaceClient, Integer> enchere;
+	private ArrayList<InterfaceClient> listEncherClient;
 	public Serveur() throws RemoteException {
 		super();
 		this.list = new JList();
@@ -93,5 +94,11 @@ public class Serveur extends UnicastRemoteObject implements InterfaceServeur {
 	}
 	public void putEnchere(InterfaceClient ic,Integer i) throws RemoteException {
 		this.enchere.put(ic,i);
+	}
+	public void setListeEncherClient(ArrayList<InterfaceClient> interfaceClients) throws RemoteException{
+		this.listEncherClient=interfaceClients;
+	}
+	public ArrayList<InterfaceClient> getListeEncherClient() throws RemoteException{
+		return this.listEncherClient;
 	}
 }

@@ -17,7 +17,7 @@ InterfaceTuiles[] getFirstCarte() throws RemoteException;
 
 
 
-	public void changerConstructeur(Map<InterfaceClient, Integer> enchere) throws RemoteException;
+	public ArrayList<InterfaceClient> changerConstructeur(Map<InterfaceClient, Integer> enchere) throws RemoteException;
 
 	ArrayList<InterfaceClient> getListeJoueurs()throws RemoteException;
 

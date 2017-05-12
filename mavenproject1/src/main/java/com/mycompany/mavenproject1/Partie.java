@@ -15,8 +15,6 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.*;
 
-import javax.swing.JOptionPane;
-
 /**
  *
  * @author Arthur
@@ -130,24 +128,68 @@ public class Partie extends UnicastRemoteObject implements InterfacePartie{
      *
      * @param enchere map avec les enchère de chaque joueurs
      */
-    public void changerConstructeur(Map<InterfaceClient, Integer> enchere) throws RemoteException {
+    public ArrayList<InterfaceClient> changerConstructeur(Map<InterfaceClient, Integer> enchere) throws RemoteException {
+
+        ArrayList<Integer> tab;
+
+        tab = new ArrayList<Integer>();
+        int i=0;
         Iterator it = enchere.values().iterator();
         int inf = -1;
         // prendre le meilleur joueur par rapport a toutes les encheres
         while (it.hasNext()) {
             int val = (int) it.next();
+            tab.add(val);
             if (val < inf) {
                 inf = val;
             }
+            i++;
         }
         for (Map.Entry<InterfaceClient, Integer> pair : enchere.entrySet()) {
             if ( pair.getValue() == inf) {
                 InterfaceClient CreuseurJoueur = pair.getKey();
-                CreuseurJoueur.setEstConstructeur(true);
+                for(int k=0;k<serv.getListeClient().size();i++) {
+                    if (serv.getListeClient().get(k) == CreuseurJoueur) {
+                        serv.getListeClient().get(k).setEstConstructeur(true);
+                    }
+                }
                 break;
             }
         }
+        Collections.sort(tab);
+        ArrayList<InterfaceClient> trier = new ArrayList<InterfaceClient>();
+        if(serv.getEnchere().size()==5){
+        for (Map.Entry<InterfaceClient, Integer> pair2 : serv.getEnchere().entrySet()) {
+            if(tab.get(4).equals(pair2.getValue())){
+                trier.add(pair2.getKey());
+            }
+        }
+        for (Map.Entry<InterfaceClient, Integer> pair2 : serv.getEnchere().entrySet()) {
+            if(tab.get(3).equals(pair2.getValue())){
+                trier.add(pair2.getKey());
+            }
+        }for (Map.Entry<InterfaceClient, Integer> pair2 : serv.getEnchere().entrySet()) {
+            if(tab.get(2).equals(pair2.getValue())){
+                trier.add(pair2.getKey());
+            }
+        }for (Map.Entry<InterfaceClient, Integer> pair2 : serv.getEnchere().entrySet()) {
+            if(tab.get(1).equals(pair2.getValue())){
+                trier.add(pair2.getKey());
+            }
+        }for (Map.Entry<InterfaceClient, Integer> pair2 : serv.getEnchere().entrySet()) {
+            if (tab.get(0).equals( pair2.getValue())) {
+                trier.add(pair2.getKey());
+
+            }
+        }
+          }
+        return trier;
+
+
     }
+
+
+
 
     public ArrayList<InterfaceClient> getListeJoueurs() {
         return listeJoueurs;

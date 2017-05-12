@@ -175,7 +175,7 @@ public class PlateauController implements Initializable {
 
 
         this.inscrireJoueur();
-        while(this.serv.getListeClient().size()!=5){
+        /*while(this.serv.getListeClient().size()!=5){
             Dialog<Pair<String, String>> dialog = new Dialog<>();
             dialog.setTitle("WAIT");
             dialog.setHeaderText("Attendre qu'il y ait 5 joueurs de connectés");
@@ -200,7 +200,7 @@ public class PlateauController implements Initializable {
             // Conversion du résultat en une paire de string lorsque le bouton OK est cliqué
             Optional<Pair<String, String>> result = dialog.showAndWait();
 
-        }
+        }*/
         partie.setServeur(this.serv);
         this.afficherJoueur();
 
@@ -234,7 +234,7 @@ public class PlateauController implements Initializable {
         ArrayList<InterfaceClient> listeClient = this.serv.getListeClient();
         this.listeJoueurs=this.serv.getListeClient();
         j1Nom.setText(listeClient.get(0).getNom());
-        j1Couleur.setText(listeClient.get(0).getNom());
+        j1Couleur.setText(listeClient.get(0).getCouleur());
         if (this.listeJoueurs.size() == 2 || this.listeJoueurs.size() == 3 || this.listeJoueurs.size() == 4 || this.listeJoueurs.size() == 5) {
             j2Nom.setText(listeJoueurs.get(1).getNom());
             j2Couleur.setText(listeJoueurs.get(1).getCouleur());
@@ -256,34 +256,19 @@ public class PlateauController implements Initializable {
 
     public void phase2() throws RemoteException {
 
-        this.listeJoueurs=this.serv.getListeClient();
-//      fonction pour trier les joueurs dans le sens des enchères.
-        boolean tri = false; int i=0;
-        ArrayList<InterfaceClient> lTemp=new ArrayList<>();
-        while(!tri){
-            if(this.listeJoueurs.get(i).isEstConstructeur())  {
-                for(int j=0;j<=i;j++){
-                    lTemp.add(this.listeJoueurs.remove(j));
-                }
-                tri=true;
-            }
-            i++;
-        }
-        this.listeJoueurs.addAll(lTemp);
-        this.serv.setListeClient(this.listeJoueurs);
-        /* PHASE 2 */
-        this.serv.getEnchere();
+
 
 
             int valeurEnchere = Integer.parseInt(JOptionPane.showInputDialog(this.joueurEnCours.getNom() + ", faites votre enchère !"));
+
             while (true) {
                 // verifie que la personne ne passe pas son tour
                 if (valeurEnchere >= 0) {
                     // verifie que la personne ait bien l'argent pour la mise
                     if (this.joueurEnCours.getSolde() >= valeurEnchere) {
                         // verifie que personne n'ai misé cela avant
-                        if (!this.serv.getEnchere().values().contains(valeurEnchere)) {
-                            this.serv.getEnchere().put(this.joueurEnCours,valeurEnchere);
+                        if (!this.serv.getEnchere().values().contains(valeurEnchere) || valeurEnchere==0) {
+                            this.serv.putEnchere(this.joueurEnCours,valeurEnchere);
                             break;
                         } else {
                             valeurEnchere = Integer.parseInt(JOptionPane.showInputDialog("Quelqu'un à déjà miser cette somme, faites une autre enchères ! :"));
@@ -297,11 +282,37 @@ public class PlateauController implements Initializable {
 
 
             }
+       /* while(serv.getEnchere().size()!=2){
+            Dialog<Pair<String, String>> dialog = new Dialog<>();
+            dialog.setTitle("WAIT");
+            dialog.setHeaderText("Attendre que toutes les encheres soient faites");
+
+            ButtonType okButtonType = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
+            dialog.getDialogPane().getButtonTypes().addAll(okButtonType);
+
+            GridPane grid = new GridPane();
+            grid.setHgap(10);
+            grid.setVgap(10);
+            grid.setPadding(new Insets(20, 150, 10, 10));
 
 
 
-        partie.changerConstructeur(this.serv.getEnchere());
 
+            Node okButton = dialog.getDialogPane().lookupButton(okButtonType);
+
+
+
+            dialog.getDialogPane().setContent(grid);
+
+            // Conversion du résultat en une paire de string lorsque le bouton OK est cliqué
+            Optional<Pair<String, String>> result = dialog.showAndWait();
+        }*/
+
+
+        serv.setListeEncherClient(partie.changerConstructeur(this.serv.getEnchere()));
+        for(int i=0;i<this.serv.getListeEncherClient().size();i++) {
+            System.out.println(this.serv.getListeEncherClient().get(i) +"j"+ this.serv.getEnchere().get(this.serv.getListeEncherClient().get(i)));
+        }
         dragAndDrop(tuile1);
         dragAndDrop(tuile2);
         dragAndDrop(tuile3);
@@ -482,11 +493,6 @@ public class PlateauController implements Initializable {
         this.joueurEnCours = J;
         this.serv.enregistrer(J);
         partie.setServeur(this.serv);
-
-        this.listeJoueurs.add(J);
-
-
-        this.listeJoueurs.get(0).setEstConstructeur(true);
     }
 
     /**
