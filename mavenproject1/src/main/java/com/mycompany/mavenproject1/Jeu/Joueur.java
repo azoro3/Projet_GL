@@ -71,6 +71,7 @@ public class Joueur {
         this.couleur = couleur;
         this.solde = solde;
         this.travailleurs = travailleurs;
+        this.canal=new CanalJ(this.couleur);
     }
     /**
      * 

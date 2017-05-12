@@ -141,60 +141,11 @@ public class JUnitSantiago {
         bw.close();
     }
     
-    @DisplayName("testPoserCanal")
+    @DisplayName("test Joueur")
     @Test
-    public void testPoserCanal() {
-        Boolean reponse;
-        Canal c = new Canal();
-        Canal c2 = new Canal();
-        Source s = Source.getInstance();
-        List<Canal> listCanalPose=new LinkedList();
-        c.setxDeb(0);
-        c.setxFin(1);
-        c.setyDeb(0);
-        c.setyFin(0);
-        listCanalPose.add(c);
-
-        c2.setxDeb(0);
-        c2.setxFin(1);
-        c2.setyDeb(0);
-        c2.setyFin(0);
-
-        reponse=c2.poserCanal(s,listCanalPose);
-        //canal c2 = canal c
-        assertFalse(reponse);
-
-        c2.setxDeb(s.getX());
-        c2.setxFin(s.getX());
-        c2.setyDeb(s.getY());
-        c2.setyFin(s.getY()+1);
-        reponse=c2.poserCanal(s,listCanalPose);
-        // xdeb et ydeb de c2 = x et y de la source
-        assertTrue(reponse);
-
-        c2.setxDeb(1);
-        c2.setyDeb(0);
-        c2.setxFin(2);
-        c2.setyFin(0);
-        reponse=c2.poserCanal(s,listCanalPose);
-        //xdeb et ydeb c2 = xfin et yfin de c
-        assertTrue(reponse);
-
-        c2.setxDeb(0);
-        c2.setyDeb(0);
-        c2.setxFin(0);
-        c2.setyFin(1);
-        reponse=c2.poserCanal(s,listCanalPose);
-        // xdeb et ydeb c2 = xdeb et ydeb c
-        assertTrue(reponse);
-
-
-        c2.setxDeb(1);
-        c2.setyDeb(0);
-        c2.setxFin(3);
-        c2.setyFin(5);
-        reponse=c2.poserCanal(s,listCanalPose);
-        // canal c2 non conforme
-        assertFalse(reponse);
-    }
+    public void testJoueur(){
+    Joueur j=new Joueur("Arthur","Rouge",22,22);
+    assertNotNull(j.getCanal().getCouleur());
+    assertEquals(false,j.getCanal().getIsPosed());
+}
 }

@@ -11,7 +11,7 @@ package com.mycompany.mavenproject1.Jeu;
  */
 public class CanalJ extends Canal {
     private String Couleur;
-    private boolean isPosed;
+    private boolean isPosed=false;
 
     public String getCouleur() {
         return Couleur;

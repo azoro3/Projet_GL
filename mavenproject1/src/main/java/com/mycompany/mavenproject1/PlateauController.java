@@ -415,53 +415,52 @@ public class PlateauController implements Initializable {
                 }
             }
         }
-        this.phase4();
+     this.phase4();
     }
     
     /**
      * Phase 4
      */
     public void phase4(){
-        for(Joueur j:this.listeJoueurs){
-            if(!j.getCanal().getIsPosed()){
+        System.out.println(partie.getListeJoueurs().size());
+        for(final Joueur j:partie.getListeJoueurs()){
+            if(j.getCanal().getIsPosed()==false){
                 String res=JOptionPane.showInputDialog("Voulez VOus posez un canal ? (o/n)");
-                if(res=="o"){
-                             Canal res2 = null ;
-                                try {
-                                    FXMLLoader loader = new FXMLLoader(MainApp.class.getResource("/fxml/PropositionCanal.fxml"));
-                                    AnchorPane page = (AnchorPane) loader.load();
-                                    Stage dialogStage = new Stage();
-                                    dialogStage.setTitle("Creuser un canal");
-                                    dialogStage.initModality(Modality.WINDOW_MODAL);
-                                    Scene scene = new Scene(page);
-                                    dialogStage.setScene(scene);
-                                    PropositionCanalController controller = loader.getController();
-                                    controller.setDialogStage(dialogStage);
-                                    controller.setPartie(this.partie);
-
-                                    dialogStage.showAndWait();
-                                    res2 = controller.getResultat();
-
-                                    // Effacer les propositions des joueurs
-                                        // Le canal est vertical
-                                        if (res2.getxDeb() == res2.getxFin()) {
-                                            plateau.add(new ImageView(this.canalVertiVide), res2.getxDeb(), res2.getyDeb());
-                                            plateau.add(new ImageView(this.canalVertiVide), res2.getxDeb(), res2.getyDeb() + 1);
-                                        } // Le canal est horizontal
-                                        else if (res2.getyDeb() == res2.getyFin()) {
-                                            plateau.add(new ImageView(this.canalHorizVide), res2.getxDeb(), res2.getyDeb());
-                                            plateau.add(new ImageView(this.canalHorizVide), res2.getxDeb() + 1, res2.getyDeb());
-                                        }
-                                    ;
-                                         } catch (IOException ex) {
-                            Logger.getLogger(PlateauController.class.getName()).log(Level.SEVERE, null, ex);
+                if("o".equals(res)){
+                    Canal res2 = null ;
+                    try {
+                        FXMLLoader loader = new FXMLLoader(MainApp.class.getResource("/fxml/PropositionCanal.fxml"));
+                        AnchorPane page = (AnchorPane) loader.load();
+                        Stage dialogStage = new Stage();
+                        dialogStage.setTitle("Creuser un canal");
+                        dialogStage.initModality(Modality.WINDOW_MODAL);
+                        Scene scene = new Scene(page);
+                        dialogStage.setScene(scene);
+                        PropositionCanalController controller = loader.getController();
+                        controller.setDialogStage(dialogStage);
+                        controller.setPartie(PlateauController.partie);
+                        
+                        dialogStage.showAndWait();
+                        res2 = controller.getResultat();
+                        
+                        // Effacer les propositions des joueurs
+                        // Le canal est vertical
+                        if (res2.getxDeb() == res2.getxFin()) {
+                            plateau.add(new ImageView(this.canalVertiVide), res2.getxDeb(), res2.getyDeb());
+                            plateau.add(new ImageView(this.canalVertiVide), res2.getxDeb(), res2.getyDeb() + 1);
+                        } // Le canal est horizontal
+                        else if (res2.getyDeb() == res2.getyFin()) {
+                            plateau.add(new ImageView(this.canalHorizVide), res2.getxDeb(), res2.getyDeb());
+                            plateau.add(new ImageView(this.canalHorizVide), res2.getxDeb() + 1, res2.getyDeb());
                         }
-
-                            this.afficherPropositionCanal("Bleu", res2.getxDeb(), res2.getxFin(), res2.getyDeb(), res2.getyFin());
-
-                            partie.addListeCanauxPoses(res2);
+                        ;
+                    } catch (IOException ex) {
+                        Logger.getLogger(PlateauController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    partie.addListeCanauxPoses(res2);
                     break;
                 }
+            } else {
             }
         }
     }

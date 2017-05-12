@@ -1,5 +1,3 @@
-{"joueurs" :[
-{"nom" : "e","couleur":"r","solde":10,"score":10},
-{"nom" : "t","couleur":"y","solde":10,"score":10},
-{"nom" : "u","couleur":"i","solde":10,"score":10},
-{"nom" : "a","couleur":"z","solde":10,"score":10}]}
+{joueurs :[
+{"nom" : "Arthur","couleur":"Bleu","solde":10,"score":10},
+{"nom" : "Manon","couleur":"Vert","solde":10,"score":10}]}
