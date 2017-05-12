@@ -255,10 +255,12 @@ public class PlateauController implements Initializable {
         Map<Joueur, String> passe = new HashMap<>();
         Map<Joueur, Integer> suivi = new HashMap<>();
         Map<Joueur, Canal> propositionJoueur = new HashMap<>();
-
+        String res;
+        int miseMax=0;
         for (final Joueur j : partie.getListeJoueurs()) {
             // Seul les joueurs qui ne sont pas constructeur peuvent miser
             // Le constructeur n'intervient qu'à la fin de la phase
+            
             if (!j.isEstConstructeur()) {
 
                 try {
@@ -278,7 +280,7 @@ public class PlateauController implements Initializable {
                     controller.setJoueurActuel(j);
 
                     dialogStage.showAndWait();
-                    String res = controller.getResultat();
+                    res = controller.getResultat();
 
                     // Cas où le joueur passe son tour
                     // Il n'intervient pas dans la construction des canaux
@@ -288,11 +290,15 @@ public class PlateauController implements Initializable {
                     // Il soutient une nouvelle mise de 1 Escudos
                     else if (res.contains("Escudos")) {
                         int mise = Integer.parseInt(res.substring(0, res.indexOf(" ")));
+                        j.setSolde(mise);
                         suivi.put(j, mise + 1);
                     } // Cas où le joueur fait une nouvelle proposition :
                     // Il fait une proposition pour creuser un nouveau canal
                     else {
                         enchere.put(j, Integer.parseInt(res));
+                        j.setSolde(Integer.parseInt(res));
+                        if(Integer.parseInt(res)>miseMax);
+                        miseMax=Integer.parseInt(res);
                     }
                 } catch (IOException ex) {
                     Logger.getLogger(PlateauController.class.getName()).log(Level.SEVERE, null, ex);
@@ -301,7 +307,7 @@ public class PlateauController implements Initializable {
         }
 
         // Chaque joueur qui a fait une proposition doit creuser un canal
-        enchere.entrySet().forEach((entry) -> {
+        enchere.entrySet().forEach((Map.Entry<Joueur, Integer> entry) -> {
             try {
                 String couleur = entry.getKey().getCouleur();
                 FXMLLoader loader = new FXMLLoader(MainApp.class.getResource("/fxml/PropositionCanal.fxml"));
@@ -317,9 +323,9 @@ public class PlateauController implements Initializable {
                 controller.setJoueurActuel(entry.getKey());
 
                 dialogStage.showAndWait();
-                Canal res = controller.getResultat();
-                propositionJoueur.put(entry.getKey(), res);
-                this.afficherPropositionCanal(couleur, res.getxDeb(), res.getxFin(), res.getyDeb(), res.getyFin());
+                Canal res3 = controller.getResultat();
+                propositionJoueur.put(entry.getKey(), res3);
+                this.afficherPropositionCanal(couleur, res3.getxDeb(), res3.getxFin(), res3.getyDeb(), res3.getyFin());
 
             } catch (IOException ex) {
                 Logger.getLogger(PlateauController.class.getName()).log(Level.SEVERE, null, ex);
@@ -347,8 +353,9 @@ public class PlateauController implements Initializable {
 
                     System.out.println("Réponse : " + result.get());
 
-                    if (result.get().contains("canal")) {
+                    if (result.get().contains("canal") ) {
                         // Nouvelle fenêtre avec plusieurs proposition, puis ajout à la liste des canaux posés
+                        j.setSolde(-(miseMax+1));
                         try {
                             FXMLLoader loader = new FXMLLoader(MainApp.class.getResource("/fxml/PropositionCanal.fxml"));
                             AnchorPane page = (AnchorPane) loader.load();
@@ -362,7 +369,7 @@ public class PlateauController implements Initializable {
                             controller.setPartie(this.partie);
 
                             dialogStage.showAndWait();
-                            Canal res = controller.getResultat();
+                            Canal res4 = controller.getResultat();
 
                             // Effacer les propositions des joueurs
                             propositionJoueur.entrySet().forEach((entry) -> {
@@ -378,23 +385,24 @@ public class PlateauController implements Initializable {
                                 }
                             });
 
-                            this.afficherPropositionCanal("Bleu", res.getxDeb(), res.getxFin(), res.getyDeb(), res.getyFin());
+                            this.afficherPropositionCanal("Bleu", res4.getxDeb(), res4.getxFin(), res4.getyDeb(), res4.getyFin());
 
-                            partie.addListeCanauxPoses(res);
+                            partie.addListeCanauxPoses(res4);
                         } catch (IOException ex) {
                             Logger.getLogger(PlateauController.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     } else if (result.get().contains("Escudos")) {
                         // Récupérer le canal, puis ajout à la liste des canaux posés, puis coloration en bleu
                         String joueur = result.get().substring(0, result.get().indexOf(" "));
-                        System.out.println(joueur);
-                        Canal res = new Canal();
+                        Canal res5 = new Canal();
                         propositionJoueur.entrySet().forEach((Map.Entry<Joueur, Canal> entry) -> {
                             if (entry.getKey().getNom().equals(joueur)) {
-                                res.setxDeb(entry.getValue().getxDeb());
-                                res.setxFin(entry.getValue().getxFin());
-                                res.setyDeb(entry.getValue().getyDeb());
-                                res.setyFin(entry.getValue().getyFin());
+                                res5.setxDeb(entry.getValue().getxDeb());
+                                res5.setxFin(entry.getValue().getxFin());
+                                res5.setyDeb(entry.getValue().getyDeb());
+                                res5.setyFin(entry.getValue().getyFin());
+                                int mise = enchere.get(entry.getKey().getNom());
+                                entry.getKey().setSolde(-mise);
                             }
                         });
 
@@ -411,8 +419,8 @@ public class PlateauController implements Initializable {
                                 plateau.add(new ImageView(this.canalHorizVide), c.getxDeb() + 1, c.getyDeb());
                             }
                         });
-                        this.afficherPropositionCanal("Bleu", res.getxDeb(), res.getxFin(), res.getyDeb(), res.getyFin());
-                        partie.addListeCanauxPoses(res);
+                        this.afficherPropositionCanal("Bleu", res5.getxDeb(), res5.getxFin(), res5.getyDeb(), res5.getyFin());
+                        partie.addListeCanauxPoses(res5);
                     }
                 }
             }
