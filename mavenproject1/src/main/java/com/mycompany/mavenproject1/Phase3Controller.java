@@ -10,7 +10,6 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -46,7 +45,7 @@ public class Phase3Controller implements Initializable {
     private Label text;
 
     private Stage dialogStage;
-    final ToggleGroup group = new ToggleGroup();
+    private final ToggleGroup group = new ToggleGroup();
     private Map<Joueur, Integer> enchere = new HashMap<>();
     private String resultat;
     private Joueur joueurActuel;

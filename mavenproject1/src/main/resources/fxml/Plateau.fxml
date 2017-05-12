@@ -801,16 +801,6 @@
                         <Label fx:id="j4Couleur" layoutX="97.0" layoutY="163.0" />
                         <Label fx:id="j5Nom" layoutX="14.0" layoutY="183.0" />
                         <Label fx:id="j5Couleur" layoutX="97.0" layoutY="183.0" />
-                        <ImageView fx:id="canalPropHorizBe" fitHeight="100.0" fitWidth="10.0" layoutX="60.0" layoutY="427.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="115.0" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="180.0" AnchorPane.topAnchor="427.0">
-                           <image>
-                              <Image url="@../images/canal_verti_beige.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fx:id="canalPropVertiBe" fitHeight="10.0" fitWidth="100.0" layoutX="28.0" layoutY="558.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="20.0">
-                           <image>
-                              <Image url="@../images/canal_horiz_beige.png" />
-                           </image>
-                        </ImageView>
                         <Label layoutX="14.0" layoutY="284.0" text="Nom">
                            <font>
                               <Font name="System Bold" size="12.0" />
@@ -825,46 +815,6 @@
                         <Label fx:id="e3" layoutX="100.0" layoutY="346.0" />
                         <Label fx:id="e4" layoutX="100.0" layoutY="363.0" />
                         <Label fx:id="e5" layoutX="100.0" layoutY="380.0" />
-                        <ImageView fx:id="canalPropHorizG" fitHeight="100.0" fitWidth="10.0" layoutX="120.0" layoutY="429.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="115.0" AnchorPane.leftAnchor="120.0" AnchorPane.rightAnchor="120.0">
-                           <image>
-                              <Image url="@../images/canal_verti_gris.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fx:id="canalPropHorizBl" fitHeight="100.0" fitWidth="10.0" layoutX="91.0" layoutY="427.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="115.0" AnchorPane.leftAnchor="90.0">
-                           <image>
-                              <Image url="@../images/canal_verti_blanc.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fx:id="canalPropHorizN" fitHeight="100.0" fitWidth="10.0" layoutX="150.0" layoutY="429.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="115.0" AnchorPane.leftAnchor="150.0">
-                           <image>
-                              <Image url="@../images/canal_verti_noir.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fx:id="canalPropHorizV" fitHeight="100.0" fitWidth="10.0" layoutX="180.0" layoutY="429.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="115.0" AnchorPane.leftAnchor="180.0">
-                           <image>
-                              <Image url="@../images/canal_verti_violet.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fx:id="canalPropVertiG" fitHeight="10.0" fitWidth="100.0" layoutX="150.0" layoutY="552.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="80.0" AnchorPane.rightAnchor="20.0">
-                           <image>
-                              <Image url="@../images/canal_horiz_gris.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fx:id="canalPropVertiN" fitHeight="10.0" fitWidth="100.0" layoutX="136.0" layoutY="574.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="50.0" AnchorPane.rightAnchor="20.0">
-                           <image>
-                              <Image url="@../images/canal_horiz_noir.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fx:id="canalPropVertiBl" fitHeight="10.0" fitWidth="100.0" layoutX="22.0" layoutY="579.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="20.0">
-                           <image>
-                              <Image url="@../images/canal_horiz_blanc.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fx:id="canalPropVertiV" fitHeight="10.0" fitWidth="100.0" layoutX="75.0" layoutY="609.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="20.0">
-                           <image>
-                              <Image url="@../images/canal_horiz_violet.png" />
-                           </image>
-                        </ImageView>
                      </children>
                   </AnchorPane>
                </children>

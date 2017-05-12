@@ -39,17 +39,39 @@ public class Partie {
     private List<Canal> listeCanal = new LinkedList();
     private List<Canal> listeCanalPose = new LinkedList<>();
     private List<Tuiles> tuilesJoue = new LinkedList<>();
+    private ArrayList<Canal> canauxAutorises = new ArrayList<>();
+    private ArrayList<Canal> vertical = new ArrayList<>();
+    private ArrayList<Canal> horizontal = new ArrayList<>();
     private Source s;
     private ObservableList colors = FXCollections.observableArrayList("Noir", "Violet", "Beige", "Gris", "Blanc");
     
    /**
     * fonction de création d'une partie
     */
-    public  void initPartie() {
+    public void initPartie() {
+        // Liste de tous les canaux verticaux
+        for (int col = 0; col < 13; col++) {
+            for (int lig = 0; lig < 8; lig++) {
+                if ((col == 0 || col == 3 || col == 6 || col == 9 || col == 12)
+                        && (lig == 1 || lig == 4 || lig == 7)) {
+                    vertical.add(new Canal(col, lig, col, lig + 1));
+                }
+            }
+        }
 
-//      création des joueurs
-        s=Source.getInstance();
-        System.out.println(s.getX()+""+s.getY());
+        // Liste de tous les canaux horizontaux
+        for (int col = 0; col < 11; col++) {
+            for (int lig = 0; lig < 10; lig++) {
+                if ((col == 1 || col == 4 || col == 7 || col == 10)
+                        && (lig == 0 || lig == 3 || lig == 6 || lig == 9)) {
+                    horizontal.add(new Canal(col, lig, col + 1, lig));
+                }
+            }
+        }
+
+        // création des joueurs
+        s = Source.getInstance();
+        //System.out.println(s.getX()+" "+s.getY());
         this.listeJoueurs = new ArrayList();
         
         for (int i = 0; i <= 4; i++) {
@@ -229,6 +251,27 @@ public class Partie {
             }
         }
     }
+    
+    public ArrayList<Canal> getListeCanauxAutorises(Boolean orientation) {
+        canauxAutorises.clear();
+        // Canaux verticaux autorisés
+        if (orientation) {
+            for (Canal c : vertical) {
+                if (!listeCanalPose.contains(c)) {
+                    canauxAutorises.add(c);
+                }
+            }
+        } else {
+            // Canaux horizontaux autorisés
+            for (Canal c : horizontal) {
+                if (!listeCanalPose.contains(c)) {
+                    canauxAutorises.add(c);
+                }
+            }
+
+        }
+        return canauxAutorises;
+    }
 
     public ArrayList<Joueur> getListeJoueurs() {
         return listeJoueurs;
@@ -261,8 +304,13 @@ public class Partie {
     public List<Canal> getListeCanalPose() {
         return listeCanalPose;
     }
-     public List<Tuiles> getTuilesJoue(){
+
+    public List<Tuiles> getTuilesJoue() {
         return tuilesJoue;
-}
+    }
+    
+    public boolean addListeCanauxPoses(Canal c){
+        return listeCanalPose.add(c);
+    }
 
 }
