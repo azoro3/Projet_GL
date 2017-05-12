@@ -42,6 +42,7 @@ import javafx.stage.Stage;
 public class PlateauController implements Initializable {
 
     static Partie partie = new Partie();
+    static Tuiles[] tuiles;
 
     @FXML
     private GridPane plateau;
@@ -185,7 +186,8 @@ public class PlateauController implements Initializable {
             @Override
             protected Boolean call() throws Exception {
                 // On récupère la première tuile de chaque pile
-                Tuiles[] tuiles = partie.getFirstCarte();
+                tuiles=null;
+                tuiles = partie.getFirstCarte();
 
                 // On affiche la première tuile
                 mettreImage(tuile1, tuiles[0].getType(), tuiles[0].getNbTravailleurs(), -1, -1);
@@ -425,7 +427,7 @@ public class PlateauController implements Initializable {
         System.out.println(partie.getListeJoueurs().size());
         for(final Joueur j:partie.getListeJoueurs()){
             if(j.getCanal().getIsPosed()==false){
-                String res=JOptionPane.showInputDialog("Voulez VOus posez un canal ? (o/n)");
+                String res=JOptionPane.showInputDialog(j.getNom()+", voulez vous posez un canal ? (o/n)");
                 if("o".equals(res)){
                     Canal res2 = null ;
                     try {
@@ -457,12 +459,14 @@ public class PlateauController implements Initializable {
                     } catch (IOException ex) {
                         Logger.getLogger(PlateauController.class.getName()).log(Level.SEVERE, null, ex);
                     }
+                    this.afficherPropositionCanal("Bleu", res2.getxDeb(), res2.getxFin(), res2.getyDeb(), res2.getyFin());
                     partie.addListeCanauxPoses(res2);
                     break;
                 }
             } else {
             }
         }
+        this.phase5(tuiles);
     }
     
     /**
@@ -470,6 +474,7 @@ public class PlateauController implements Initializable {
      * @param tuiles liste des tuiles posée SUR le plateau
      */
     private void phase5(Tuiles[] tuiles){
+        System.out.println("sécheresse");
         Tuiles t = tuiles[0];
         t.setX((int) tuile1.getLayoutX());
         t.setY((int) tuile1.getLayoutY());
@@ -510,12 +515,14 @@ public class PlateauController implements Initializable {
                 }
             }
         }
+        this.phase6();
     }
     
     /**
      * Phase 6
      */
     public void phase6(){
+        System.out.println("Revenu");
         for(final Joueur j :this.listeJoueurs){
             j.setSolde(3);
         }
@@ -584,7 +591,7 @@ public class PlateauController implements Initializable {
      * @param y
      */
     private void mettreImage(ImageView tuile, String type, int nbTravailleurs, int x, int y) {
-        Image image;
+        Image image=null;
 
         switch (type) {
             case ("piment"):
@@ -624,16 +631,14 @@ public class PlateauController implements Initializable {
                     image = new Image(getClass().getResourceAsStream("/images/sucre1.png"));
                 } else {
                     image = new Image(getClass().getResourceAsStream("/images/sucre2.png"));
-                }
-                
-                if(x >=0){
+                }               
+                break;
+        }
+        if(x >=0){
                     plateau.add(new ImageView(image),x,y);
                 } else {
                     tuile.setImage(image);
                 }
-                
-                break;
-        }
     }
 
     /**
