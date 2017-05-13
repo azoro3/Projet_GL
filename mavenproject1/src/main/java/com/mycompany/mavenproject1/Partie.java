@@ -205,6 +205,7 @@ public class Partie {
      * @return un hasmap avec les différentes mises des joueurs
      */
     public Map<Joueur, String> faireUneEnchere() {
+        try{
         Map<Joueur, String> enchere = new HashMap<>();
 //      fonction pour trier les joueurs dans le sens des enchères.
         boolean tri = false; int i=0;
@@ -224,7 +225,7 @@ public class Partie {
         for (final Joueur joueur : this.listeJoueurs) {
             String valeurEnchere = JOptionPane.showInputDialog(joueur.getNom() + ", faites votre enchère !");
             
-            while (enchere.values().contains(valeurEnchere) || Integer.parseInt(valeurEnchere)>=joueur.getSolde()) {
+            while (enchere.values().contains(valeurEnchere) /*|| Integer.parseInt(valeurEnchere)>=joueur.getSolde()*/) {
                 if ("Passe".equals(valeurEnchere)) {
                     enchere.put(joueur, valeurEnchere);
                     break;
@@ -238,6 +239,9 @@ public class Partie {
             }
         }
         return enchere;
+    }catch(Exception e){
+                return null;
+    }
     }
     
     /**

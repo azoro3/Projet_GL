@@ -91,7 +91,6 @@ public class PlateauController implements Initializable {
         String filePath="./saveScore.json";
         String res="{\"joueurs\" :[\n";
         for(final Joueur j :partie.getListeJoueurs()){
-            System.out.println(j.getNom());
             res+=j.toJSON()+",\r\n";
         }
         res=res.substring(0,(res.length()-3));
@@ -130,7 +129,7 @@ public class PlateauController implements Initializable {
             res+=t.toJSON()+",\r\n";
         }
         res=res.substring(0,(res.length()-3));
-        res+="}]";
+        res+="]";
         try{
             FileWriter fw= new FileWriter("savePartie.json");
             BufferedWriter bw = new BufferedWriter(fw);
@@ -145,7 +144,7 @@ public class PlateauController implements Initializable {
             res+=c.toJSON()+",\r\n";
         }
         res=res.substring(0,(res.length()-3));
-        res+="]}";
+        res+="]";
         try{
             FileWriter fw= new FileWriter("savePartie.json",true);
             BufferedWriter bw = new BufferedWriter(fw);
@@ -262,7 +261,6 @@ public class PlateauController implements Initializable {
 
         dragAndDropTuile.setOnSucceeded(e -> {
             try {
-                //System.out.println(dragAndDropTuile.getValue());
                 this.phase3();
             } catch (InterruptedException ex) {
                 Logger.getLogger(PlateauController.class.getName()).log(Level.SEVERE, null, ex);
@@ -375,9 +373,6 @@ public class PlateauController implements Initializable {
 
                 Optional<String> result = dialog.showAndWait();
                 if (result.isPresent()) {
-
-                    System.out.println("Réponse : " + result.get());
-
                     if (result.get().contains("canal") ) {
                         // Nouvelle fenêtre avec plusieurs proposition, puis ajout à la liste des canaux posés
                         j.setSolde(-(miseMax+1));
@@ -426,8 +421,8 @@ public class PlateauController implements Initializable {
                                 res5.setxFin(entry.getValue().getxFin());
                                 res5.setyDeb(entry.getValue().getyDeb());
                                 res5.setyFin(entry.getValue().getyFin());
-                                int mise = enchere.get(entry.getKey());
-                                entry.getKey().setSolde(-mise);
+                                int mise = 0-enchere.get(entry.getKey());
+                                entry.getKey().setSolde(mise);
                             }
                         });
 
@@ -457,7 +452,6 @@ public class PlateauController implements Initializable {
      * Phase 4
      */
     public void phase4() throws InterruptedException{
-        System.out.println(partie.getListeJoueurs().size());
         for(final Joueur j:partie.getListeJoueurs()){
             if(j.getCanal().getIsPosed()==false){
                 String res=JOptionPane.showInputDialog(j.getNom()+", voulez vous posez un canal ? (o/n)");
@@ -499,8 +493,8 @@ public class PlateauController implements Initializable {
             } else {
             }
         }
-        this.phase6();
-        //this.phase5();
+        //this.phase6();
+        this.phase5();
     }
     
     /**
@@ -509,42 +503,45 @@ public class PlateauController implements Initializable {
     private void phase5() throws InterruptedException{
         System.out.println("sécheresse");
         Tuiles t = partie.getPile1().get(0);
-        t.setX((int) tuile1.getX());
-        t.setY((int) tuile1.getY());
-        partie.getTuilesJoue().add(partie.getPile1().remove(1));
+        t.setX((int) tuile1.getLayoutX());
+        t.setY((int) tuile1.getLayoutY());
+        partie.getTuilesJoue().add(partie.getPile1().remove(0));
         t = partie.getPile2().get(0);
-        t.setX((int) tuile2.getX());
-        t.setY((int) tuile2.getY());
-        partie.getTuilesJoue().add(partie.getPile2().remove(1));
-        partie.getPile3().get(0);
-        t.setX((int) tuile3.getX());
-        t.setY((int) tuile3.getY());
-        partie.getTuilesJoue().add(partie.getPile3().remove(1));
-        partie.getPile4().get(0);
-        t.setX((int) tuile4.getX());
-        t.setY((int) tuile4.getY());
-        partie.getTuilesJoue().add(partie.getPile4().remove(1));
-        partie.getPile5().get(0);
-        t.setX((int) tuile5.getX());
-        t.setY((int) tuile5.getY());
-        partie.getTuilesJoue().add(partie.getPile5().remove(1));
+        t.setX((int) tuile2.getLayoutX());
+        t.setY((int) tuile2.getLayoutY());
+        partie.getTuilesJoue().add(partie.getPile2().remove(0));
+        t=partie.getPile3().get(0);
+        t.setX((int) tuile3.getLayoutX());
+        t.setY((int) tuile3.getLayoutY());
+        partie.getTuilesJoue().add(partie.getPile3().remove(0));
+        t=partie.getPile4().get(0);
+        t.setX((int) tuile4.getLayoutX());
+        t.setY((int) tuile4.getLayoutY());
+        partie.getTuilesJoue().add(partie.getPile4().remove(0));
+        t=partie.getPile5().get(0);
+        t.setX((int) tuile5.getLayoutX());
+        t.setY((int) tuile5.getLayoutY());
+        partie.getTuilesJoue().add(partie.getPile5().remove(0));
         for(final Tuiles tu: partie.getTuilesJoue()){
+            System.out.println(tu.getX());
+            System.out.println(tu.getY());
             for(final Canal c: partie.getListeCanalPose()){
                 if(tu.getX()-1==c.getxDeb()||tu.getX()+1==c.getxDeb()
                   ||tu.getX()-1==c.getxFin()||tu.getX()+1==c.getxFin()
                   ||tu.getY()-1==c.getyDeb()||tu.getY()+1==c.getyDeb()
                   ||tu.getY()-1==c.getyFin()||tu.getY()+1==c.getyFin()){
-                  tu.setIrigue(true);break;
+                  tu.setIrigue(true);
                 }
             }
-            if(!tu.getIrigue()){
+            if(tu.getIrigue()==false){
                 tu.setNbTravailleurs(tu.getNbTravailleurs()-1);
                 if(tu.getNbTravailleurs()==0){
                     Image desert = new Image(getClass().getResourceAsStream("/images/vide.jpg"));
                     plateau.add(new ImageView(desert),tu.getX(),tu.getY());
                 }else
                 {
-                    mettreImage(null, tu.getType(), tu.getNbTravailleurs(),tu.getX(),tu.getY());
+                    ImageView tui = new ImageView();
+                    mettreImage(tui, tu.getType(), tu.getNbTravailleurs(),tu.getX(),tu.getY());
                 }
             }
         }
@@ -555,11 +552,11 @@ public class PlateauController implements Initializable {
      * Phase 6
      */
     public void phase6() throws InterruptedException{
-        partie.getPile1().remove(0);
-        partie.getPile2().remove(0);
-        partie.getPile3().remove(0);
-        partie.getPile4().remove(0);
-        partie.getPile5().remove(0);
+//        partie.getPile1().remove(0);
+//        partie.getPile2().remove(0);
+//        partie.getPile3().remove(0);
+//        partie.getPile4().remove(0);
+//        partie.getPile5().remove(0);
         System.out.println("Revenu");
         this.listeJoueurs.forEach((j) -> {
             j.setSolde(3);
