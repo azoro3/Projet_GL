@@ -242,8 +242,12 @@ public class PlateauController implements Initializable {
         };
 
         dragAndDropTuile.setOnSucceeded(e -> {
-            //System.out.println(dragAndDropTuile.getValue());
-            this.phase3();
+            try {
+                //System.out.println(dragAndDropTuile.getValue());
+                this.phase3();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(PlateauController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
 
         new Thread(dragAndDropTuile).start();
@@ -252,7 +256,7 @@ public class PlateauController implements Initializable {
     /**
      * Phase 3
      */
-    public void phase3() {
+    public void phase3() throws InterruptedException {
         Map<Joueur, Integer> enchere = new HashMap<>();
         Map<Joueur, String> passe = new HashMap<>();
         Map<Joueur, Integer> suivi = new HashMap<>();
@@ -433,7 +437,7 @@ public class PlateauController implements Initializable {
     /**
      * Phase 4
      */
-    public void phase4(){
+    public void phase4() throws InterruptedException{
         System.out.println(partie.getListeJoueurs().size());
         for(final Joueur j:partie.getListeJoueurs()){
             if(j.getCanal().getIsPosed()==false){
@@ -483,7 +487,7 @@ public class PlateauController implements Initializable {
     /**
      * Phase 5
      */
-    private void phase5(){
+    private void phase5() throws InterruptedException{
         System.out.println("sécheresse");
         Tuiles t = partie.getPile1().get(0);
         t.setX((int) tuile1.getX());
@@ -531,7 +535,7 @@ public class PlateauController implements Initializable {
     /**
      * Phase 6
      */
-    public void phase6(){
+    public void phase6() throws InterruptedException{
         System.out.println("Revenu");
         this.listeJoueurs.forEach((j) -> {
             j.setSolde(3);
@@ -541,6 +545,11 @@ public class PlateauController implements Initializable {
         }
         else{
             nbTour++;
+            try {
+                this.phase1();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(PlateauController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
     

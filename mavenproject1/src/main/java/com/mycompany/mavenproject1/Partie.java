@@ -208,7 +208,8 @@ public class Partie {
         Map<Joueur, String> enchere = new HashMap<>();
 //      fonction pour trier les joueurs dans le sens des enchères.
         boolean tri = false; int i=0;
-        ArrayList<Joueur> lTemp=new ArrayList<>();
+        ArrayList<Joueur> lTemp;
+        lTemp = new ArrayList<>();
         while(!tri){
           if(this.listeJoueurs.get(i).isEstConstructeur())  {
               for(int j=0;j<=i;j++){
