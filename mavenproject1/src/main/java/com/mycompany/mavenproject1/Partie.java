@@ -212,7 +212,7 @@ public class Partie {
         lTemp = new ArrayList<>();
         while(!tri){
           if(this.listeJoueurs.get(i).isEstConstructeur())  {
-              for(int j=0;j<=i;j++){
+              for(int j=0;j<i;j++){
                   lTemp.add(this.listeJoueurs.remove(j));
               }
             tri=true;

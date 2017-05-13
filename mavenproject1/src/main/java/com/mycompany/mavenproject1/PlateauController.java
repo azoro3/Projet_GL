@@ -140,6 +140,21 @@ public class PlateauController implements Initializable {
         }
         catch(IOException e){
             e.printStackTrace();
+        }res=",\n\"Canaux\" :[\n";
+        for(final Canal c :partie.getListeCanalPose()){
+            res+=c.toJSON()+",\r\n";
+        }
+        res=res.substring(0,(res.length()-3));
+        res+="]}";
+        try{
+            FileWriter fw= new FileWriter("savePartie.json",true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(res);
+            bw.flush();
+            bw.close();
+        }
+        catch(IOException e){
+            e.printStackTrace();
         } 
         res=",\n\"joueurs\" :[\n";
         for(final Joueur j :partie.getListeJoueurs()){
@@ -166,7 +181,6 @@ public class PlateauController implements Initializable {
     public void phase1() throws InterruptedException {
         // Initialisation d'une nouvelle partie
         if(nbTour==1){
-        partie = new Partie();
         partie.initPartie();
         
         // Affichage de la position de la source
@@ -407,7 +421,7 @@ public class PlateauController implements Initializable {
                                 res5.setxFin(entry.getValue().getxFin());
                                 res5.setyDeb(entry.getValue().getyDeb());
                                 res5.setyFin(entry.getValue().getyFin());
-                                int mise = enchere.get(entry.getKey().getNom());
+                                int mise = enchere.get(entry.getKey());
                                 entry.getKey().setSolde(-mise);
                             }
                         });
@@ -536,6 +550,11 @@ public class PlateauController implements Initializable {
      * Phase 6
      */
     public void phase6() throws InterruptedException{
+        partie.getPile1().remove(0);
+        partie.getPile2().remove(0);
+        partie.getPile3().remove(0);
+        partie.getPile4().remove(0);
+        partie.getPile5().remove(0);
         System.out.println("Revenu");
         this.listeJoueurs.forEach((j) -> {
             j.setSolde(3);
@@ -545,11 +564,7 @@ public class PlateauController implements Initializable {
         }
         else{
             nbTour++;
-            try {
                 this.phase1();
-            } catch (InterruptedException ex) {
-                Logger.getLogger(PlateauController.class.getName()).log(Level.SEVERE, null, ex);
-            }
         }
     }
     
