@@ -214,6 +214,11 @@ public class PlateauController implements Initializable {
                 return true;
             }
         };
+        tuile1.setVisible(true);
+        tuile2.setVisible(true);
+        tuile3.setVisible(true);
+        tuile4.setVisible(true);
+        tuile5.setVisible(true);
 
         afficherTuile.setOnSucceeded(e -> {
             this.phase2();
