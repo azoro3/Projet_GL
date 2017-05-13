@@ -149,6 +149,11 @@ public class Canal {
         }
         return false;
     }
+
+    public String toJSON() {
+        String canalJSON ="{\"xDeb\":\""+this.xDeb+"\",\"xFin\":"+this.xFin+",\"yDeb\":"+this.yDeb+",\"yFin\" :"+this.yFin+"}";
+        return canalJSON;
+    }
     
 }
 
