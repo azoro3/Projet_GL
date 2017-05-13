@@ -68,6 +68,7 @@ public class PlateauController implements Initializable {
     private final Label[] p = new Label[5];
     private final Label[] e = new Label[5];
     private ArrayList<Joueur> listeJoueurs;
+    static int nbTour =1;
 
     Image canalHorizVide = new Image(getClass().getResourceAsStream("/images/canal_horiz.png"));
     Image canalVertiVide = new Image(getClass().getResourceAsStream("/images/canal_verti.png"));
@@ -164,6 +165,7 @@ public class PlateauController implements Initializable {
      */
     public void phase1() throws InterruptedException {
         // Initialisation d'une nouvelle partie
+        if(nbTour==1){
         partie = new Partie();
         partie.initPartie();
         
@@ -181,7 +183,7 @@ public class PlateauController implements Initializable {
         j4Couleur.setText(listeJoueurs.get(3).getCouleur());
         j5Nom.setText(listeJoueurs.get(4).getNom());
         j5Couleur.setText(listeJoueurs.get(4).getCouleur());
-        
+        }
         Task<Boolean> afficherTuile = new Task<Boolean>() {
             @Override
             protected Boolean call() throws Exception {
@@ -534,6 +536,12 @@ public class PlateauController implements Initializable {
         this.listeJoueurs.forEach((j) -> {
             j.setSolde(3);
         });
+        if(nbTour==9){
+            this.saveScore();
+        }
+        else{
+            nbTour++;
+        }
     }
     
     /**
