@@ -16,9 +16,9 @@ public interface InterfacePartie extends Remote{
 InterfaceTuiles[] getFirstCarte() throws RemoteException;
 
 
-
+	public boolean addListeCanauxPoses(Canal c) throws RemoteException;
 	public ArrayList<InterfaceClient> changerConstructeur(Map<InterfaceClient, Integer> enchere) throws RemoteException;
-
+	public ArrayList<Canal> getListeCanauxAutorises(Boolean orientation)throws RemoteException;
 	ArrayList<InterfaceClient> getListeJoueurs()throws RemoteException;
 
 	 List<InterfaceTuiles> getPile1()throws RemoteException;
@@ -35,4 +35,5 @@ InterfaceTuiles[] getFirstCarte() throws RemoteException;
 	List<Canal> getListeCanalPose()throws RemoteException;
 	 List<InterfaceTuiles> getTuilesJoue()throws RemoteException;
 
+	void addTuileJoue(InterfaceTuiles tuile)throws RemoteException;
 }

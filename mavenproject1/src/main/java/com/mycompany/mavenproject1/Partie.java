@@ -33,7 +33,9 @@ public class Partie extends UnicastRemoteObject implements InterfacePartie{
     private Source s;
     private InterfaceServeur serv;
     private Source source;
-
+    private ArrayList<Canal> canauxAutorises;
+    private ArrayList<Canal> vertical = new ArrayList<>();
+    private ArrayList<Canal> horizontal = new ArrayList<>();
 
     public Partie() throws RemoteException {
         super();
@@ -50,7 +52,26 @@ public class Partie extends UnicastRemoteObject implements InterfacePartie{
     * fonction de création d'une partie
     */
     public  void initPartie(Source s) throws RemoteException {
+        canauxAutorises=new ArrayList<>();
+        for (int col = 0; col < 13; col++) {
+            for (int lig = 0; lig < 8; lig++) {
+                if ((col == 0 || col == 3 || col == 6 || col == 9 || col == 12)
+                        && (lig == 1 || lig == 4 || lig == 7)) {
+                    vertical.add(new Canal(col, lig, col, lig + 1));
+                }
+            }
+        }
 
+        // Liste de tous les canaux horizontaux
+        for (int col = 0; col < 11; col++) {
+            for (int lig = 0; lig < 10; lig++) {
+                if ((col == 1 || col == 4 || col == 7 || col == 10)
+                        && (lig == 0 || lig == 3 || lig == 6 || lig == 9)) {
+                    horizontal.add(new Canal(col, lig, col + 1, lig));
+                }
+            }
+        }
+        this.tuilesJoue=new LinkedList<InterfaceTuiles>();
 //      création des joueurs
         this.source=s;
         System.out.println(s.getX()+""+s.getY());
@@ -112,17 +133,46 @@ public class Partie extends UnicastRemoteObject implements InterfacePartie{
      * @return tableau avec la première tuile de chaque pile
      */
 
-    public InterfaceTuiles[] getFirstCarte() {
+    public InterfaceTuiles[] getFirstCarte() throws RemoteException {
         InterfaceTuiles[] t = new InterfaceTuiles[5];
         t[0] = this.pile1.get(0);
         t[1] = this.pile2.get(0);
         t[2] = this.pile3.get(0);
         t[3] = this.pile4.get(0);
         t[4] = this.pile5.get(0);
+        t[0].setNum(0);
+        t[1].setNum(1);
+        t[2].setNum(2);
+        t[3].setNum(3);
+        t[4].setNum(4);
         return t;
     }
+    public ArrayList<Canal> getListeCanauxAutorises(Boolean orientation) {
+        canauxAutorises.clear();
+        // Canaux verticaux autorisés
+        if (orientation) {
+            for (Canal c : listeCanal) {
+                if (!listeCanalPose.contains(c)) {
+                    canauxAutorises.add(c);
+                }
+            }
+        } else {
+            // Canaux horizontaux autorisés
+            for (Canal c : horizontal) {
+                if (!listeCanalPose.contains(c)) {
+                    canauxAutorises.add(c);
+                }
+            }
 
-
+        }
+        return canauxAutorises;
+    }
+    public void addTuileJoue(InterfaceTuiles tuile){
+        this.tuilesJoue.add(tuile);
+    }
+    public boolean addListeCanauxPoses(Canal c){
+        return listeCanalPose.add(c);
+    }
     
     /**
      *

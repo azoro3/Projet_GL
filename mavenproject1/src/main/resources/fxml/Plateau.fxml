@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
@@ -17,9 +23,9 @@
 <?import javafx.scene.layout.TilePane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="675.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.mavenproject1.PlateauController">
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="675.0" prefWidth="1250.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.mavenproject1.PlateauController">
     <children>
-        <SplitPane dividerPositions="0.1" orientation="VERTICAL" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <SplitPane dividerPositions="0.1" orientation="VERTICAL" prefHeight="675.0" prefWidth="1200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <items>
                 <AnchorPane maxHeight="-Infinity" minHeight="25.0" minWidth="0.0" prefHeight="25.0">
                     <children>
@@ -29,7 +35,7 @@
                                     <items>
                                         <MenuItem fx:id="newGame" mnemonicParsing="false" onAction="#phase1" text="Nouvelle partie" />
                                         <MenuItem fx:id="saveScore" mnemonicParsing="false" onAction="#saveScore" text="Sauvegarder les scores" />
-                                        <MenuItem fx:id="savePartie" mnemonicParsing="false" onAction="#savePartie" text="Sauvegarder la partie" />
+                              <MenuItem fx:id="savePartie" mnemonicParsing="false" onAction="#savePartie" text="Sauvegarder la partie" />
                                     </items>
                                 </Menu>
                             </menus>
@@ -38,7 +44,7 @@
                 </AnchorPane>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <TilePane alignment="CENTER" minWidth="142.0" prefHeight="642.0" prefTileHeight="60.0" prefTileWidth="140.0" prefWidth="142.0">
+                  <TilePane alignment="CENTER" minWidth="150.0" prefHeight="642.0" prefTileHeight="60.0" prefTileWidth="140.0" prefWidth="150.0">
                      <children>
                         <ImageView fx:id="tuile1" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -760,7 +766,7 @@
                               </GridPane>
                           </children>
                       </AnchorPane>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                  <AnchorPane minWidth="250.0" prefHeight="640.0" prefWidth="250.0">
                      <children>
                         <Label layoutX="75.0" layoutY="-5.0" text="Source" AnchorPane.topAnchor="0.0">
                            <font>
@@ -781,6 +787,10 @@
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font></Label>
+                        <Label layoutX="97.0" layoutY="284.0" text="Enchère">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font></Label>
                         <Label fx:id="j1Nom" layoutX="14.0" layoutY="103.0" />
                         <Label fx:id="j1Couleur" layoutX="97.0" layoutY="103.0" />
                         <Label fx:id="j2Nom" layoutX="14.0" layoutY="123.0" />
@@ -791,16 +801,20 @@
                         <Label fx:id="j4Couleur" layoutX="97.0" layoutY="163.0" />
                         <Label fx:id="j5Nom" layoutX="14.0" layoutY="183.0" />
                         <Label fx:id="j5Couleur" layoutX="97.0" layoutY="183.0" />
-                        <ImageView fx:id="canalPropHoriz" fitHeight="100.0" fitWidth="10.0" layoutX="104.0" layoutY="446.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/canal_verti_eau.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fx:id="canalPropVerti" fitHeight="10.0" fitWidth="100.0" layoutX="59.0" layoutY="585.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/canal_horiz_eau.png" />
-                           </image>
-                        </ImageView>
+                        <Label layoutX="14.0" layoutY="284.0" text="Nom">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font></Label>
+                        <Label fx:id="p1" layoutX="14.0" layoutY="312.0" />
+                        <Label fx:id="p2" layoutX="14.0" layoutY="329.0" />
+                        <Label fx:id="p3" layoutX="14.0" layoutY="346.0" />
+                        <Label fx:id="p4" layoutX="14.0" layoutY="363.0" />
+                        <Label fx:id="p5" layoutX="14.0" layoutY="380.0" />
+                        <Label fx:id="e1" layoutX="100.0" layoutY="312.0" />
+                        <Label fx:id="e2" layoutX="100.0" layoutY="329.0" />
+                        <Label fx:id="e3" layoutX="100.0" layoutY="346.0" />
+                        <Label fx:id="e4" layoutX="100.0" layoutY="363.0" />
+                        <Label fx:id="e5" layoutX="100.0" layoutY="380.0" />
                      </children>
                   </AnchorPane>
                </children>

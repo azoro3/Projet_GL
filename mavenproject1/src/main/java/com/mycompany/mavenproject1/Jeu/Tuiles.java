@@ -18,10 +18,10 @@ import java.util.Random;
 public class Tuiles extends UnicastRemoteObject implements InterfaceTuiles {
     private String type;
     private int nbTravailleurs;
-    private int x;
-    private int y;
+    private double x;
+    private double y;
     private boolean isIrigue;
-
+    private int num;
     public Tuiles(String type) throws RemoteException {
         super();
         this.type=type;
@@ -37,18 +37,18 @@ public class Tuiles extends UnicastRemoteObject implements InterfaceTuiles {
         return tuileJSON;
     }
 
-    public void setX(int x) {
+    public void setX(double x) {
         this.x = x;
     }
 
-    public void setY(int y) {
+    public void setY(double y) {
         this.y = y;
     }
-    public int getX() {
+    public double getX() {
         return this.x;
     }
 
-    public int getY() {
+    public double getY() {
         return y;
     }
 
@@ -59,6 +59,13 @@ public class Tuiles extends UnicastRemoteObject implements InterfaceTuiles {
 
     public void setType(String type) {
         this.type = type;
+    }
+    public int getNum() {
+        return num;
+    }
+
+    public void setNum(int i) {
+        this.num = i;
     }
 
     public int getNbTravailleurs() {

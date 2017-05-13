@@ -1,5 +1,7 @@
 package Reseau;
 
+import com.mycompany.mavenproject1.Jeu.Canal;
+import com.mycompany.mavenproject1.Jeu.Joueur;
 import com.mycompany.mavenproject1.Partie;
 
 import java.rmi.RemoteException;
@@ -20,9 +22,55 @@ public class Serveur extends UnicastRemoteObject implements InterfaceServeur {
 	private InterfacePartie partie;
 	private Map<InterfaceClient, Integer> enchere;
 	private ArrayList<InterfaceClient> listEncherClient;
+	private InterfaceClient meilleurJoueur;
+	Map<InterfaceClient, String> passe = new HashMap<>();
+	Map<InterfaceClient, Integer> suivi = new HashMap<>();
+	Map<InterfaceClient, Canal> propositionJoueur = new HashMap<>();
+	private int tour;
+
+	public Map<InterfaceClient, String> getPasse() {
+		return passe;
+	}
+	public void passePut(InterfaceClient joueurEnCours, String res){
+		this.passe.put(joueurEnCours,res);
+	};
+	public void setPasse(Map<InterfaceClient, String> passe) {
+		this.passe = passe;
+	}
+
+	public Map<InterfaceClient, Integer> getSuivi() {
+		return suivi;
+	}
+
+	public void setSuivi(Map<InterfaceClient, Integer> suivi) {
+		this.suivi = suivi;
+	}
+
+	public Map<InterfaceClient, Canal> getPropositionJoueur() {
+		return propositionJoueur;
+	}
+
+	public void setPropositionJoueur(Map<InterfaceClient, Canal> propositionJoueur) {
+		this.propositionJoueur = propositionJoueur;
+	}
+	public void putSuivi(InterfaceClient joueurEnCours, int i){
+		this.suivi.put(joueurEnCours,i);
+	}
+	public void putPropositionJoueur(InterfaceClient key, Canal res){
+		this.propositionJoueur.put(key,res);
+	}
+
+	public void augmentTour(){
+		tour=tour+1;
+	};
+	public int getTour()  {
+		return this.tour;
+	}
+
 	public Serveur() throws RemoteException {
 		super();
 		this.list = new JList();
+		this.tour=0;
 		tabNom=new ArrayList<String>();
 		enchere=new HashMap<>();
 		list.setName("liste des personnages connectes : ");
@@ -100,5 +148,11 @@ public class Serveur extends UnicastRemoteObject implements InterfaceServeur {
 	}
 	public ArrayList<InterfaceClient> getListeEncherClient() throws RemoteException{
 		return this.listEncherClient;
+	}
+	public InterfaceClient getMeilleurJoueur()throws RemoteException{
+		return this.meilleurJoueur;
+	}
+	public void setMeilleurJoueur(InterfaceClient ic)throws RemoteException{
+		this.meilleurJoueur=ic;
 	}
 }

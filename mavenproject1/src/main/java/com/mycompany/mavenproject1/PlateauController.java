@@ -4,7 +4,6 @@ import Reseau.*;
 import com.mycompany.mavenproject1.Jeu.Canal;
 import com.mycompany.mavenproject1.Jeu.CanalJ;
 import com.mycompany.mavenproject1.Jeu.Joueur;
-import com.mycompany.mavenproject1.Jeu.Plateau.Source;
 import com.mycompany.mavenproject1.Jeu.Tuiles;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -14,16 +13,19 @@ import java.net.URL;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
@@ -31,7 +33,10 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.util.Pair;
 
 import javax.swing.JOptionPane;
@@ -50,6 +55,8 @@ public class PlateauController implements Initializable {
     private Label posSource;
 
 
+    Image canalHorizVide = new Image(getClass().getResourceAsStream("/images/canal_horiz.png"));
+    Image canalVertiVide = new Image(getClass().getResourceAsStream("/images/canal_verti.png"));
     private ArrayList<InterfaceClient> listeJoueurs;
     private InterfaceServeur serv;
     private InterfaceSource source;
@@ -175,51 +182,58 @@ public class PlateauController implements Initializable {
 
 
         this.inscrireJoueur();
-        /*while(this.serv.getListeClient().size()!=5){
-            Dialog<Pair<String, String>> dialog = new Dialog<>();
-            dialog.setTitle("WAIT");
-            dialog.setHeaderText("Attendre qu'il y ait 5 joueurs de connectés");
 
-            ButtonType okButtonType = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
-            dialog.getDialogPane().getButtonTypes().addAll(okButtonType);
+             Thread mon = new Thread();
+             int z=0;
+             synchronized (mon) {
+                 while(this.serv.getListeClient().size()!=5){
+                     if(z==0){
+                         System.out.println("Attendre que 5 clients se connectent");
+                     }
 
-            GridPane grid = new GridPane();
-            grid.setHgap(10);
-            grid.setVgap(10);
-            grid.setPadding(new Insets(20, 150, 10, 10));
-
-
-
-
-            Node okButton = dialog.getDialogPane().lookupButton(okButtonType);
-
-
-
-            dialog.getDialogPane().setContent(grid);
-
-            // Conversion du résultat en une paire de string lorsque le bouton OK est cliqué
-            Optional<Pair<String, String>> result = dialog.showAndWait();
-
-        }*/
+                        mon.wait(1000);
+                     z=2;
+                 }
+             }
         partie.setServeur(this.serv);
         this.afficherJoueur();
 
         // Affichage de la position de la source
         posSource.setText("x : " + this.source.getX() + "\ny : " + this.source.getY());
-        
-        // On récupère la première tuile de chaque pile
-        InterfaceTuiles[] tuiles = partie.getFirstCarte();
-        // On affiche la première tuile
 
-        mettreImage(tuile1, tuiles[0].getType(), tuiles[0].getNbTravailleurs(),-1,-1);
-        mettreImage(tuile2, tuiles[1].getType(), tuiles[1].getNbTravailleurs(),-1,-1);
-        mettreImage(tuile3, tuiles[2].getType(), tuiles[2].getNbTravailleurs(),-1,-1);
-        mettreImage(tuile4, tuiles[3].getType(), tuiles[3].getNbTravailleurs(),-1,-1);
-        mettreImage(tuile5, tuiles[4].getType(), tuiles[4].getNbTravailleurs(),-1,-1);
+        Task<Boolean> afficherTuile = new Task<Boolean>() {
+            @Override
+            protected Boolean call() throws Exception {
+                // On récupère la première tuile de chaque pile
+                InterfaceTuiles[] tuiles = partie.getFirstCarte();
+
+                // On affiche la première tuile
+                mettreImage(tuile1, tuiles[0].getType(), tuiles[0].getNbTravailleurs(), -1, -1);
+                mettreImage(tuile2, tuiles[1].getType(), tuiles[1].getNbTravailleurs(), -1, -1);
+                mettreImage(tuile3, tuiles[2].getType(), tuiles[2].getNbTravailleurs(), -1, -1);
+                mettreImage(tuile4, tuiles[3].getType(), tuiles[3].getNbTravailleurs(), -1, -1);
+                mettreImage(tuile5, tuiles[4].getType(), tuiles[4].getNbTravailleurs(), -1, -1);
+                Thread mon = new Thread();
+                synchronized (mon) {
+                    mon.wait(10);
+                }
+                return true;
+            }
+        };
+
+        afficherTuile.setOnSucceeded(e -> {
+            try {
+                this.phase2();
+            } catch (RemoteException e1) {
+                e1.printStackTrace();
+            } catch (InterruptedException e1) {
+                e1.printStackTrace();
+            }
+        });
+
+        new Thread(afficherTuile).start();
 
 
-
-        this.phase2();
 
     }
 
@@ -254,7 +268,7 @@ public class PlateauController implements Initializable {
     }
 
 
-    public void phase2() throws RemoteException {
+    public void phase2() throws RemoteException, InterruptedException {
 
 
 
@@ -282,50 +296,358 @@ public class PlateauController implements Initializable {
 
 
             }
-       /* while(serv.getEnchere().size()!=2){
-            Dialog<Pair<String, String>> dialog = new Dialog<>();
-            dialog.setTitle("WAIT");
-            dialog.setHeaderText("Attendre que toutes les encheres soient faites");
-
-            ButtonType okButtonType = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
-            dialog.getDialogPane().getButtonTypes().addAll(okButtonType);
-
-            GridPane grid = new GridPane();
-            grid.setHgap(10);
-            grid.setVgap(10);
-            grid.setPadding(new Insets(20, 150, 10, 10));
-
-
-
-
-            Node okButton = dialog.getDialogPane().lookupButton(okButtonType);
-
-
-
-            dialog.getDialogPane().setContent(grid);
-
-            // Conversion du résultat en une paire de string lorsque le bouton OK est cliqué
-            Optional<Pair<String, String>> result = dialog.showAndWait();
-        }*/
-
 
         serv.setListeEncherClient(partie.changerConstructeur(this.serv.getEnchere()));
-        for(int i=0;i<this.serv.getListeEncherClient().size();i++) {
-            System.out.println(this.serv.getListeEncherClient().get(i) +"j"+ this.serv.getEnchere().get(this.serv.getListeEncherClient().get(i)));
+        Thread mon = new Thread();
+            int z=0;
+        synchronized (mon) {
+            while(this.serv.getListeEncherClient().size()!=5){
+                if(z==0){
+                    System.out.println("Attendre que tout le monde ait fait son enchere");
+                }
+
+                mon.wait(1000);
+                z=2;
+            }
         }
-        dragAndDrop(tuile1);
-        dragAndDrop(tuile2);
-        dragAndDrop(tuile3);
-        dragAndDrop(tuile4);
-        dragAndDrop(tuile5);
-        //this.phase3();
+
+        this.serv.setMeilleurJoueur(this.serv.getListeEncherClient().get(0));
+        int a=0;
+        synchronized (mon) {
+            while(!this.joueurEnCours.getNom().equals(serv.getMeilleurJoueur().getNom())){
+                if(a==0){
+                    System.out.println("attendre que les joueurs avec une plus grosse enchere joue");
+                }
+                mon.wait(1000);
+                a=1;
+            }
+        }
+        Task<Boolean> dragAndDropTuile = new Task<Boolean>() {
+            @Override
+            protected Boolean call() throws Exception {
+                InterfaceTuiles[] tuiles = partie.getFirstCarte();
+                    if(!partie.getTuilesJoue().contains(tuiles[0])) {
+                        dragAndDrop(tuile1);
+                    }else{
+                        for(int i=0;i<partie.getTuilesJoue().size();i++){
+
+                            if(partie.getTuilesJoue().get(i).getNum()==tuiles[0].getNum()) {
+
+                                tuile1.setLayoutX(partie.getTuilesJoue().get(i).getX());
+                                tuile1.setLayoutY(partie.getTuilesJoue().get(i).getY());
+                                System.out.println("tuile1 x :"+tuile1.getLayoutX()+" tuile1 y :"+tuile1.getLayoutY());
+                            }
+                        }
+
+                    }
+                    if(!partie.getTuilesJoue().contains(tuiles[1])) {
+                        dragAndDrop(tuile2);
+                    }else{
+                        for(int i=0;i<partie.getTuilesJoue().size();i++){
+                            if(partie.getTuilesJoue().get(i).getNum()==tuiles[1].getNum()) {
+                                tuile2.setLayoutX(partie.getTuilesJoue().get(i).getX());
+                                tuile2.setLayoutY(partie.getTuilesJoue().get(i).getY());
+                                System.out.println("tuile2 x :"+tuile2.getLayoutX()+" tuile2 y :"+tuile2.getLayoutY());}
+                        }
+                    }
+                    if(!partie.getTuilesJoue().contains(tuiles[2])) {
+                        dragAndDrop(tuile3);
+                    }else{
+                        for(int i=0;i<partie.getTuilesJoue().size();i++){
+                            if(partie.getTuilesJoue().get(i).getNum()==tuiles[2].getNum()) {
+                                tuile3.setLayoutX(partie.getTuilesJoue().get(i).getX());
+                                tuile3.setLayoutY(partie.getTuilesJoue().get(i).getY());
+                                System.out.println("tuile3 x :"+tuile3.getLayoutX()+" tuile3 y :"+tuile3.getLayoutY());}
+                        }
+                    }
+                    if(!partie.getTuilesJoue().contains(tuiles[3])) {
+                        dragAndDrop(tuile4);
+                    }else{
+                        for(int i=0;i<partie.getTuilesJoue().size();i++){
+                            if(partie.getTuilesJoue().get(i).getNum()==tuiles[3].getNum()) {
+                                tuile4.setLayoutX(partie.getTuilesJoue().get(i).getX());
+                                tuile4.setLayoutY(partie.getTuilesJoue().get(i).getY());
+                                System.out.println("tuile4 x :"+tuile4.getLayoutX()+" tuile4 y :"+tuile4.getLayoutY());}
+                        }
+                    }
+                    if(!partie.getTuilesJoue().contains(tuiles[4])) {
+                        dragAndDrop(tuile5);
+                    }else{
+                        for(int i=0;i<partie.getTuilesJoue().size();i++){
+                            if(partie.getTuilesJoue().get(i).getNum()==tuiles[4].getNum()) {
+                                tuile5.setLayoutX(partie.getTuilesJoue().get(i).getX());
+                                tuile5.setLayoutY(partie.getTuilesJoue().get(i).getY());
+                                System.out.println("tuile5 x :"+tuile5.getLayoutX()+" tuile5 y :"+tuile5.getLayoutY());
+                            }
+                        }
+                    }
+                Thread mon = new Thread();
+
+                    int z=0;
+                synchronized (mon) {
+                    while(tuile1.isVisible()&&tuile2.isVisible()&&tuile3.isVisible()&&tuile4.isVisible()&&tuile5.isVisible()) {
+                        if(z==0){
+                            System.out.println("Veuillez jouer");
+                        }
+                        mon.wait(1000);
+                        z=2;
+                    }
+                }
+                return true;}
+
+
+        };
+
+        dragAndDropTuile.setOnSucceeded(e -> {
+
+            try {
+                InterfaceTuiles[] tuiles = partie.getFirstCarte();
+
+                if( !tuile1.isVisible()) {
+                    tuiles[0].setX(tuile1.getLayoutX());
+                    tuiles[0].setY(tuile1.getLayoutY());
+                    partie.addTuileJoue(tuiles[0]);
+                }
+                if(!tuile2.isVisible()) {
+                    tuiles[1].setX(tuile2.getLayoutX());
+                    tuiles[1].setY(tuile2.getLayoutY());
+                    partie.addTuileJoue(tuiles[1]);
+                }
+                if(!tuile3.isVisible()) {
+                    tuiles[2].setX(tuile3.getLayoutX());
+                    tuiles[2].setY(tuile3.getLayoutY());
+                    partie.addTuileJoue(tuiles[2]);
+                }
+                if(!tuile4.isVisible()) {
+                    tuiles[3].setX(tuile4.getLayoutX());
+                    tuiles[3].setY(tuile4.getLayoutY());
+                    partie.addTuileJoue(tuiles[3]);
+                }
+                if(!tuile5.isVisible()) {
+                    tuiles[4].setX(tuile5.getLayoutX());
+                    tuiles[4].setY(tuile5.getLayoutY());
+                    partie.addTuileJoue(tuiles[4]);
+                }
+                tuile1.setDisable(true);
+                tuile2.setDisable(true);
+                tuile3.setDisable(true);
+                tuile4.setDisable(true);
+                tuile5.setDisable(true);
+
+                if (serv.getMeilleurJoueur().getNom().equals(this.serv.getListeEncherClient().get(0).getNom())){
+                    serv.setMeilleurJoueur(this.serv.getListeEncherClient().get(1));
+                }else{if (serv.getMeilleurJoueur().getNom().equals(this.serv.getListeEncherClient().get(1).getNom())){
+                    serv.setMeilleurJoueur(this.serv.getListeEncherClient().get(2));
+                }else{if (serv.getMeilleurJoueur().getNom().equals(this.serv.getListeEncherClient().get(2).getNom())){
+                    serv.setMeilleurJoueur(this.serv.getListeEncherClient().get(3));
+                }else{if (serv.getMeilleurJoueur().getNom().equals(this.serv.getListeEncherClient().get(3).getNom())){
+                    serv.setMeilleurJoueur(this.serv.getListeEncherClient().get(4));
+                }}}}
+                this.phase3();
+            } catch (RemoteException e1) {
+                e1.printStackTrace();
+            } catch (InterruptedException e1) {
+                e1.printStackTrace();
+            }
+        });
+
+        new Thread(dragAndDropTuile).start();
     }
     
-    public void phase3() throws RemoteException {
-        List<Canal> listeCanalPose = partie.getListeCanalPose();
-        dragAndDrop(canalPropHoriz);
-        dragAndDrop(canalPropVerti);
-    }
+    public void phase3() throws RemoteException, InterruptedException {
+
+        Map<InterfaceClient, Integer> enchere=new HashMap<>();
+        this.serv.setEnchere(enchere);
+        Map<InterfaceClient, String> passe = new HashMap<>();
+        this.serv.setPasse(passe);
+        Map<InterfaceClient, Integer> suivi = new HashMap<>();
+        this.serv.setSuivi(suivi);
+        Map<InterfaceClient, Canal> propositionJoueur = new HashMap<>();
+        this.serv.setPropositionJoueur(propositionJoueur);
+
+
+                // Seul les joueurs qui ne sont pas constructeur peuvent miser
+                // Le constructeur n'intervient qu'à la fin de la phase
+        for(int i=0;i<serv.getListeClient().size();i++) {
+            if(serv.getListeClient().get(i)==this.joueurEnCours && serv.getListeClient().get(i).isEstConstructeur()){
+                joueurEnCours.setEstConstructeur(true);
+            };
+        }
+
+                if (!joueurEnCours.isEstConstructeur()) {
+
+                    try {
+                        // Chaque joueur doit décider s'il fait une proposition, s'il soutient une autre proposition ou s'il passe
+                        FXMLLoader loader = new FXMLLoader(MainApp.class.getResource("/fxml/Phase3.fxml"));
+                        AnchorPane page = (AnchorPane) loader.load();
+                        Stage dialogStage = new Stage();
+                        dialogStage.setTitle("Mises");
+                        dialogStage.initModality(Modality.WINDOW_MODAL);
+
+                        Scene scene = new Scene(page);
+                        dialogStage.setScene(scene);
+
+                        Phase3Controller controller = loader.getController();
+                        controller.setDialogStage(dialogStage);
+                        controller.setEnchere(this.serv.getEnchere());
+                        controller.setJoueurActuel(joueurEnCours);
+
+                        dialogStage.showAndWait();
+                        String res = controller.getResultat();
+
+                        // Cas où le joueur passe son tour
+                        // Il n'intervient pas dans la construction des canaux
+                        if (res.equals("Passe")) {
+                            this.serv.passePut(joueurEnCours, res);
+                        } // Cas où le joueur suit une mise existante :
+                        // Il soutient une nouvelle mise de 1 Escudos
+                        else if (res.contains("Escudos")) {
+                            int mise = Integer.parseInt(res.substring(0, res.indexOf(" ")));
+                            this.serv.putSuivi(joueurEnCours, mise + 1);
+                        } // Cas où le joueur fait une nouvelle proposition :
+                        // Il fait une proposition pour creuser un nouveau canal
+                        else {
+                            this.serv.putEnchere(joueurEnCours, Integer.parseInt(res));
+                        }
+                    } catch (IOException ex) {
+                        Logger.getLogger(PlateauController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                this.serv.augmentTour();
+        Thread mon = new Thread();
+
+        System.out.println(this.serv.getTour());
+
+
+
+            // Chaque joueur qui a fait une proposition doit creuser un canal
+            this.serv.getEnchere().entrySet().forEach((entry) -> {
+                try {
+                    String couleur = entry.getKey().getCouleur();
+                    FXMLLoader loader = new FXMLLoader(MainApp.class.getResource("/fxml/PropositionCanal.fxml"));
+                    AnchorPane page = (AnchorPane) loader.load();
+                    Stage dialogStage = new Stage();
+                    dialogStage.setTitle("Creuser un canal");
+                    dialogStage.initModality(Modality.WINDOW_MODAL);
+                    Scene scene = new Scene(page);
+                    dialogStage.setScene(scene);
+                    PropositionCanalController controller = loader.getController();
+                    controller.setDialogStage(dialogStage);
+                    controller.setPartie(this.partie);
+                    controller.setJoueurActuel(entry.getKey());
+
+                    dialogStage.showAndWait();
+                    Canal res = controller.getResultat();
+                    this.serv.putPropositionJoueur(entry.getKey(), res);
+                    this.afficherPropositionCanal(couleur, res.getxDeb(), res.getxFin(), res.getyDeb(), res.getyFin());
+
+                } catch (IOException ex) {
+                    Logger.getLogger(PlateauController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            });
+
+            // Demander au constructeur de canal s'il veut accepter une offre où construire où il veut
+            ArrayList<String> choices = new ArrayList<>();
+            choices.add("Contruire un autre canal");
+            this.serv.getEnchere().entrySet().forEach((entry) -> {
+                try {
+                    choices.add(entry.getKey().getNom() + " a misé " + entry.getValue() + " Escudos");
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+            });
+
+
+                if (joueurEnCours.isEstConstructeur()) {
+                    ChoiceDialog<String> dialog = new ChoiceDialog<>();
+                    dialog.getItems().addAll(choices);
+                    dialog.setTitle("Mises enregistrées");
+                    dialog.setHeaderText(null);
+                    dialog.setContentText("Choissisez une proposition : ");
+                    dialog.setSelectedItem("Construire un autre canal");
+
+                    Optional<String> result = dialog.showAndWait();
+                    if (result.isPresent()) {
+
+                        System.out.println("Réponse : " + result.get());
+
+                        if (result.get().contains("canal")) {
+                            // Nouvelle fenêtre avec plusieurs proposition, puis ajout à la liste des canaux posés
+                            try {
+                                FXMLLoader loader = new FXMLLoader(MainApp.class.getResource("/fxml/PropositionCanal.fxml"));
+                                AnchorPane page = (AnchorPane) loader.load();
+                                Stage dialogStage = new Stage();
+                                dialogStage.setTitle("Creuser un canal");
+                                dialogStage.initModality(Modality.WINDOW_MODAL);
+                                Scene scene = new Scene(page);
+                                dialogStage.setScene(scene);
+                                PropositionCanalController controller = loader.getController();
+                                controller.setDialogStage(dialogStage);
+                                controller.setPartie(this.partie);
+
+                                dialogStage.showAndWait();
+                                Canal res = controller.getResultat();
+
+                                // Effacer les propositions des joueurs
+                                this.serv.getPropositionJoueur().entrySet().forEach((entry) -> {
+                                    Canal c = entry.getValue();
+                                    // Le canal est vertical
+                                    if (c.getxDeb() == c.getxFin()) {
+                                        plateau.add(new ImageView(this.canalVertiVide), c.getxDeb(), c.getyDeb());
+                                        plateau.add(new ImageView(this.canalVertiVide), c.getxDeb(), c.getyDeb() + 1);
+                                    } // Le canal est horizontal
+                                    else if (c.getyDeb() == c.getyFin()) {
+                                        plateau.add(new ImageView(this.canalHorizVide), c.getxDeb(), c.getyDeb());
+                                        plateau.add(new ImageView(this.canalHorizVide), c.getxDeb() + 1, c.getyDeb());
+                                    }
+                                });
+
+                                this.afficherPropositionCanal("Bleu", res.getxDeb(), res.getxFin(), res.getyDeb(), res.getyFin());
+
+                                partie.addListeCanauxPoses(res);
+                            } catch (IOException ex) {
+                                Logger.getLogger(PlateauController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        } else if (result.get().contains("Escudos")) {
+                            // Récupérer le canal, puis ajout à la liste des canaux posés, puis coloration en bleu
+                            String joueur = result.get().substring(0, result.get().indexOf(" "));
+                            System.out.println(joueur);
+                            Canal res = new Canal();
+                            this.serv.getPropositionJoueur().entrySet().forEach((Map.Entry<InterfaceClient, Canal> entry) -> {
+                                try {
+                                    if (entry.getKey().getNom().equals(joueur)) {
+                                        res.setxDeb(entry.getValue().getxDeb());
+                                        res.setxFin(entry.getValue().getxFin());
+                                        res.setyDeb(entry.getValue().getyDeb());
+                                        res.setyFin(entry.getValue().getyFin());
+                                    }
+                                } catch (RemoteException e) {
+                                    e.printStackTrace();
+                                }
+                            });
+
+                            // Effacer les propositions des joueurs
+                            this.serv.getPropositionJoueur().entrySet().forEach((entry) -> {
+                                Canal c = entry.getValue();
+                                // Le canal est vertical
+                                if (c.getxDeb() == c.getxFin()) {
+                                    plateau.add(new ImageView(this.canalVertiVide), c.getxDeb(), c.getyDeb());
+                                    plateau.add(new ImageView(this.canalVertiVide), c.getxDeb(), c.getyDeb() + 1);
+                                } // Le canal est horizontal
+                                else if (c.getyDeb() == c.getyFin()) {
+                                    plateau.add(new ImageView(this.canalHorizVide), c.getxDeb(), c.getyDeb());
+                                    plateau.add(new ImageView(this.canalHorizVide), c.getxDeb() + 1, c.getyDeb());
+                                }
+                            });
+                            this.afficherPropositionCanal("Bleu", res.getxDeb(), res.getxFin(), res.getyDeb(), res.getyFin());
+                            partie.addListeCanauxPoses(res);
+                        }
+                    }
+                }
+
+            //this.phase4();
+        }
+
         
         // enchères des joueurs
         /* PHASE 3 */
@@ -379,11 +701,10 @@ public class PlateauController implements Initializable {
  * @param type type de la tuiles (banane, patates,...)
  * @param nbTravailleurs
  * @param x position de la tuiles a placer si =0, placer sur les piles de tuiles
- * @param y 
+ * @param y
  */
-    private void mettreImage(ImageView tuile, String type, int nbTravailleurs, int x, int y) {
-        Image image;
-
+    private void mettreImage(ImageView tuile, String type, int nbTravailleurs, double x, double y) {
+        Image image=null;
         switch (type) {
             case ("piment"):
                 if (nbTravailleurs == 1) {
@@ -423,15 +744,16 @@ public class PlateauController implements Initializable {
                 } else {
                     image = new Image(getClass().getResourceAsStream("/images/sucre2.png"));
                 }
-                
+                break;
+        }
                 if(x >=0){
-                    plateau.add(new ImageView(image),x,y);
+
+                    plateau.add(new ImageView(image),(int)x,(int)y);
+
                 } else {
                     tuile.setImage(image);
                 }
-                
-                break;
-        }
+
         
     }
     public void inscrireJoueur() throws RemoteException {
@@ -665,7 +987,7 @@ public class PlateauController implements Initializable {
                 tu.setNbTravailleurs(tu.getNbTravailleurs()-1);
                 if(tu.getNbTravailleurs()==0){
                     Image desert = new Image(getClass().getResourceAsStream("/images/vide.jpg"));
-                    plateau.add(new ImageView(desert),tu.getX(),tu.getY());
+                    plateau.add(new ImageView(desert),(int)tu.getX(),(int)tu.getY());
                 }else
                 {
                     mettreImage(null, tu.getType(), tu.getNbTravailleurs(),tu.getX(),tu.getY());
