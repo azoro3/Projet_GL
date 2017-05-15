@@ -67,7 +67,12 @@ public class Canal {
     public String toString() {
         return "x : " + this.xDeb + " y : " + this.yDeb;
     }
-    
+    /**
+     * 
+     * @param s la source
+     * @param listeCanalPose lisre des canaus déjà posés sur le plateau
+     * @return true si le canal peut être posé
+     */
     public Boolean poserCanal(Source s, List<Canal> listeCanalPose) {
         Boolean poser = true;
         if (this.getxFin() - this.getxDeb() < -3 || this.getxFin() - this.getxDeb() > 3 || this.getyFin() - this.getyDeb() > 3 || this.getyFin() - this.getyDeb() < -3

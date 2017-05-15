@@ -38,7 +38,10 @@ import javafx.scene.layout.GridPane;
 import javax.swing.JOptionPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
+/**
+ * Classe pour gérer le controle de l'interface graphique
+ * @author Arthur
+ */
 public class PlateauController implements Initializable {
 
     static Partie partie = new Partie();
@@ -504,7 +507,7 @@ public class PlateauController implements Initializable {
     }
     
     /**
-     * Phase 5
+     * Phase 5 nonfonctionnel dû à des problèmes de java FX
      */
     private void phase5() throws InterruptedException{
         System.out.println("sécheresse");

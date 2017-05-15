@@ -8,7 +8,7 @@ package com.mycompany.mavenproject1.Jeu.Factory;
 import com.mycompany.mavenproject1.Jeu.Canal;
 
 /**
- *
+ *  factory pour les canaux
  * @author Arthur
  */
 public class CanalFactory {

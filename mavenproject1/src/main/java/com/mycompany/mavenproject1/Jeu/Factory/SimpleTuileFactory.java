@@ -8,7 +8,7 @@ package com.mycompany.mavenproject1.Jeu.Factory;
 import com.mycompany.mavenproject1.Jeu.Tuiles;
 
 /**
- *
+ *  factory pour UNE tuile
  * @author Arthur
  */
 public class SimpleTuileFactory {

@@ -13,7 +13,9 @@ public class Source {
 
     private int x;
     private int y;
-
+/**
+ * instanciation du singleton
+ */
     public Source() {
         this.x = rand3(0,13);
         this.y = rand3(0,10);

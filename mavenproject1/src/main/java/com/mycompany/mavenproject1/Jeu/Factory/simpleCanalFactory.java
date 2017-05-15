@@ -8,7 +8,7 @@ package com.mycompany.mavenproject1.Jeu.Factory;
 import com.mycompany.mavenproject1.Jeu.Canal;
 
 /**
- *
+ * Desing pattern factory pour la génération des canaux
  * @author Arthur
  */
 public class simpleCanalFactory {

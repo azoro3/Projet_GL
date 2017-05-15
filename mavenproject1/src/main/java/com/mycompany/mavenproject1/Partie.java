@@ -25,7 +25,7 @@ import javafx.util.Pair;
 import javax.swing.JOptionPane;
 
 /**
- *
+ * Classe partie
  * @author Arthur
  */
 public class Partie {
@@ -252,7 +252,11 @@ public class Partie {
             }
         }
     }
-    
+    /**
+     * fonction de retour des canaux autorisées à être posés en fonction de l'orientation
+     * @param orientation
+     * @return 
+     */
     public ArrayList<Canal> getListeCanauxAutorises(Boolean orientation) {
         canauxAutorises.clear();
         // Canaux verticaux autorisés
