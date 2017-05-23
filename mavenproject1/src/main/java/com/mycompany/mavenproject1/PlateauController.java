@@ -69,6 +69,12 @@ public class PlateauController implements Initializable {
     private final Label[] e = new Label[5];
     private ArrayList<Joueur> listeJoueurs;
     static int nbTour =1;
+    static int coord1[]={-1,-1};
+    static int coord2[]={-1,-1};
+    static int coord3[]={-1,-1};
+    static int coord4[]={-1,-1};
+    static int coord5[]={-1,-1};
+    static int x,y;
 
     Image canalHorizVide = new Image(getClass().getResourceAsStream("/images/canal_horiz.png"));
     Image canalVertiVide = new Image(getClass().getResourceAsStream("/images/canal_verti.png"));
@@ -247,21 +253,27 @@ public class PlateauController implements Initializable {
         Task<Boolean> dragAndDropTuile = new Task<Boolean>() {
             @Override
             protected Boolean call() throws Exception {
-                while (tuile1.isVisible() || tuile2.isVisible() || tuile3.isVisible()
-                        || tuile4.isVisible() || tuile5.isVisible()) {
-                    dragAndDrop(tuile1);
-                    dragAndDrop(tuile2);
-                    dragAndDrop(tuile3);
-                    dragAndDrop(tuile4);
-                    dragAndDrop(tuile5);
-                }
+               while (tuile1.isVisible() || tuile2.isVisible() || tuile3.isVisible()
+                    || tuile4.isVisible() || tuile5.isVisible()) {
+                    if(coord1[0]==-1){coord1= dragAndDrop(tuile1);}
+                    //else{dragAndDrop(tuile1);}
+                    if(coord2[0]==-1){coord2= dragAndDrop(tuile2);}
+                    //else{dragAndDrop(tuile2);}
+                    if(coord3[0]==-1){coord3= dragAndDrop(tuile3);}
+                    //else{dragAndDrop(tuile3);}
+                    if(coord4[0]==-1){coord4= dragAndDrop(tuile4);}
+                    //else{dragAndDrop(tuile4);}
+                    if(coord5[0]==-1){coord5= dragAndDrop(tuile5);}
+                    //else{dragAndDrop(tuile5);}
+              }
                 return true;
             }
         };
 
         dragAndDropTuile.setOnSucceeded(e -> {
             try {
-                this.phase3();
+                this.phase5();
+               // this.phase3();
             } catch (InterruptedException ex) {
                 Logger.getLogger(PlateauController.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -503,28 +515,27 @@ public class PlateauController implements Initializable {
     private void phase5() throws InterruptedException{
         System.out.println("sécheresse");
         Tuiles t = partie.getPile1().get(0);
-        t.setX((int) tuile1.getLayoutX());
-        t.setY((int) tuile1.getLayoutY());
+        t.setX(coord1[0]);
+        t.setY(coord1[1]);
+        System.out.println(coord1[0]+":"+coord1[1]);
         partie.getTuilesJoue().add(partie.getPile1().remove(0));
         t = partie.getPile2().get(0);
-        t.setX((int) tuile2.getLayoutX());
-        t.setY((int) tuile2.getLayoutY());
+        t.setX(coord2[0]);
+        t.setY(coord2[1]);
         partie.getTuilesJoue().add(partie.getPile2().remove(0));
         t=partie.getPile3().get(0);
-        t.setX((int) tuile3.getLayoutX());
-        t.setY((int) tuile3.getLayoutY());
+        t.setX(coord3[0]);
+        t.setY(coord3[1]);
         partie.getTuilesJoue().add(partie.getPile3().remove(0));
         t=partie.getPile4().get(0);
-        t.setX((int) tuile4.getLayoutX());
-        t.setY((int) tuile4.getLayoutY());
+        t.setX(coord4[0]);
+        t.setY(coord4[1]);
         partie.getTuilesJoue().add(partie.getPile4().remove(0));
         t=partie.getPile5().get(0);
-        t.setX((int) tuile5.getLayoutX());
-        t.setY((int) tuile5.getLayoutY());
+        t.setX(coord5[0]);
+        t.setY(coord5[1]);
         partie.getTuilesJoue().add(partie.getPile5().remove(0));
         for(final Tuiles tu: partie.getTuilesJoue()){
-            System.out.println(tu.getX());
-            System.out.println(tu.getY());
             for(final Canal c: partie.getListeCanalPose()){
                 if(tu.getX()-1==c.getxDeb()||tu.getX()+1==c.getxDeb()
                   ||tu.getX()-1==c.getxFin()||tu.getX()+1==c.getxFin()
@@ -552,11 +563,6 @@ public class PlateauController implements Initializable {
      * Phase 6
      */
     public void phase6() throws InterruptedException{
-//        partie.getPile1().remove(0);
-//        partie.getPile2().remove(0);
-//        partie.getPile3().remove(0);
-//        partie.getPile4().remove(0);
-//        partie.getPile5().remove(0);
         System.out.println("Revenu");
         this.listeJoueurs.forEach((j) -> {
             j.setSolde(3);
@@ -687,8 +693,9 @@ public class PlateauController implements Initializable {
      * Fonction qui gère le Drag & Drop d'une image (soit une tuile, soit un canal) sur le plateau.
      * @param source 
      */
-    private void dragAndDrop(final ImageView source) {
+    private int[] dragAndDrop(final ImageView source) {
         // Drag une image
+        int tab[]={-1,-1};
         source.setOnDragDetected((MouseEvent event) -> {
             Dragboard db = source.startDragAndDrop(TransferMode.MOVE);
             ClipboardContent cbContent = new ClipboardContent();
@@ -714,13 +721,13 @@ public class PlateauController implements Initializable {
                 Integer col = GridPane.getColumnIndex(node);
                 Integer lig = GridPane.getRowIndex(node);
                 
-                // Bug lorsque col et lig sont à 0 (on obtient des valeurs à null au lieu de 0)
-                if(col == null){
-                    col = 0;
-                }
-                if(lig == null){
-                    lig = 0;
-                }
+               // Bug lorsque col et lig sont à 0 (on obtient des valeurs à null au lieu de 0)
+              if(col == null){
+                  col = 0;
+               }
+               if(lig == null){
+                  lig = 0;
+              }
 
                 // Cas d'une tuile
                 if (db.getImage().getHeight() == 100.0 && db.getImage().getWidth() == 100.0) {
@@ -731,11 +738,16 @@ public class PlateauController implements Initializable {
                         if (!getNodeByRowColumnIndex(plateau, lig, col).isDisable()) {
                             plateau.add(new ImageView(db.getImage()), col, lig);
                             getNodeByRowColumnIndex(plateau, lig, col).setDisable(true);
+                            this.x=col;
+                            this.y=lig;
+                            System.out.println(x+":"+y);
                             success = true;
                         }
                     }
                 }
+            
             }
+            
             event.setDropCompleted(success);
             event.consume();
         });
@@ -747,6 +759,9 @@ public class PlateauController implements Initializable {
             }
             event.consume();
         });
+        tab[0]=this.x;
+        tab[1]=this.y;
+       return tab; 
     }
     
     /**
