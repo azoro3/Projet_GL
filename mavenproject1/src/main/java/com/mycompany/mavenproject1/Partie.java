@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.mycompany.mavenproject1;
 
 import com.mycompany.mavenproject1.Jeu.*;
@@ -316,6 +311,18 @@ public class Partie {
     
     public void addListeCanauxPoses(Canal c){
         listeCanalPose.add(c);
+    }
+    
+    public void addTuilesJoue(Tuiles t){
+        tuilesJoue.add(t);
+    }
+    
+    public void removeFirstOfEachPile(){
+        pile1.remove(0);
+        pile2.remove(0);
+        pile3.remove(0);
+        pile4.remove(0);
+        pile5.remove(0);
     }
 
 }

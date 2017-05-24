@@ -10,11 +10,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.ObservableList;
@@ -255,16 +253,11 @@ public class PlateauController implements Initializable {
             protected Boolean call() throws Exception {
                while (tuile1.isVisible() || tuile2.isVisible() || tuile3.isVisible()
                     || tuile4.isVisible() || tuile5.isVisible()) {
-                    if(coord1[0]==-1){coord1= dragAndDrop(tuile1);}
-                    //else{dragAndDrop(tuile1);}
-                    if(coord2[0]==-1){coord2= dragAndDrop(tuile2);}
-                    //else{dragAndDrop(tuile2);}
-                    if(coord3[0]==-1){coord3= dragAndDrop(tuile3);}
-                    //else{dragAndDrop(tuile3);}
-                    if(coord4[0]==-1){coord4= dragAndDrop(tuile4);}
-                    //else{dragAndDrop(tuile4);}
-                    if(coord5[0]==-1){coord5= dragAndDrop(tuile5);}
-                    //else{dragAndDrop(tuile5);}
+                    dragAndDrop(tuile1, tuiles[0]);
+                    dragAndDrop(tuile2, tuiles[1]);
+                    dragAndDrop(tuile3, tuiles[2]);
+                    dragAndDrop(tuile4, tuiles[3]);
+                    dragAndDrop(tuile5, tuiles[4]);
               }
                 return true;
             }
@@ -514,6 +507,7 @@ public class PlateauController implements Initializable {
      */
     private void phase5() throws InterruptedException{
         System.out.println("sécheresse");
+        /*
         Tuiles t = partie.getPile1().get(0);
         t.setX(coord1[0]);
         t.setY(coord1[1]);
@@ -535,24 +529,28 @@ public class PlateauController implements Initializable {
         t.setX(coord5[0]);
         t.setY(coord5[1]);
         partie.getTuilesJoue().add(partie.getPile5().remove(0));
-        for(final Tuiles tu: partie.getTuilesJoue()){
-            for(final Canal c: partie.getListeCanalPose()){
-                if(tu.getX()-1==c.getxDeb()||tu.getX()+1==c.getxDeb()
-                  ||tu.getX()-1==c.getxFin()||tu.getX()+1==c.getxFin()
-                  ||tu.getY()-1==c.getyDeb()||tu.getY()+1==c.getyDeb()
-                  ||tu.getY()-1==c.getyFin()||tu.getY()+1==c.getyFin()){
-                  tu.setIrigue(true);
+        */
+        
+        partie.removeFirstOfEachPile();
+        
+        for (final Tuiles tu : partie.getTuilesJoue()) {
+            System.out.println(tu.getX() + " " + tu.getY());
+            for (final Canal c : partie.getListeCanalPose()) {
+                if (tu.getX() - 1 == c.getxDeb() || tu.getX() + 1 == c.getxDeb()
+                        || tu.getX() - 1 == c.getxFin() || tu.getX() + 1 == c.getxFin()
+                        || tu.getY() - 1 == c.getyDeb() || tu.getY() + 1 == c.getyDeb()
+                        || tu.getY() - 1 == c.getyFin() || tu.getY() + 1 == c.getyFin()) {
+                    tu.setIrigue(true);
                 }
             }
-            if(tu.getIrigue()==false){
-                tu.setNbTravailleurs(tu.getNbTravailleurs()-1);
-                if(tu.getNbTravailleurs()==0){
+            if (tu.getIrigue() == false) {
+                tu.setNbTravailleurs(tu.getNbTravailleurs() - 1);
+                if (tu.getNbTravailleurs() == 0) {
                     Image desert = new Image(getClass().getResourceAsStream("/images/vide.jpg"));
-                    plateau.add(new ImageView(desert),tu.getX(),tu.getY());
-                }else
-                {
+                    plateau.add(new ImageView(desert), tu.getX(), tu.getY());
+                } else {
                     ImageView tui = new ImageView();
-                    mettreImage(tui, tu.getType(), tu.getNbTravailleurs(),tu.getX(),tu.getY());
+                    mettreImage(tui, tu.getType(), tu.getNbTravailleurs(), tu.getX(), tu.getY());
                 }
             }
         }
@@ -693,9 +691,9 @@ public class PlateauController implements Initializable {
      * Fonction qui gère le Drag & Drop d'une image (soit une tuile, soit un canal) sur le plateau.
      * @param source 
      */
-    private int[] dragAndDrop(final ImageView source) {
+    private void dragAndDrop(final ImageView source, Tuiles tuile) {
+       
         // Drag une image
-        int tab[]={-1,-1};
         source.setOnDragDetected((MouseEvent event) -> {
             Dragboard db = source.startDragAndDrop(TransferMode.MOVE);
             ClipboardContent cbContent = new ClipboardContent();
@@ -720,14 +718,14 @@ public class PlateauController implements Initializable {
             if (node != plateau && db.hasImage()) {
                 Integer col = GridPane.getColumnIndex(node);
                 Integer lig = GridPane.getRowIndex(node);
-                
-               // Bug lorsque col et lig sont à 0 (on obtient des valeurs à null au lieu de 0)
-              if(col == null){
-                  col = 0;
-               }
-               if(lig == null){
-                  lig = 0;
-              }
+
+                // Bug lorsque col et lig sont à 0 (on obtient des valeurs à null au lieu de 0)
+                if (col == null) {
+                    col = 0;
+                }
+                if (lig == null) {
+                    lig = 0;
+                }
 
                 // Cas d'une tuile
                 if (db.getImage().getHeight() == 100.0 && db.getImage().getWidth() == 100.0) {
@@ -738,16 +736,17 @@ public class PlateauController implements Initializable {
                         if (!getNodeByRowColumnIndex(plateau, lig, col).isDisable()) {
                             plateau.add(new ImageView(db.getImage()), col, lig);
                             getNodeByRowColumnIndex(plateau, lig, col).setDisable(true);
-                            this.x=col;
-                            this.y=lig;
-                            System.out.println(x+":"+y);
+                            Tuiles t = (Tuiles) tuile.clone();
+                            t.setX(col);
+                            t.setY(lig);
+                            partie.addTuilesJoue(t);
                             success = true;
                         }
                     }
                 }
-            
+
             }
-            
+
             event.setDropCompleted(success);
             event.consume();
         });
@@ -759,9 +758,6 @@ public class PlateauController implements Initializable {
             }
             event.consume();
         });
-        tab[0]=this.x;
-        tab[1]=this.y;
-       return tab; 
     }
     
     /**
