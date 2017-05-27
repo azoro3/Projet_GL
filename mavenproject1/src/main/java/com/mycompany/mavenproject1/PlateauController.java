@@ -66,13 +66,11 @@ public class PlateauController implements Initializable {
     private final Label[] p = new Label[5];
     private final Label[] e = new Label[5];
     private ArrayList<Joueur> listeJoueurs;
-    static int nbTour =1;
     static int coord1[]={-1,-1};
     static int coord2[]={-1,-1};
     static int coord3[]={-1,-1};
     static int coord4[]={-1,-1};
     static int coord5[]={-1,-1};
-    static int x,y;
 
     Image canalHorizVide = new Image(getClass().getResourceAsStream("/images/canal_horiz.png"));
     Image canalVertiVide = new Image(getClass().getResourceAsStream("/images/canal_verti.png"));
@@ -183,29 +181,30 @@ public class PlateauController implements Initializable {
      */
     public void phase1() throws InterruptedException {
         // Initialisation d'une nouvelle partie
-        if(nbTour==1){
-        partie.initPartie();
-        
-        // Affichage de la position de la source
-        posSource.setText("x : " + Source.getInstance().getX() + "\ny : " + Source.getInstance().getY());
-        
-        listeJoueurs = partie.getListeJoueurs();
-        j1Nom.setText(listeJoueurs.get(0).getNom());
-        j1Couleur.setText(listeJoueurs.get(0).getCouleur());
-        j2Nom.setText(listeJoueurs.get(1).getNom());
-        j2Couleur.setText(listeJoueurs.get(1).getCouleur());
-        j3Nom.setText(listeJoueurs.get(2).getNom());
-        j3Couleur.setText(listeJoueurs.get(2).getCouleur());
-        j4Nom.setText(listeJoueurs.get(3).getNom());
-        j4Couleur.setText(listeJoueurs.get(3).getCouleur());
-        j5Nom.setText(listeJoueurs.get(4).getNom());
-        j5Couleur.setText(listeJoueurs.get(4).getCouleur());
+        if (partie.getNbTour() == 1) {
+            partie.initPartie();
+
+            // Affichage de la position de la source
+            posSource.setText("x : " + Source.getInstance().getX() + "\ny : " + Source.getInstance().getY());
+
+            listeJoueurs = partie.getListeJoueurs();
+            j1Nom.setText(listeJoueurs.get(0).getNom());
+            j1Couleur.setText(listeJoueurs.get(0).getCouleur());
+            j2Nom.setText(listeJoueurs.get(1).getNom());
+            j2Couleur.setText(listeJoueurs.get(1).getCouleur());
+            j3Nom.setText(listeJoueurs.get(2).getNom());
+            j3Couleur.setText(listeJoueurs.get(2).getCouleur());
+            j4Nom.setText(listeJoueurs.get(3).getNom());
+            j4Couleur.setText(listeJoueurs.get(3).getCouleur());
+            j5Nom.setText(listeJoueurs.get(4).getNom());
+            j5Couleur.setText(listeJoueurs.get(4).getCouleur());
         }
+        
         Task<Boolean> afficherTuile = new Task<Boolean>() {
             @Override
             protected Boolean call() throws Exception {
                 // On récupère la première tuile de chaque pile
-                tuiles=null;
+                tuiles = null;
                 tuiles = partie.getFirstCarte();
 
                 // On affiche la première tuile
@@ -265,8 +264,8 @@ public class PlateauController implements Initializable {
 
         dragAndDropTuile.setOnSucceeded(e -> {
             try {
-                this.phase5();
-               // this.phase3();
+                //this.phase5();
+                this.phase3();
             } catch (InterruptedException ex) {
                 Logger.getLogger(PlateauController.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -560,17 +559,17 @@ public class PlateauController implements Initializable {
     /**
      * Phase 6
      */
-    public void phase6() throws InterruptedException{
+    public void phase6() throws InterruptedException {
         System.out.println("Revenu");
         this.listeJoueurs.forEach((j) -> {
             j.setSolde(3);
         });
-        if(nbTour==9){
+        
+        if (partie.getNbTour() == 9) {
             this.saveScore();
-        }
-        else{
-            nbTour++;
-                this.phase1();
+        } else {
+            partie.addTour();
+            this.phase1();
         }
     }
     
