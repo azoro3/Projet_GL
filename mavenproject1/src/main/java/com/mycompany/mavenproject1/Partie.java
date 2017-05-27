@@ -30,12 +30,24 @@ public class Partie {
     private List<Canal> listeCanalPose = new LinkedList<>();
     private List<Tuiles> tuilesJoue=new LinkedList<>();
     private Source s;
+<<<<<<< HEAD
     
+=======
+    private ObservableList colors = FXCollections.observableArrayList("Noir", "Violet", "Beige", "Gris", "Blanc");
+    private int nbTour;
+
+    public Partie() {
+        this.s = Source.getInstance();
+        this.nbTour = 1;
+    }
+
+>>>>>>> 5c91893... Branche LA_DER_DES_DER : modif dans le choix des coordonnées des canaux
    /**
     * fonction de création d'une partie
     */
     public  void initPartie() {
 
+<<<<<<< HEAD
 //      création des joueurs
         s=Source.getInstance();
         this.listeJoueurs = new ArrayList();
@@ -44,66 +56,132 @@ public class Partie {
             String nomJ = JOptionPane.showInputDialog("Nom du joueur :");
 //      modifier l'attribut couleur
             String couleurJ = JOptionPane.showInputDialog("Choisissez votre couleur :");
+=======
+        // Liste de tous les canaux horizontaux
+        for (int col = 0; col < 11; col++) {
+            for (int lig = 0; lig < 10; lig++) {
+                if ((col == 1 || col == 4 || col == 7 || col == 10)
+                        && (lig == 0 || lig == 3 || lig == 6 || lig == 9)) {
+                    horizontal.add(new Canal(col, lig, col + 1, lig));
+                }
+            }
+        }
+
+        // Création des joueurs
+        this.listeJoueurs = new ArrayList();
+        
+        for (int i = 0; i <= 4; i++) {
+            // Le joueur doit choisir son nom et sa couleur
+            String nomJ = "";
+            String couleurJ = "";
+            Dialog<Pair<String, String>> dialog = new Dialog<>();
+            dialog.setTitle("Informations joueurs");
+            dialog.setHeaderText("Choisissez vos informations.");
+            ButtonType okButtonType = new ButtonType("OK", ButtonData.OK_DONE);
+            dialog.getDialogPane().getButtonTypes().addAll(okButtonType);
+            
+            GridPane grid = new GridPane();
+            grid.setHgap(10);
+            grid.setVgap(10);
+            grid.setPadding(new Insets(20, 150, 10, 10));
+
+            // Champ pour le nom
+            TextField nom = new TextField();
+            nom.setPromptText("Nom");
+            // Liste de choix de couleur
+            ChoiceBox couleur = new ChoiceBox(colors);
+            couleur.getSelectionModel().selectFirst();
+            
+            grid.add(new Label("Nom :"), 0, 0);
+            grid.add(nom, 1, 0);
+            grid.add(new Label("Couleur :"), 0, 1);
+            grid.add(couleur, 1, 1);
+            
+            // Active/désactive le bouton OK si le champ Nom est complété
+            Node okButton = dialog.getDialogPane().lookupButton(okButtonType);
+            okButton.setDisable(true);
+            nom.textProperty().addListener((observable, oldValue, newValue) -> {
+                okButton.setDisable(newValue.trim().isEmpty());
+            });
+            
+            dialog.getDialogPane().setContent(grid);
+            
+            // Conversion du résultat en une paire de string lorsque le bouton OK est cliqué
+            dialog.setResultConverter(dialogButton -> {
+                if (dialogButton == okButtonType) {
+                    return new Pair<>(nom.getText(), (String) couleur.getSelectionModel().getSelectedItem());
+                }
+                return null;
+            });
+            
+            Optional<Pair<String, String>> result = dialog.showAndWait();
+            if(result.isPresent()){
+                nomJ = result.get().getKey();
+                couleurJ = result.get().getValue();
+                colors.remove(couleurJ);
+            }
+
+>>>>>>> 5c91893... Branche LA_DER_DES_DER : modif dans le choix des coordonnées des canaux
             Joueur J = new Joueur(nomJ, couleurJ, 10, 22);
             CanalJ c = new CanalJ(couleurJ);
             this.listeJoueurs.add(J);
         }
 
         this.listeJoueurs.get(0).setEstConstructeur(true);
-        
-//      création des Tuiles
+
+        // Création des tuiles
         List<Tuiles> touteLesTuiles = new LinkedList();
-        CanalFactory factory=new CanalFactory();
-        for(int i=0;i<=15;i++){
-            Canal c=factory.genererCanal();
+        CanalFactory factory = new CanalFactory();
+        for (int i = 0; i <= 15; i++) {
+            Canal c = factory.genererCanal();
             this.listeCanal.add(c);
         }
-//      Mettre les tuiles dans les liste
+        // Mettre les tuiles dans les liste
         TuilesFactory tFactory;
         tFactory = new TuilesFactory();
-        for (int i=1;i<=9;i++){
+        for (int i = 1; i <= 9; i++) {
             touteLesTuiles.add(tFactory.genererTuiles("piment"));
             touteLesTuiles.add(tFactory.genererTuiles("haricot"));
             touteLesTuiles.add(tFactory.genererTuiles("banane"));
             touteLesTuiles.add(tFactory.genererTuiles("patate"));
             touteLesTuiles.add(tFactory.genererTuiles("sucre"));
         }
-        while(touteLesTuiles.size()>0){
+        while (touteLesTuiles.size() > 0) {
             int val;
-            val = (int) (Math.random() * ( touteLesTuiles.size()));
+            val = (int) (Math.random() * (touteLesTuiles.size()));
             int val2;
             val2 = (int) (Math.random() * (5));
-            switch (val2){
+            switch (val2) {
                 case 0:
-                    if(this.pile1.size()<9){
-                    this.pile1.add(touteLesTuiles.remove(val));
+                    if (this.pile1.size() < 9) {
+                        this.pile1.add(touteLesTuiles.remove(val));
                     }
                     break;
                 case 1:
-                    if(this.pile2.size()<9){
+                    if (this.pile2.size() < 9) {
                         this.pile2.add(touteLesTuiles.remove(val));
                     }
                     break;
                 case 2:
-                    if(this.pile3.size()<9){
+                    if (this.pile3.size() < 9) {
                         this.pile3.add(touteLesTuiles.remove(val));
                     }
                     break;
                 case 3:
-                    if(this.pile4.size()<9){
+                    if (this.pile4.size() < 9) {
                         this.pile4.add(touteLesTuiles.remove(val));
                     }
                     break;
                 case 4:
-                    if(this.pile5.size()<9){
+                    if (this.pile5.size() < 9) {
                         this.pile5.add(touteLesTuiles.remove(val));
                     }
                     break;
             }
         }
-     
+
     }
-    
+
     /**
      * 
      * @return tableau avec la première tuile de chaque pile
@@ -167,6 +245,59 @@ public class Partie {
                 break;
             }
         }
+    }
+<<<<<<< HEAD
+=======
+    
+    public ArrayList<Canal> getListeCanauxAutorises(Boolean orientation) {
+        canauxAutorises.clear();
+
+        // Au premier tour, les canaux doivent être posés à côté de la source
+        if (this.nbTour == 1) {
+            // Canaux verticaux
+            if (orientation) {
+                for (Canal c : vertical) {
+                    if (c.getxDeb() == s.getX() && c.getyDeb() == s.getY() + 1
+                            || c.getxDeb() == s.getX() && c.getyDeb() == s.getY() - 2) {
+                        canauxAutorises.add(c);
+                    }
+                }
+            } else {
+                // Canaux horizontaux
+                for (Canal c : horizontal) {
+                    if (c.getxDeb() == s.getX() + 1 && c.getyDeb() == s.getY()
+                            || c.getxDeb() == s.getX() - 2 && c.getyDeb() == s.getY()) {
+                        canauxAutorises.add(c);
+                    }
+                }
+            }
+        } else {
+            // Canaux verticaux autorisés
+            if (orientation) {
+                for (Canal c : vertical) {
+                    if (!listeCanalPose.contains(c)) {
+                        canauxAutorises.add(c);
+                    }
+                }
+            } else {
+                // Canaux horizontaux autorisés
+                for (Canal c : horizontal) {
+                    if (!listeCanalPose.contains(c)) {
+                        canauxAutorises.add(c);
+                    }
+                }
+            }
+        }
+        return canauxAutorises;
+    }
+>>>>>>> 5c91893... Branche LA_DER_DES_DER : modif dans le choix des coordonnées des canaux
+
+    public int getNbTour() {
+        return nbTour;
+    }
+
+    public void addTour() {
+        this.nbTour++;
     }
 
     public ArrayList<Joueur> getListeJoueurs() {
