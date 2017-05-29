@@ -264,8 +264,10 @@ public class PlateauController implements Initializable {
 
         dragAndDropTuile.setOnSucceeded(e -> {
             try {
-                //this.phase5();
                 this.phase3();
+                //this.phase4();
+                //this.phase5();
+                
             } catch (InterruptedException ex) {
                 Logger.getLogger(PlateauController.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -535,11 +537,12 @@ public class PlateauController implements Initializable {
         for (final Tuiles tu : partie.getTuilesJoue()) {
             System.out.println(tu.getX() + " " + tu.getY());
             for (final Canal c : partie.getListeCanalPose()) {
-                if (tu.getX() - 1 == c.getxDeb() || tu.getX() + 1 == c.getxDeb()
-                        || tu.getX() - 1 == c.getxFin() || tu.getX() + 1 == c.getxFin()
-                        || tu.getY() - 1 == c.getyDeb() || tu.getY() + 1 == c.getyDeb()
-                        || tu.getY() - 1 == c.getyFin() || tu.getY() + 1 == c.getyFin()) {
-                    tu.setIrigue(true);
+                if ((tu.getX() - 1 == c.getxDeb() && tu.getX() + 1 == c.getxDeb())
+                        || (tu.getX() - 1 == c.getxFin() && tu.getX() + 1 == c.getxFin())
+                        || (tu.getY() - 1 == c.getyDeb() && tu.getY() + 1 == c.getyDeb())
+                        || (tu.getY() - 1 == c.getyFin() && tu.getY() + 1 == c.getyFin())) {
+                    System.out.println("Tuile irriguée");
+                    tu.setIrigue(true);break;
                 }
             }
             if (tu.getIrigue() == false) {
@@ -552,6 +555,7 @@ public class PlateauController implements Initializable {
                     mettreImage(tui, tu.getType(), tu.getNbTravailleurs(), tu.getX(), tu.getY());
                 }
             }
+            System.out.println(tu.getIrigue());
         }
         this.phase6();
     }
