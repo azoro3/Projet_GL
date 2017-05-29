@@ -499,23 +499,21 @@ public class PlateauController implements Initializable {
             } else {
             }
         }
-        //this.phase6();
         this.phase5();
     }
     
     /**
      * Phase 5
      */
-    private void phase5() throws InterruptedException{       
-        partie.removeFirstOfEachPile();
-        
+    private void phase5() throws InterruptedException{        
         for (final Tuiles tu : partie.getTuilesJoue()) {
             for (final Canal c : partie.getListeCanalPose()) {
                 if ((tu.getX() - 1 == c.getxDeb() && tu.getX() + 1 == c.getxDeb())
                         || (tu.getX() - 1 == c.getxFin() && tu.getX() + 1 == c.getxFin())
                         || (tu.getY() - 1 == c.getyDeb() && tu.getY() + 1 == c.getyDeb())
                         || (tu.getY() - 1 == c.getyFin() && tu.getY() + 1 == c.getyFin())) {
-                    tu.setIrigue(true);break;
+                    tu.setIrigue(true);
+                    System.out.println(tu.getIrigue());
                 }
             }
             if (tu.getIrigue() == false) {
@@ -529,6 +527,7 @@ public class PlateauController implements Initializable {
                 }
             }
         }
+        partie.removeFirstOfEachPile();
         this.phase6();
     }
     
