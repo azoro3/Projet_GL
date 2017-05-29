@@ -10,11 +10,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.ObservableList;
@@ -71,7 +69,11 @@ public class PlateauController implements Initializable {
     private final Label[] p = new Label[5];
     private final Label[] e = new Label[5];
     private ArrayList<Joueur> listeJoueurs;
-    static int nbTour =1;
+    static int coord1[]={-1,-1};
+    static int coord2[]={-1,-1};
+    static int coord3[]={-1,-1};
+    static int coord4[]={-1,-1};
+    static int coord5[]={-1,-1};
 
     Image canalHorizVide = new Image(getClass().getResourceAsStream("/images/canal_horiz.png"));
     Image canalVertiVide = new Image(getClass().getResourceAsStream("/images/canal_verti.png"));
@@ -94,7 +96,6 @@ public class PlateauController implements Initializable {
         String filePath="./saveScore.json";
         String res="{\"joueurs\" :[\n";
         for(final Joueur j :partie.getListeJoueurs()){
-            System.out.println(j.getNom());
             res+=j.toJSON()+",\r\n";
         }
         res=res.substring(0,(res.length()-3));
@@ -133,7 +134,7 @@ public class PlateauController implements Initializable {
             res+=t.toJSON()+",\r\n";
         }
         res=res.substring(0,(res.length()-3));
-        res+="}]";
+        res+="]";
         try{
             FileWriter fw= new FileWriter("savePartie.json");
             BufferedWriter bw = new BufferedWriter(fw);
@@ -148,7 +149,7 @@ public class PlateauController implements Initializable {
             res+=c.toJSON()+",\r\n";
         }
         res=res.substring(0,(res.length()-3));
-        res+="]}";
+        res+="]";
         try{
             FileWriter fw= new FileWriter("savePartie.json",true);
             BufferedWriter bw = new BufferedWriter(fw);
@@ -183,29 +184,30 @@ public class PlateauController implements Initializable {
      */
     public void phase1() throws InterruptedException {
         // Initialisation d'une nouvelle partie
-        if(nbTour==1){
-        partie.initPartie();
-        
-        // Affichage de la position de la source
-        posSource.setText("x : " + Source.getInstance().getX() + "\ny : " + Source.getInstance().getY());
-        
-        listeJoueurs = partie.getListeJoueurs();
-        j1Nom.setText(listeJoueurs.get(0).getNom());
-        j1Couleur.setText(listeJoueurs.get(0).getCouleur());
-        j2Nom.setText(listeJoueurs.get(1).getNom());
-        j2Couleur.setText(listeJoueurs.get(1).getCouleur());
-        j3Nom.setText(listeJoueurs.get(2).getNom());
-        j3Couleur.setText(listeJoueurs.get(2).getCouleur());
-        j4Nom.setText(listeJoueurs.get(3).getNom());
-        j4Couleur.setText(listeJoueurs.get(3).getCouleur());
-        j5Nom.setText(listeJoueurs.get(4).getNom());
-        j5Couleur.setText(listeJoueurs.get(4).getCouleur());
+        if (partie.getNbTour() == 1) {
+            partie.initPartie();
+
+            // Affichage de la position de la source
+            posSource.setText("x : " + Source.getInstance().getX() + "\ny : " + Source.getInstance().getY());
+
+            listeJoueurs = partie.getListeJoueurs();
+            j1Nom.setText(listeJoueurs.get(0).getNom());
+            j1Couleur.setText(listeJoueurs.get(0).getCouleur());
+            j2Nom.setText(listeJoueurs.get(1).getNom());
+            j2Couleur.setText(listeJoueurs.get(1).getCouleur());
+            j3Nom.setText(listeJoueurs.get(2).getNom());
+            j3Couleur.setText(listeJoueurs.get(2).getCouleur());
+            j4Nom.setText(listeJoueurs.get(3).getNom());
+            j4Couleur.setText(listeJoueurs.get(3).getCouleur());
+            j5Nom.setText(listeJoueurs.get(4).getNom());
+            j5Couleur.setText(listeJoueurs.get(4).getCouleur());
         }
+        
         Task<Boolean> afficherTuile = new Task<Boolean>() {
             @Override
             protected Boolean call() throws Exception {
                 // On récupère la première tuile de chaque pile
-                tuiles=null;
+                tuiles = null;
                 tuiles = partie.getFirstCarte();
 
                 // On affiche la première tuile
@@ -251,22 +253,24 @@ public class PlateauController implements Initializable {
         Task<Boolean> dragAndDropTuile = new Task<Boolean>() {
             @Override
             protected Boolean call() throws Exception {
-                while (tuile1.isVisible() || tuile2.isVisible() || tuile3.isVisible()
-                        || tuile4.isVisible() || tuile5.isVisible()) {
-                    dragAndDrop(tuile1);
-                    dragAndDrop(tuile2);
-                    dragAndDrop(tuile3);
-                    dragAndDrop(tuile4);
-                    dragAndDrop(tuile5);
-                }
+               while (tuile1.isVisible() || tuile2.isVisible() || tuile3.isVisible()
+                    || tuile4.isVisible() || tuile5.isVisible()) {
+                    dragAndDrop(tuile1, tuiles[0]);
+                    dragAndDrop(tuile2, tuiles[1]);
+                    dragAndDrop(tuile3, tuiles[2]);
+                    dragAndDrop(tuile4, tuiles[3]);
+                    dragAndDrop(tuile5, tuiles[4]);
+              }
                 return true;
             }
         };
 
         dragAndDropTuile.setOnSucceeded(e -> {
             try {
-                //System.out.println(dragAndDropTuile.getValue());
                 this.phase3();
+                //this.phase4();
+                //this.phase5();
+                
             } catch (InterruptedException ex) {
                 Logger.getLogger(PlateauController.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -378,9 +382,6 @@ public class PlateauController implements Initializable {
 
                 Optional<String> result = dialog.showAndWait();
                 if (result.isPresent()) {
-
-                    System.out.println("Réponse : " + result.get());
-
                     if (result.get().contains("canal") ) {
                         // Nouvelle fenêtre avec plusieurs proposition, puis ajout à la liste des canaux posés
                         j.setSolde(-(miseMax+1));
@@ -429,8 +430,8 @@ public class PlateauController implements Initializable {
                                 res5.setxFin(entry.getValue().getxFin());
                                 res5.setyDeb(entry.getValue().getyDeb());
                                 res5.setyFin(entry.getValue().getyFin());
-                                int mise = enchere.get(entry.getKey());
-                                entry.getKey().setSolde(-mise);
+                                int mise = 0-enchere.get(entry.getKey());
+                                entry.getKey().setSolde(mise);
                             }
                         });
 
@@ -460,7 +461,6 @@ public class PlateauController implements Initializable {
      * Phase 4
      */
     public void phase4() throws InterruptedException{
-        System.out.println(partie.getListeJoueurs().size());
         for(final Joueur j:partie.getListeJoueurs()){
             if(j.getCanal().getIsPosed()==false){
                 String res=JOptionPane.showInputDialog(j.getNom()+", voulez vous posez un canal ? (o/n)");
@@ -502,8 +502,8 @@ public class PlateauController implements Initializable {
             } else {
             }
         }
-        this.phase6();
-        //this.phase5();
+        //this.phase6();
+        this.phase5();
     }
     
     /**
@@ -511,45 +511,54 @@ public class PlateauController implements Initializable {
      */
     private void phase5() throws InterruptedException{
         System.out.println("sécheresse");
+        /*
         Tuiles t = partie.getPile1().get(0);
-        t.setX((int) tuile1.getX());
-        t.setY((int) tuile1.getY());
-        partie.getTuilesJoue().add(partie.getPile1().remove(1));
+        t.setX(coord1[0]);
+        t.setY(coord1[1]);
+        System.out.println(coord1[0]+":"+coord1[1]);
+        partie.getTuilesJoue().add(partie.getPile1().remove(0));
         t = partie.getPile2().get(0);
-        t.setX((int) tuile2.getX());
-        t.setY((int) tuile2.getY());
-        partie.getTuilesJoue().add(partie.getPile2().remove(1));
-        partie.getPile3().get(0);
-        t.setX((int) tuile3.getX());
-        t.setY((int) tuile3.getY());
-        partie.getTuilesJoue().add(partie.getPile3().remove(1));
-        partie.getPile4().get(0);
-        t.setX((int) tuile4.getX());
-        t.setY((int) tuile4.getY());
-        partie.getTuilesJoue().add(partie.getPile4().remove(1));
-        partie.getPile5().get(0);
-        t.setX((int) tuile5.getX());
-        t.setY((int) tuile5.getY());
-        partie.getTuilesJoue().add(partie.getPile5().remove(1));
-        for(final Tuiles tu: partie.getTuilesJoue()){
-            for(final Canal c: partie.getListeCanalPose()){
-                if(tu.getX()-1==c.getxDeb()||tu.getX()+1==c.getxDeb()
-                  ||tu.getX()-1==c.getxFin()||tu.getX()+1==c.getxFin()
-                  ||tu.getY()-1==c.getyDeb()||tu.getY()+1==c.getyDeb()
-                  ||tu.getY()-1==c.getyFin()||tu.getY()+1==c.getyFin()){
-                  tu.setIrigue(true);break;
+        t.setX(coord2[0]);
+        t.setY(coord2[1]);
+        partie.getTuilesJoue().add(partie.getPile2().remove(0));
+        t=partie.getPile3().get(0);
+        t.setX(coord3[0]);
+        t.setY(coord3[1]);
+        partie.getTuilesJoue().add(partie.getPile3().remove(0));
+        t=partie.getPile4().get(0);
+        t.setX(coord4[0]);
+        t.setY(coord4[1]);
+        partie.getTuilesJoue().add(partie.getPile4().remove(0));
+        t=partie.getPile5().get(0);
+        t.setX(coord5[0]);
+        t.setY(coord5[1]);
+        partie.getTuilesJoue().add(partie.getPile5().remove(0));
+        */
+        
+        partie.removeFirstOfEachPile();
+        
+        for (final Tuiles tu : partie.getTuilesJoue()) {
+            System.out.println(tu.getX() + " " + tu.getY());
+            for (final Canal c : partie.getListeCanalPose()) {
+                if ((tu.getX() - 1 == c.getxDeb() && tu.getX() + 1 == c.getxDeb())
+                        || (tu.getX() - 1 == c.getxFin() && tu.getX() + 1 == c.getxFin())
+                        || (tu.getY() - 1 == c.getyDeb() && tu.getY() + 1 == c.getyDeb())
+                        || (tu.getY() - 1 == c.getyFin() && tu.getY() + 1 == c.getyFin())) {
+                    System.out.println("Tuile irriguée");
+                    tu.setIrigue(true);break;
                 }
             }
-            if(!tu.getIrigue()){
-                tu.setNbTravailleurs(tu.getNbTravailleurs()-1);
-                if(tu.getNbTravailleurs()==0){
+            if (tu.getIrigue() == false) {
+                tu.setNbTravailleurs(tu.getNbTravailleurs() - 1);
+                if (tu.getNbTravailleurs() == 0) {
                     Image desert = new Image(getClass().getResourceAsStream("/images/vide.jpg"));
-                    plateau.add(new ImageView(desert),tu.getX(),tu.getY());
-                }else
-                {
-                    mettreImage(null, tu.getType(), tu.getNbTravailleurs(),tu.getX(),tu.getY());
+                    plateau.add(new ImageView(desert), tu.getX(), tu.getY());
+                } else {
+                    ImageView tui = new ImageView();
+                    mettreImage(tui, tu.getType(), tu.getNbTravailleurs(), tu.getX(), tu.getY());
                 }
             }
+            System.out.println(tu.getIrigue());
         }
         this.phase6();
     }
@@ -557,22 +566,17 @@ public class PlateauController implements Initializable {
     /**
      * Phase 6
      */
-    public void phase6() throws InterruptedException{
-        partie.getPile1().remove(0);
-        partie.getPile2().remove(0);
-        partie.getPile3().remove(0);
-        partie.getPile4().remove(0);
-        partie.getPile5().remove(0);
+    public void phase6() throws InterruptedException {
         System.out.println("Revenu");
         this.listeJoueurs.forEach((j) -> {
             j.setSolde(3);
         });
-        if(nbTour==9){
+        
+        if (partie.getNbTour() == 9) {
             this.saveScore();
-        }
-        else{
-            nbTour++;
-                this.phase1();
+        } else {
+            partie.addTour();
+            this.phase1();
         }
     }
     
@@ -693,7 +697,8 @@ public class PlateauController implements Initializable {
      * Fonction qui gère le Drag & Drop d'une image (soit une tuile, soit un canal) sur le plateau.
      * @param source 
      */
-    private void dragAndDrop(final ImageView source) {
+    private void dragAndDrop(final ImageView source, Tuiles tuile) {
+       
         // Drag une image
         source.setOnDragDetected((MouseEvent event) -> {
             Dragboard db = source.startDragAndDrop(TransferMode.MOVE);
@@ -719,12 +724,12 @@ public class PlateauController implements Initializable {
             if (node != plateau && db.hasImage()) {
                 Integer col = GridPane.getColumnIndex(node);
                 Integer lig = GridPane.getRowIndex(node);
-                
+
                 // Bug lorsque col et lig sont à 0 (on obtient des valeurs à null au lieu de 0)
-                if(col == null){
+                if (col == null) {
                     col = 0;
                 }
-                if(lig == null){
+                if (lig == null) {
                     lig = 0;
                 }
 
@@ -737,11 +742,17 @@ public class PlateauController implements Initializable {
                         if (!getNodeByRowColumnIndex(plateau, lig, col).isDisable()) {
                             plateau.add(new ImageView(db.getImage()), col, lig);
                             getNodeByRowColumnIndex(plateau, lig, col).setDisable(true);
+                            Tuiles t = (Tuiles) tuile.clone();
+                            t.setX(col);
+                            t.setY(lig);
+                            partie.addTuilesJoue(t);
                             success = true;
                         }
                     }
                 }
+
             }
+
             event.setDropCompleted(success);
             event.consume();
         });

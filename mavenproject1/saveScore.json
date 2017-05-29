@@ -1,3 +1,6 @@
-{joueurs :[
-{"nom" : "Arthur","couleur":"Bleu","solde":10,"score":10},
-{"nom" : "Manon","couleur":"Vert","solde":10,"score":10}]}
+{"joueurs" :[
+{"nom" : "a","couleur":"Noir","solde":22,"score":22},
+{"nom" : "z","couleur":"Violet","solde":21,"score":21},
+{"nom" : "e","couleur":"Beige","solde":20,"score":20},
+{"nom" : "r","couleur":"Gris","solde":19,"score":19},
+{"nom" : "t","couleur":"Blanc","solde":18,"score":18}]}

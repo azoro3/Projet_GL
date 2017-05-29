@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.mycompany.mavenproject1.Jeu;
 
 import java.util.Random;
@@ -11,7 +6,8 @@ import java.util.Random;
  *
  * @author Arthur
  */
-public class Tuiles {
+public class Tuiles implements Cloneable {
+    
     private String type;
     private int nbTravailleurs;
     private int x;
@@ -22,7 +18,20 @@ public class Tuiles {
         this.type=type;
         Random r=new Random();
         this.nbTravailleurs = 1 + r.nextInt(3 - 1);
+        this.isIrigue = false;
     }
+    
+    @Override
+    public Object clone() {
+        Tuiles t = null;
+        try {
+            t = (Tuiles) super.clone();
+        } catch (CloneNotSupportedException cnse) {
+            cnse.printStackTrace(System.err);
+        }
+        return t;
+    }
+    
     /**
      * 
      * @return un objet tuiles au format JSON
@@ -47,7 +56,6 @@ public class Tuiles {
         return y;
     }
 
-    
     public String getType() {
         return type;
     }
@@ -59,15 +67,17 @@ public class Tuiles {
     public int getNbTravailleurs() {
         return nbTravailleurs;
     }
-    public void setNbTravailleurs(int nbTravailleurs){
-        this.nbTravailleurs=nbTravailleurs;
+
+    public void setNbTravailleurs(int nbTravailleurs) {
+        this.nbTravailleurs = nbTravailleurs;
     }
-    public void setIrigue(boolean isIrigue){
-        this.isIrigue=isIrigue;
+
+    public void setIrigue(boolean isIrigue) {
+        this.isIrigue = isIrigue;
     }
-    public boolean getIrigue(){
+
+    public boolean getIrigue() {
         return this.isIrigue;
     }
-    
-    
+
 }

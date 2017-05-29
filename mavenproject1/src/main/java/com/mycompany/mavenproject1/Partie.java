@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.mycompany.mavenproject1;
 
 import com.mycompany.mavenproject1.Jeu.*;
@@ -44,7 +39,13 @@ public class Partie {
     private ArrayList<Canal> horizontal = new ArrayList<>();
     private Source s;
     private ObservableList colors = FXCollections.observableArrayList("Noir", "Violet", "Beige", "Gris", "Blanc");
-    
+    private int nbTour;
+
+    public Partie() {
+        this.s = Source.getInstance();
+        this.nbTour = 1;
+    }
+
    /**
     * fonction de création d'une partie
     */
@@ -69,9 +70,7 @@ public class Partie {
             }
         }
 
-        // création des joueurs
-        s = Source.getInstance();
-        //System.out.println(s.getX()+" "+s.getY());
+        // Création des joueurs
         this.listeJoueurs = new ArrayList();
         
         for (int i = 0; i <= 4; i++) {
@@ -93,7 +92,6 @@ public class Partie {
             TextField nom = new TextField();
             nom.setPromptText("Nom");
             // Liste de choix de couleur
-            
             ChoiceBox couleur = new ChoiceBox(colors);
             couleur.getSelectionModel().selectFirst();
             
@@ -132,60 +130,60 @@ public class Partie {
         }
 
         this.listeJoueurs.get(0).setEstConstructeur(true);
-        
-//      création des Tuiles
+
+        // Création des tuiles
         List<Tuiles> touteLesTuiles = new LinkedList();
-        CanalFactory factory=new CanalFactory();
-        for(int i=0;i<=15;i++){
-            Canal c=factory.genererCanal();
+        CanalFactory factory = new CanalFactory();
+        for (int i = 0; i <= 15; i++) {
+            Canal c = factory.genererCanal();
             this.listeCanal.add(c);
         }
-//      Mettre les tuiles dans les liste
+        // Mettre les tuiles dans les liste
         TuilesFactory tFactory;
         tFactory = new TuilesFactory();
-        for (int i=1;i<=9;i++){
+        for (int i = 1; i <= 9; i++) {
             touteLesTuiles.add(tFactory.genererTuiles("piment"));
             touteLesTuiles.add(tFactory.genererTuiles("haricot"));
             touteLesTuiles.add(tFactory.genererTuiles("banane"));
             touteLesTuiles.add(tFactory.genererTuiles("patate"));
             touteLesTuiles.add(tFactory.genererTuiles("sucre"));
         }
-        while(touteLesTuiles.size()>0){
+        while (touteLesTuiles.size() > 0) {
             int val;
-            val = (int) (Math.random() * ( touteLesTuiles.size()));
+            val = (int) (Math.random() * (touteLesTuiles.size()));
             int val2;
             val2 = (int) (Math.random() * (5));
-            switch (val2){
+            switch (val2) {
                 case 0:
-                    if(this.pile1.size()<9){
-                    this.pile1.add(touteLesTuiles.remove(val));
+                    if (this.pile1.size() < 9) {
+                        this.pile1.add(touteLesTuiles.remove(val));
                     }
                     break;
                 case 1:
-                    if(this.pile2.size()<9){
+                    if (this.pile2.size() < 9) {
                         this.pile2.add(touteLesTuiles.remove(val));
                     }
                     break;
                 case 2:
-                    if(this.pile3.size()<9){
+                    if (this.pile3.size() < 9) {
                         this.pile3.add(touteLesTuiles.remove(val));
                     }
                     break;
                 case 3:
-                    if(this.pile4.size()<9){
+                    if (this.pile4.size() < 9) {
                         this.pile4.add(touteLesTuiles.remove(val));
                     }
                     break;
                 case 4:
-                    if(this.pile5.size()<9){
+                    if (this.pile5.size() < 9) {
                         this.pile5.add(touteLesTuiles.remove(val));
                     }
                     break;
             }
         }
-     
+
     }
-    
+
     /**
      * 
      * @return tableau avec la première tuile de chaque pile
@@ -205,6 +203,7 @@ public class Partie {
      * @return un hasmap avec les différentes mises des joueurs
      */
     public Map<Joueur, String> faireUneEnchere() {
+        try{
         Map<Joueur, String> enchere = new HashMap<>();
 //      fonction pour trier les joueurs dans le sens des enchères.
         boolean tri = false; int i=0;
@@ -224,7 +223,7 @@ public class Partie {
         for (final Joueur joueur : this.listeJoueurs) {
             String valeurEnchere = JOptionPane.showInputDialog(joueur.getNom() + ", faites votre enchère !");
             
-            while (enchere.values().contains(valeurEnchere) || Integer.parseInt(valeurEnchere)>=joueur.getSolde()) {
+            while (enchere.values().contains(valeurEnchere) /*|| Integer.parseInt(valeurEnchere)>=joueur.getSolde()*/) {
                 if ("Passe".equals(valeurEnchere)) {
                     enchere.put(joueur, valeurEnchere);
                     break;
@@ -238,6 +237,9 @@ public class Partie {
             }
         }
         return enchere;
+    }catch(Exception e){
+                return null;
+    }
     }
     
     /**
@@ -259,23 +261,52 @@ public class Partie {
      */
     public ArrayList<Canal> getListeCanauxAutorises(Boolean orientation) {
         canauxAutorises.clear();
-        // Canaux verticaux autorisés
-        if (orientation) {
-            for (Canal c : vertical) {
-                if (!listeCanalPose.contains(c)) {
-                    canauxAutorises.add(c);
+
+        // Au premier tour, les canaux doivent être posés à côté de la source
+        if (this.nbTour == 1) {
+            // Canaux verticaux
+            if (orientation) {
+                for (Canal c : vertical) {
+                    if (c.getxDeb() == s.getX() && c.getyDeb() == s.getY() + 1
+                            || c.getxDeb() == s.getX() && c.getyDeb() == s.getY() - 2) {
+                        canauxAutorises.add(c);
+                    }
+                }
+            } else {
+                // Canaux horizontaux
+                for (Canal c : horizontal) {
+                    if (c.getxDeb() == s.getX() + 1 && c.getyDeb() == s.getY()
+                            || c.getxDeb() == s.getX() - 2 && c.getyDeb() == s.getY()) {
+                        canauxAutorises.add(c);
+                    }
                 }
             }
         } else {
-            // Canaux horizontaux autorisés
-            for (Canal c : horizontal) {
-                if (!listeCanalPose.contains(c)) {
-                    canauxAutorises.add(c);
+            // Canaux verticaux autorisés
+            if (orientation) {
+                for (Canal c : vertical) {
+                    if (!listeCanalPose.contains(c)) {
+                        canauxAutorises.add(c);
+                    }
+                }
+            } else {
+                // Canaux horizontaux autorisés
+                for (Canal c : horizontal) {
+                    if (!listeCanalPose.contains(c)) {
+                        canauxAutorises.add(c);
+                    }
                 }
             }
-
         }
         return canauxAutorises;
+    }
+
+    public int getNbTour() {
+        return nbTour;
+    }
+
+    public void addTour() {
+        this.nbTour++;
     }
 
     public ArrayList<Joueur> getListeJoueurs() {
@@ -316,6 +347,18 @@ public class Partie {
     
     public void addListeCanauxPoses(Canal c){
         listeCanalPose.add(c);
+    }
+    
+    public void addTuilesJoue(Tuiles t){
+        tuilesJoue.add(t);
+    }
+    
+    public void removeFirstOfEachPile(){
+        pile1.remove(0);
+        pile2.remove(0);
+        pile3.remove(0);
+        pile4.remove(0);
+        pile5.remove(0);
     }
 
 }
