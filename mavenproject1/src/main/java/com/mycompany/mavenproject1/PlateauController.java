@@ -506,42 +506,15 @@ public class PlateauController implements Initializable {
     /**
      * Phase 5
      */
-    private void phase5() throws InterruptedException{
-        System.out.println("sécheresse");
-        /*
-        Tuiles t = partie.getPile1().get(0);
-        t.setX(coord1[0]);
-        t.setY(coord1[1]);
-        System.out.println(coord1[0]+":"+coord1[1]);
-        partie.getTuilesJoue().add(partie.getPile1().remove(0));
-        t = partie.getPile2().get(0);
-        t.setX(coord2[0]);
-        t.setY(coord2[1]);
-        partie.getTuilesJoue().add(partie.getPile2().remove(0));
-        t=partie.getPile3().get(0);
-        t.setX(coord3[0]);
-        t.setY(coord3[1]);
-        partie.getTuilesJoue().add(partie.getPile3().remove(0));
-        t=partie.getPile4().get(0);
-        t.setX(coord4[0]);
-        t.setY(coord4[1]);
-        partie.getTuilesJoue().add(partie.getPile4().remove(0));
-        t=partie.getPile5().get(0);
-        t.setX(coord5[0]);
-        t.setY(coord5[1]);
-        partie.getTuilesJoue().add(partie.getPile5().remove(0));
-        */
-        
+    private void phase5() throws InterruptedException{       
         partie.removeFirstOfEachPile();
         
         for (final Tuiles tu : partie.getTuilesJoue()) {
-            System.out.println(tu.getX() + " " + tu.getY());
             for (final Canal c : partie.getListeCanalPose()) {
                 if ((tu.getX() - 1 == c.getxDeb() && tu.getX() + 1 == c.getxDeb())
                         || (tu.getX() - 1 == c.getxFin() && tu.getX() + 1 == c.getxFin())
                         || (tu.getY() - 1 == c.getyDeb() && tu.getY() + 1 == c.getyDeb())
                         || (tu.getY() - 1 == c.getyFin() && tu.getY() + 1 == c.getyFin())) {
-                    System.out.println("Tuile irriguée");
                     tu.setIrigue(true);break;
                 }
             }
@@ -555,7 +528,6 @@ public class PlateauController implements Initializable {
                     mettreImage(tui, tu.getType(), tu.getNbTravailleurs(), tu.getX(), tu.getY());
                 }
             }
-            System.out.println(tu.getIrigue());
         }
         this.phase6();
     }
@@ -564,7 +536,6 @@ public class PlateauController implements Initializable {
      * Phase 6
      */
     public void phase6() throws InterruptedException {
-        System.out.println("Revenu");
         this.listeJoueurs.forEach((j) -> {
             j.setSolde(3);
         });
