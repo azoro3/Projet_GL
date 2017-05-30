@@ -213,6 +213,11 @@ public class PlateauController implements Initializable {
                 mettreImage(tuile3, tuiles[2].getType(), tuiles[2].getNbTravailleurs(), -1, -1);
                 mettreImage(tuile4, tuiles[3].getType(), tuiles[3].getNbTravailleurs(), -1, -1);
                 mettreImage(tuile5, tuiles[4].getType(), tuiles[4].getNbTravailleurs(), -1, -1);
+                
+                System.out.println("Tuiles dans init");
+                for(Tuiles t : tuiles){
+                    System.out.println(t);
+                }
                 return true;
             }
         };
@@ -252,11 +257,11 @@ public class PlateauController implements Initializable {
             protected Boolean call() throws Exception {
                while (tuile1.isVisible() || tuile2.isVisible() || tuile3.isVisible()
                     || tuile4.isVisible() || tuile5.isVisible()) {
-                    dragAndDrop(tuile1, tuiles[0]);
-                    dragAndDrop(tuile2, tuiles[1]);
-                    dragAndDrop(tuile3, tuiles[2]);
-                    dragAndDrop(tuile4, tuiles[3]);
-                    dragAndDrop(tuile5, tuiles[4]);
+                    dragAndDrop(tuile1);
+                    dragAndDrop(tuile2);
+                    dragAndDrop(tuile3);
+                    dragAndDrop(tuile4);
+                    dragAndDrop(tuile5);
               }
                 return true;
             }
@@ -507,6 +512,7 @@ public class PlateauController implements Initializable {
      */
     private void phase5() throws InterruptedException{        
         for (final Tuiles tu : partie.getTuilesJoue()) {
+            System.out.println(tu);
             for (final Canal c : partie.getListeCanalPose()) {
                 if ((tu.getX() - 1 == c.getxDeb() && tu.getX() + 1 == c.getxDeb())
                         || (tu.getX() - 1 == c.getxFin() && tu.getX() + 1 == c.getxFin())
@@ -664,13 +670,14 @@ public class PlateauController implements Initializable {
      * Fonction qui gère le Drag & Drop d'une image (soit une tuile, soit un canal) sur le plateau.
      * @param source 
      */
-    private void dragAndDrop(final ImageView source, Tuiles tuile) {
+    private void dragAndDrop(final ImageView source) {
        
         // Drag une image
         source.setOnDragDetected((MouseEvent event) -> {
             Dragboard db = source.startDragAndDrop(TransferMode.MOVE);
             ClipboardContent cbContent = new ClipboardContent();
             cbContent.putImage(source.getImage());
+            cbContent.putString(source.getId());
             db.setContent(cbContent);
             event.consume();
         });
@@ -689,6 +696,7 @@ public class PlateauController implements Initializable {
             boolean success = false;
             Node node = event.getPickResult().getIntersectedNode();
             if (node != plateau && db.hasImage()) {
+                String nodeId = db.getString();
                 Integer col = GridPane.getColumnIndex(node);
                 Integer lig = GridPane.getRowIndex(node);
 
@@ -709,9 +717,28 @@ public class PlateauController implements Initializable {
                         if (!getNodeByRowColumnIndex(plateau, lig, col).isDisable()) {
                             plateau.add(new ImageView(db.getImage()), col, lig);
                             getNodeByRowColumnIndex(plateau, lig, col).setDisable(true);
-                            Tuiles t = (Tuiles) tuile.clone();
+                            Tuiles t = null;
+                            switch (nodeId) {
+                                case "tuile1":
+                                    t = (Tuiles) tuiles[0].clone();
+                                    break;
+                                case "tuile2":
+                                    t = (Tuiles) tuiles[1].clone();
+                                    break;
+                                case "tuile3":
+                                    t = (Tuiles) tuiles[2].clone();
+                                    break;
+                                case "tuile4":
+                                    t = (Tuiles) tuiles[3].clone();
+                                    break;
+                                case "tuile5":
+                                    t = (Tuiles) tuiles[4].clone();
+                                    break;
+                            }
                             t.setX(col);
                             t.setY(lig);
+                            System.out.println(t);
+                            System.out.println(nodeId);
                             partie.addTuilesJoue(t);
                             success = true;
                         }
