@@ -514,10 +514,10 @@ public class PlateauController implements Initializable {
         for (final Tuiles tu : partie.getTuilesJoue()) {
             System.out.println(tu);
             for (final Canal c : partie.getListeCanalPose()) {
-                if ((tu.getX() - 1 == c.getxDeb() && tu.getX() + 1 == c.getxDeb())
-                        || (tu.getX() - 1 == c.getxFin() && tu.getX() + 1 == c.getxFin())
-                        || (tu.getY() - 1 == c.getyDeb() && tu.getY() + 1 == c.getyDeb())
-                        || (tu.getY() - 1 == c.getyFin() && tu.getY() + 1 == c.getyFin())) {
+                System.out.println(tu.getX()+":"+tu.getY());
+                System.out.println(c.getxDeb()+","+c.getxFin()+":"+c.getyDeb()+","+c.getyFin());
+                if (((tu.getX() - 1 == c.getxDeb() || tu.getX() + 1 == c.getxDeb()) &&((tu.getY() - 1 == c.getyDeb() || tu.getY() + 1 == c.getyDeb()))
+                        || ((tu.getX() - 1 == c.getxFin() || tu.getX() + 1 == c.getxFin())&&((tu.getY() - 1 == c.getyFin() || tu.getY() + 1 == c.getyFin()))))) {
                     tu.setIrigue(true);
                     System.out.println(tu.getIrigue());
                 }
