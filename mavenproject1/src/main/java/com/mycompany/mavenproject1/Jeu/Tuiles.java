@@ -80,4 +80,9 @@ public class Tuiles implements Cloneable {
         return this.isIrigue;
     }
 
+    @Override
+    public String toString() {
+        return "Tuiles{" + "type=" + type + ", nbTravailleurs=" + nbTravailleurs + ", x=" + x + ", y=" + y + ", isIrigue=" + isIrigue + '}';
+    }
+
 }
