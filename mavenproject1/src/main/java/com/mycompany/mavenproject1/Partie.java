@@ -260,7 +260,7 @@ public class Partie {
      * @return 
      */
     public ArrayList<Canal> getListeCanauxAutorises(Boolean orientation) {
-        canauxAutorises.clear();
+        canauxAutorises = new ArrayList<>();
 
         // Au premier tour, les canaux doivent être posés à côté de la source
         if (this.nbTour == 1) {
@@ -285,15 +285,37 @@ public class Partie {
             // Canaux verticaux autorisés
             if (orientation) {
                 for (Canal c : vertical) {
-                    if (!listeCanalPose.contains(c)) {
-                        canauxAutorises.add(c);
+                    for (Canal pose : listeCanalPose) {
+                        if (c.getxDeb() == pose.getxDeb() && c.getyDeb() == pose.getyDeb()) {
+                            break;
+                        } else if (c.getxDeb() == s.getX() && c.getyDeb() == s.getY() + 1
+                                || c.getxDeb() == s.getX() && c.getyDeb() == s.getY() - 2
+                                || c.getxDeb() == pose.getxDeb() - 1 && c.getyDeb() == pose.getyDeb() - 2
+                                || c.getxDeb() == pose.getxDeb() - 1 && c.getyDeb() == pose.getyDeb() + 1
+                                || c.getxDeb() == pose.getxDeb() + 2 && c.getyDeb() == pose.getyDeb() - 2
+                                || c.getxDeb() == pose.getxDeb() + 2 && c.getyDeb() == pose.getyDeb() + 1
+                                || c.getxDeb() == pose.getxDeb() && c.getyDeb() == pose.getyDeb() - 3
+                                || c.getxDeb() == pose.getxDeb() && c.getyDeb() == pose.getyDeb() + 3) {
+                            canauxAutorises.add(c);
+                        }
                     }
                 }
             } else {
                 // Canaux horizontaux autorisés
                 for (Canal c : horizontal) {
-                    if (!listeCanalPose.contains(c)) {
-                        canauxAutorises.add(c);
+                    for (Canal pose : listeCanalPose) {
+                        if (c.getxDeb() == pose.getxDeb() && c.getyDeb() == pose.getyDeb()) {
+                            break;
+                        } else if (c.getxDeb() == s.getX() + 1 && c.getyDeb() == s.getY()
+                                || c.getxDeb() == s.getX() - 2 && c.getyDeb() == s.getY()
+                                || c.getxDeb() == pose.getxDeb() + 1 && c.getyDeb() == pose.getyDeb() - 1
+                                || c.getxDeb() == pose.getxDeb() + 1 && c.getyDeb() == pose.getyDeb() + 2
+                                || c.getxDeb() == pose.getxDeb() - 2 && c.getyDeb() == pose.getyDeb() - 1
+                                || c.getxDeb() == pose.getxDeb() - 2 && c.getyDeb() == pose.getyDeb() + 2
+                                || c.getxDeb() == pose.getxDeb() + 3 && c.getyDeb() == pose.getyDeb()
+                                || c.getxDeb() == pose.getxDeb() - 3 && c.getyDeb() == pose.getyDeb()) {
+                            canauxAutorises.add(c);
+                        }
                     }
                 }
             }
