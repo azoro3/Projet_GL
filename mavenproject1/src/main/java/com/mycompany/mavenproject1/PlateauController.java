@@ -36,8 +36,10 @@ import javafx.scene.layout.GridPane;
 import javax.swing.JOptionPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
 /**
  * Classe pour gérer le controle de l'interface graphique
+ *
  * @author Arthur
  */
 public class PlateauController implements Initializable {
@@ -50,7 +52,7 @@ public class PlateauController implements Initializable {
 
     @FXML
     private ImageView tuile1, tuile2, tuile3, tuile4, tuile5;
-    
+
     @FXML
     private Label posSource;
 
@@ -69,11 +71,11 @@ public class PlateauController implements Initializable {
     private final Label[] p = new Label[5];
     private final Label[] e = new Label[5];
     private ArrayList<Joueur> listeJoueurs;
-    static int coord1[]={-1,-1};
-    static int coord2[]={-1,-1};
-    static int coord3[]={-1,-1};
-    static int coord4[]={-1,-1};
-    static int coord5[]={-1,-1};
+    static int coord1[] = {-1, -1};
+    static int coord2[] = {-1, -1};
+    static int coord3[] = {-1, -1};
+    static int coord4[] = {-1, -1};
+    static int coord5[] = {-1, -1};
 
     Image canalHorizVide = new Image(getClass().getResourceAsStream("/images/canal_horiz.png"));
     Image canalVertiVide = new Image(getClass().getResourceAsStream("/images/canal_verti.png"));
@@ -88,99 +90,97 @@ public class PlateauController implements Initializable {
         // Placement aléatoire de la source
         plateau.add(img, Source.getInstance().getX(), Source.getInstance().getY());
     }
-    
+
     /**
      * fonction pour sauvegarder les scores de la partie au format JSON
      */
-    public void saveScore(){
-        String filePath="./saveScore.json";
-        String res="{\"joueurs\" :[\n";
-        for(final Joueur j :partie.getListeJoueurs()){
-            res+=j.toJSON()+",\r\n";
+    public void saveScore() {
+        String filePath = "./saveScore.json";
+        String res = "{\"joueurs\" :[\n";
+        for (final Joueur j : partie.getListeJoueurs()) {
+            res += j.toJSON() + ",\r\n";
         }
-        res=res.substring(0,(res.length()-3));
-        res+="]}";
-        try{
-            FileWriter fw= new FileWriter("saveScore.json");
+        res = res.substring(0, (res.length() - 3));
+        res += "]}";
+        try {
+            FileWriter fw = new FileWriter("saveScore.json");
             BufferedWriter bw = new BufferedWriter(fw);
             bw.write(res);
             bw.flush();
             bw.close();
-        }
-        catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        
+
     }
-    
+
     /**
      * fonctions pour sauvegarder la partie au format JSON
      */
-    public void savePartie(){
-        String res="{\n\"tuiles\" :[\n";
-        for(final Tuiles t :partie.getPile1()){
-            res+=t.toJSON()+",\r\n";
+    public void savePartie() {
+        String res = "{\n\"tuiles\" :[\n";
+        for (final Tuiles t : partie.getPile1()) {
+            res += t.toJSON() + ",\r\n";
         }
-        for(final Tuiles t :partie.getPile2()){
-            res+=t.toJSON()+",\r\n";
+        for (final Tuiles t : partie.getPile2()) {
+            res += t.toJSON() + ",\r\n";
         }
-        for(final Tuiles t :partie.getPile3()){
-            res+=t.toJSON()+",\r\n";
+        for (final Tuiles t : partie.getPile3()) {
+            res += t.toJSON() + ",\r\n";
         }
-        for(final Tuiles t :partie.getPile4()){
-            res+=t.toJSON()+",\r\n";
+        for (final Tuiles t : partie.getPile4()) {
+            res += t.toJSON() + ",\r\n";
         }
-        for(final Tuiles t :partie.getPile5()){
-            res+=t.toJSON()+",\r\n";
+        for (final Tuiles t : partie.getPile5()) {
+            res += t.toJSON() + ",\r\n";
         }
-        res=res.substring(0,(res.length()-3));
-        res+="]";
-        try{
-            FileWriter fw= new FileWriter("savePartie.json");
+        res = res.substring(0, (res.length() - 3));
+        res += "]";
+        try {
+            FileWriter fw = new FileWriter("savePartie.json");
             BufferedWriter bw = new BufferedWriter(fw);
             bw.write(res);
             bw.flush();
             bw.close();
-        }
-        catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
-        }res=",\n\"Canaux\" :[\n";
-        for(final Canal c :partie.getListeCanalPose()){
-            res+=c.toJSON()+",\r\n";
         }
-        res=res.substring(0,(res.length()-3));
-        res+="]";
-        try{
-            FileWriter fw= new FileWriter("savePartie.json",true);
+        res = ",\n\"Canaux\" :[\n";
+        for (final Canal c : partie.getListeCanalPose()) {
+            res += c.toJSON() + ",\r\n";
+        }
+        res = res.substring(0, (res.length() - 3));
+        res += "]";
+        try {
+            FileWriter fw = new FileWriter("savePartie.json", true);
             BufferedWriter bw = new BufferedWriter(fw);
             bw.write(res);
             bw.flush();
             bw.close();
-        }
-        catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
-        } 
-        res=",\n\"joueurs\" :[\n";
-        for(final Joueur j :partie.getListeJoueurs()){
-            res+=j.toJSON()+",\r\n";
         }
-        res=res.substring(0,(res.length()-3));
-        res+="]}";
-        try{
-            FileWriter fw= new FileWriter("savePartie.json",true);
+        res = ",\n\"joueurs\" :[\n";
+        for (final Joueur j : partie.getListeJoueurs()) {
+            res += j.toJSON() + ",\r\n";
+        }
+        res = res.substring(0, (res.length() - 3));
+        res += "]}";
+        try {
+            FileWriter fw = new FileWriter("savePartie.json", true);
             BufferedWriter bw = new BufferedWriter(fw);
             bw.write(res);
             bw.flush();
             bw.close();
-        }
-        catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     /**
      * Phase 1
-     * @throws InterruptedException 
+     *
+     * @throws InterruptedException
      */
     public void phase1() throws InterruptedException {
         // Initialisation d'une nouvelle partie
@@ -202,7 +202,7 @@ public class PlateauController implements Initializable {
             j5Nom.setText(listeJoueurs.get(4).getNom());
             j5Couleur.setText(listeJoueurs.get(4).getCouleur());
         }
-        
+
         Task<Boolean> afficherTuile = new Task<Boolean>() {
             @Override
             protected Boolean call() throws Exception {
@@ -216,11 +216,7 @@ public class PlateauController implements Initializable {
                 mettreImage(tuile3, tuiles[2].getType(), tuiles[2].getNbTravailleurs(), -1, -1);
                 mettreImage(tuile4, tuiles[3].getType(), tuiles[3].getNbTravailleurs(), -1, -1);
                 mettreImage(tuile5, tuiles[4].getType(), tuiles[4].getNbTravailleurs(), -1, -1);
-                
-                System.out.println("Tuiles dans init");
-                for(Tuiles t : tuiles){
-                    System.out.println(t);
-                }
+
                 return true;
             }
         };
@@ -243,29 +239,37 @@ public class PlateauController implements Initializable {
     public void phase2() {
         Map<Joueur, String> enchere = partie.faireUneEnchere();
         partie.changerConstructeur(enchere);
-        
+
         int i = 0;
-        p[0] = this.p1; p[1] = this.p2; p[2] = this.p3; p[3] = this.p4; p[4] = this.p5;
-        e[0] = this.e1; e[1] = this.e2; e[2] = this.e3; e[3] = this.e4; e[4] = this.e5;
-        
+        p[0] = this.p1;
+        p[1] = this.p2;
+        p[2] = this.p3;
+        p[3] = this.p4;
+        p[4] = this.p5;
+        e[0] = this.e1;
+        e[1] = this.e2;
+        e[2] = this.e3;
+        e[3] = this.e4;
+        e[4] = this.e5;
+
         for (HashMap.Entry<Joueur, String> entry : enchere.entrySet()) {
             this.p[i].setText(entry.getKey().getNom());
             this.e[i].setText(entry.getValue());
             i++;
         }
-        
+
         // Lorsque toutes les tuiles ont été posés sur le plateau, on peu passer à la phase 3
         Task<Boolean> dragAndDropTuile = new Task<Boolean>() {
             @Override
             protected Boolean call() throws Exception {
-               while (tuile1.isVisible() || tuile2.isVisible() || tuile3.isVisible()
-                    || tuile4.isVisible() || tuile5.isVisible()) {
+                while (tuile1.isVisible() || tuile2.isVisible() || tuile3.isVisible()
+                        || tuile4.isVisible() || tuile5.isVisible()) {
                     dragAndDrop(tuile1);
                     dragAndDrop(tuile2);
                     dragAndDrop(tuile3);
                     dragAndDrop(tuile4);
                     dragAndDrop(tuile5);
-              }
+                }
                 return true;
             }
         };
@@ -275,7 +279,7 @@ public class PlateauController implements Initializable {
                 this.phase3();
                 //this.phase4();
                 //this.phase5();
-                
+
             } catch (InterruptedException ex) {
                 Logger.getLogger(PlateauController.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -293,11 +297,11 @@ public class PlateauController implements Initializable {
         Map<Joueur, Integer> suivi = new HashMap<>();
         Map<Joueur, Canal> propositionJoueur = new HashMap<>();
         String res;
-        int miseMax=0;
+        int miseMax = 0;
         for (final Joueur j : partie.getListeJoueurs()) {
             // Seul les joueurs qui ne sont pas constructeur peuvent miser
             // Le constructeur n'intervient qu'à la fin de la phase
-            
+
             if (!j.isEstConstructeur()) {
 
                 try {
@@ -334,8 +338,8 @@ public class PlateauController implements Initializable {
                     else {
                         enchere.put(j, Integer.parseInt(res));
                         j.setSolde(Integer.parseInt(res));
-                        if(Integer.parseInt(res)>miseMax);
-                        miseMax=Integer.parseInt(res);
+                        if (Integer.parseInt(res) > miseMax);
+                        miseMax = Integer.parseInt(res);
                     }
                 } catch (IOException ex) {
                     Logger.getLogger(PlateauController.class.getName()).log(Level.SEVERE, null, ex);
@@ -387,9 +391,9 @@ public class PlateauController implements Initializable {
 
                 Optional<String> result = dialog.showAndWait();
                 if (result.isPresent()) {
-                    if (result.get().contains("canal") ) {
+                    if (result.get().contains("canal")) {
                         // Nouvelle fenêtre avec plusieurs proposition, puis ajout à la liste des canaux posés
-                        j.setSolde(-(miseMax+1));
+                        j.setSolde(-(miseMax + 1));
                         try {
                             FXMLLoader loader = new FXMLLoader(MainApp.class.getResource("/fxml/PropositionCanal.fxml"));
                             AnchorPane page = (AnchorPane) loader.load();
@@ -435,7 +439,7 @@ public class PlateauController implements Initializable {
                                 res5.setxFin(entry.getValue().getxFin());
                                 res5.setyDeb(entry.getValue().getyDeb());
                                 res5.setyFin(entry.getValue().getyFin());
-                                int mise = 0-enchere.get(entry.getKey());
+                                int mise = 0 - enchere.get(entry.getKey());
                                 entry.getKey().setSolde(mise);
                             }
                         });
@@ -459,18 +463,18 @@ public class PlateauController implements Initializable {
                 }
             }
         }
-     this.phase4();
+        this.phase4();
     }
-    
+
     /**
      * Phase 4
      */
-    public void phase4() throws InterruptedException{
-        for(final Joueur j:partie.getListeJoueurs()){
-            if(j.getCanal().getIsPosed()==false){
-                String res=JOptionPane.showInputDialog(j.getNom()+", voulez vous posez un canal ? (o/n)");
-                if("o".equals(res)){
-                    Canal res2 = null ;
+    public void phase4() throws InterruptedException {
+        for (final Joueur j : partie.getListeJoueurs()) {
+            if (j.getCanal().getIsPosed() == false) {
+                String res = JOptionPane.showInputDialog(j.getNom() + ", voulez vous posez un canal ? (o/n)");
+                if ("o".equals(res)) {
+                    Canal res2 = null;
                     try {
                         FXMLLoader loader = new FXMLLoader(MainApp.class.getResource("/fxml/PropositionCanal.fxml"));
                         AnchorPane page = (AnchorPane) loader.load();
@@ -482,10 +486,10 @@ public class PlateauController implements Initializable {
                         PropositionCanalController controller = loader.getController();
                         controller.setDialogStage(dialogStage);
                         controller.setPartie(PlateauController.partie);
-                        
+
                         dialogStage.showAndWait();
                         res2 = controller.getResultat();
-                        
+
                         // Effacer les propositions des joueurs
                         // Le canal est vertical
                         if (res2.getxDeb() == res2.getxFin()) {
@@ -509,20 +513,16 @@ public class PlateauController implements Initializable {
         }
         this.phase5();
     }
-    
+
     /**
      * Phase 5 nonfonctionnel dû à des problèmes de java FX
      */
-    private void phase5() throws InterruptedException{        
+    private void phase5() throws InterruptedException {
         for (final Tuiles tu : partie.getTuilesJoue()) {
-            System.out.println(tu);
             for (final Canal c : partie.getListeCanalPose()) {
-                System.out.println(tu.getX()+":"+tu.getY());
-                System.out.println(c.getxDeb()+","+c.getxFin()+":"+c.getyDeb()+","+c.getyFin());
-                if (((tu.getX() - 1 == c.getxDeb() || tu.getX() + 1 == c.getxDeb()) &&((tu.getY() - 1 == c.getyDeb() || tu.getY() + 1 == c.getyDeb()))
-                        || ((tu.getX() - 1 == c.getxFin() || tu.getX() + 1 == c.getxFin())&&((tu.getY() - 1 == c.getyFin() || tu.getY() + 1 == c.getyFin()))))) {
+                if (((tu.getX() - 1 == c.getxDeb() || tu.getX() + 1 == c.getxDeb()) && ((tu.getY() - 1 == c.getyDeb() || tu.getY() + 1 == c.getyDeb()))
+                        || ((tu.getX() - 1 == c.getxFin() || tu.getX() + 1 == c.getxFin()) && ((tu.getY() - 1 == c.getyFin() || tu.getY() + 1 == c.getyFin()))))) {
                     tu.setIrigue(true);
-                    System.out.println(tu.getIrigue());
                 }
             }
             if (tu.getIrigue() == false) {
@@ -535,12 +535,11 @@ public class PlateauController implements Initializable {
                     mettreImage(tui, tu.getType(), tu.getNbTravailleurs(), tu.getX(), tu.getY());
                 }
             }
-            System.out.println(tu.getIrigue());
         }
         partie.removeFirstOfEachPile();
         this.phase6();
     }
-    
+
     /**
      * Phase 6
      */
@@ -548,7 +547,7 @@ public class PlateauController implements Initializable {
         this.listeJoueurs.forEach((j) -> {
             j.setSolde(3);
         });
-        
+
         if (partie.getNbTour() == 9) {
             this.saveScore();
         } else {
@@ -556,7 +555,7 @@ public class PlateauController implements Initializable {
             this.phase1();
         }
     }
-    
+
     /**
      * Fonction d'affichage des propositions de canal.
      *
@@ -616,11 +615,12 @@ public class PlateauController implements Initializable {
      * @param tuile
      * @param type type de la tuiles (banane, patates,...)
      * @param nbTravailleurs
-     * @param x position de la tuiles a placer. Si = 0, placer sur les piles de tuiles
+     * @param x position de la tuiles a placer. Si = 0, placer sur les piles de
+     * tuiles
      * @param y
      */
     private void mettreImage(ImageView tuile, String type, int nbTravailleurs, int x, int y) {
-        Image image=null;
+        Image image = null;
 
         switch (type) {
             case ("piment"):
@@ -660,22 +660,24 @@ public class PlateauController implements Initializable {
                     image = new Image(getClass().getResourceAsStream("/images/sucre1.png"));
                 } else {
                     image = new Image(getClass().getResourceAsStream("/images/sucre2.png"));
-                }               
+                }
                 break;
         }
-        if(x >=0){
-                    plateau.add(new ImageView(image),x,y);
-                } else {
-                    tuile.setImage(image);
-                }
+        if (x >= 0) {
+            plateau.add(new ImageView(image), x, y);
+        } else {
+            tuile.setImage(image);
+        }
     }
 
     /**
-     * Fonction qui gère le Drag & Drop d'une image (soit une tuile, soit un canal) sur le plateau.
-     * @param source 
+     * Fonction qui gère le Drag & Drop d'une image (soit une tuile, soit un
+     * canal) sur le plateau.
+     *
+     * @param source
      */
     private void dragAndDrop(final ImageView source) {
-       
+
         // Drag une image
         source.setOnDragDetected((MouseEvent event) -> {
             Dragboard db = source.startDragAndDrop(TransferMode.MOVE);
@@ -741,14 +743,11 @@ public class PlateauController implements Initializable {
                             }
                             t.setX(col);
                             t.setY(lig);
-                            System.out.println(t);
-                            System.out.println(nodeId);
                             partie.addTuilesJoue(t);
                             success = true;
                         }
                     }
                 }
-
             }
 
             event.setDropCompleted(success);
@@ -763,19 +762,20 @@ public class PlateauController implements Initializable {
             event.consume();
         });
     }
-    
+
     /**
      * Retourne le noeud d'une GridPane à une colonne et une ligne définie
+     *
      * @param gridPane
      * @param lig
      * @param col
-     * @return 
+     * @return
      */
     private Node getNodeByRowColumnIndex(GridPane gridPane, final int lig, final int col) {
         Node result = null;
         ObservableList<Node> childrens = gridPane.getChildren();
-        for(Node node : childrens) {
-            if(gridPane.getRowIndex(node) == lig && gridPane.getColumnIndex(node) == col) {
+        for (Node node : childrens) {
+            if (gridPane.getRowIndex(node) == lig && gridPane.getColumnIndex(node) == col) {
                 result = node;
                 break;
             }
